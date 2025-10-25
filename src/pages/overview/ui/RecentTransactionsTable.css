@@ -1,0 +1,30 @@
+.recent-transactions-table__header {
+  display: grid;
+  grid-template-columns: 170px 270px 260px 1fr;
+  background-color: #F3F3FC;
+  color: #282458;
+  margin: 0 0 12px;
+  padding: 17px 13px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  width: 900px;
+}
+
+.recent-transactions-table__cell-name {
+  font-family: inherit;
+  font-size: 18px;
+  line-height: 20px;
+  font-weight: 500;
+  position: relative;
+}
+
+.recent-transactions-table__cell-name:nth-child(n + 2)::before {
+  content: "";
+  position: absolute;
+  left: -11px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 25px;
+  background-color: #8C89B4;
+}

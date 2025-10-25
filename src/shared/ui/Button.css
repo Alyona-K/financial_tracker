@@ -1,0 +1,49 @@
+.btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #000;
+  border-radius: 8px;
+  border: 1px solid #000;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19.6px;
+  justify-content: center;
+  transition: background-color 0.3s ease-in-out, border 0.3s ease-in-out;
+  color: #fff; 
+  cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #414856;
+    border: 1px solid #414856;
+}
+
+/* sizes */
+.btn--small {
+  padding: 7px 12px;
+  font-size: 14px;
+  width: 80px;
+}
+.btn--medium {
+  padding: 7px 16px;
+  font-size: 14px;
+  width: 100px;
+}
+.btn--large {
+  padding: 12px 20px;
+  font-size: 16px;
+  width: 300px;
+}
+
+/* variants */
+.btn--delete {
+  background-color: #0097d8;
+  border: 1px solid #0097d8;
+  transition: background-color 0.3s ease-in, border 0.3s ease-in;
+}
+.btn--delete:hover {
+  background-color: #cf0f0f;
+  border: 1px solid #cf0f0f;
+}

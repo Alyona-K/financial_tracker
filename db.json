@@ -1,0 +1,605 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "demo@fintrack.com",
+      "password": "$2b$10$lY3PXkQI0DeXtBVpQIAKGuT3D.as8w7rXp.T5lGQ72KcRfpC3hOVO",
+      "name": "Julia Bennett"
+    }
+  ],
+  "categories": [
+    {
+      "id": "software",
+      "name": "Software",
+      "type": "Expenses",
+      "userId": 1
+    },
+    {
+      "id": "food-groceries",
+      "name": "Food/Groceries",
+      "type": "Expenses",
+      "userId": 1
+    },
+    {
+      "id": "transport",
+      "name": "Transport",
+      "type": "Expenses",
+      "userId": 1
+    },
+    {
+      "id": "salary",
+      "name": "Salary",
+      "type": "Income",
+      "userId": 1
+    },
+    {
+      "id": "subscriptions",
+      "name": "Subscriptions",
+      "type": "Expenses",
+      "userId": 1
+    },
+    {
+      "id": "shopping-clothing",
+      "name": "Shopping/Clothing",
+      "type": "Expenses",
+      "userId": 1
+    },
+    {
+      "id": "health-fitness",
+      "name": "Health/Fitness",
+      "type": "Expenses",
+      "userId": 1
+    },
+    {
+      "id": "investments",
+      "name": "Investments",
+      "type": "Income",
+      "userId": 1
+    },
+    {
+      "id": "education",
+      "name": "Education/Courses",
+      "type": "Expenses",
+      "userId": 1
+    },
+    {
+      "id": "18e3c6c6-164d-4589-9340-0eb9257a16f8",
+      "name": "Travel",
+      "type": "Expenses",
+      "userId": 1
+    },
+    {
+      "id": "5e92339c-a451-430f-aeb0-11d9ee5a3aa5",
+      "name": "Gifts",
+      "type": "Expenses",
+      "userId": 1
+    },
+    {
+      "id": "a7f4cb59-77f6-4ce1-a307-849d8be8c278",
+      "name": "Rent",
+      "type": "Expenses",
+      "userId": 1
+    },
+    {
+      "id": "abad810f-f195-46ed-9c8f-6be7d9c6a0fc",
+      "name": "Cash",
+      "type": "Expenses",
+      "userId": 1
+    }
+  ],
+  "transactions": [
+    {
+      "id": "1",
+      "date": "2025-09-06",
+      "description": "Adobe After Effects",
+      "categoryId": "Software",
+      "type": "Expenses",
+      "amount": 20.99,
+      "userId": 1
+    },
+    {
+      "id": "2",
+      "date": "2025-09-06",
+      "description": "Starbucks Coffee",
+      "categoryId": "Food/Groceries",
+      "type": "Expenses",
+      "amount": 4.5,
+      "userId": 1
+    },
+    {
+      "id": "3",
+      "date": "2025-09-06",
+      "description": "Uber ride",
+      "categoryId": "Transport",
+      "type": "Expenses",
+      "amount": 12.99,
+      "userId": 1
+    },
+    {
+      "id": "4",
+      "date": "2025-09-05",
+      "description": "September Salary",
+      "categoryId": "Salary",
+      "type": "Income",
+      "amount": 1500,
+      "userId": 1
+    },
+    {
+      "id": "5",
+      "date": "2025-09-05",
+      "description": "Netflix",
+      "categoryId": "Subscriptions",
+      "type": "Expenses",
+      "amount": 9.99,
+      "userId": 1
+    },
+    {
+      "id": "6",
+      "date": "2025-09-05",
+      "description": "New Sneakers",
+      "categoryId": "Shopping/Clothing",
+      "type": "Expenses",
+      "amount": 75,
+      "userId": 1
+    },
+    {
+      "id": "7",
+      "date": "2025-09-05",
+      "description": "Supermarket",
+      "categoryId": "Food/Groceries",
+      "type": "Expenses",
+      "amount": 32,
+      "userId": 1
+    },
+    {
+      "id": "8",
+      "date": "2025-09-04",
+      "description": "Gym Membership",
+      "categoryId": "Health/Fitness",
+      "type": "Expenses",
+      "amount": 40,
+      "userId": 1
+    },
+    {
+      "id": "9",
+      "date": "2025-09-04",
+      "description": "Gasoline",
+      "categoryId": "Transport",
+      "type": "Expenses",
+      "amount": 45,
+      "userId": 1
+    },
+    {
+      "id": "10",
+      "date": "2025-09-04",
+      "description": "Stocks Purchase",
+      "categoryId": "Investments",
+      "type": "Income",
+      "amount": 200,
+      "userId": 1
+    },
+    {
+      "id": "11",
+      "date": "2025-09-03",
+      "description": "React Online Course",
+      "categoryId": "Education/Courses",
+      "type": "Expenses",
+      "amount": 30,
+      "userId": 1
+    },
+    {
+      "id": "12",
+      "date": "2025-09-01",
+      "description": "Freelance Project",
+      "categoryId": "Salary",
+      "type": "Income",
+      "amount": 350,
+      "userId": 1
+    },
+    {
+      "id": "13",
+      "date": "2025-08-30",
+      "description": "Dividend Payment",
+      "categoryId": "Investments",
+      "type": "Income",
+      "amount": 75,
+      "userId": 1
+    },
+    {
+      "id": "14",
+      "date": "2025-08-29",
+      "description": "Lunch at Cafe",
+      "categoryId": "Food/Groceries",
+      "type": "Expenses",
+      "amount": 15,
+      "userId": 1
+    },
+    {
+      "id": "15",
+      "date": "2025-08-28",
+      "description": "Train Ticket",
+      "categoryId": "Transport",
+      "type": "Expenses",
+      "amount": 50,
+      "userId": 1
+    },
+    {
+      "id": "16",
+      "date": "2025-08-27",
+      "description": "Website Design",
+      "categoryId": "Salary",
+      "type": "Income",
+      "amount": 500,
+      "userId": 1
+    },
+    {
+      "id": "17",
+      "date": "2025-10-03",
+      "description": "WordPress Course",
+      "categoryId": "Education/Courses",
+      "type": "Expenses",
+      "amount": 60,
+      "userId": 1
+    },
+    {
+      "id": "18",
+      "date": "2025-10-06",
+      "categoryId": "Food/Groceries",
+      "type": "Expenses",
+      "amount": 9.9,
+      "description": "Mercadona",
+      "userId": 1
+    },
+    {
+      "id": "19",
+      "date": "2025-10-06",
+      "description": "Airplane Ticket",
+      "categoryId": "Transport",
+      "type": "Expenses",
+      "amount": 80,
+      "userId": 1
+    },
+    {
+      "id": "20",
+      "date": "2025-08-01",
+      "description": "Coffee at Starbucks",
+      "categoryId": "Food/Groceries",
+      "type": "Expenses",
+      "amount": 4.5,
+      "userId": 1
+    },
+    {
+      "id": "21",
+      "date": "2025-08-02",
+      "description": "Bus Ticket",
+      "categoryId": "Transport",
+      "type": "Expenses",
+      "amount": 2.5,
+      "userId": 1
+    },
+    {
+      "id": "22",
+      "date": "2025-08-03",
+      "description": "Groceries at Mercadona",
+      "categoryId": "Food/Groceries",
+      "type": "Expenses",
+      "amount": 35,
+      "userId": 1
+    },
+    {
+      "id": "23",
+      "date": "2025-08-05",
+      "description": "Gym Membership",
+      "categoryId": "Health/Fitness",
+      "type": "Expenses",
+      "amount": 40,
+      "userId": 1
+    },
+    {
+      "id": "24",
+      "date": "2025-08-10",
+      "description": "Freelance Project",
+      "categoryId": "Salary",
+      "type": "Income",
+      "amount": 200,
+      "userId": 1
+    },
+    {
+      "id": "25",
+      "date": "2025-08-15",
+      "description": "Lunch with friends",
+      "categoryId": "Food/Groceries",
+      "type": "Expenses",
+      "amount": 18,
+      "userId": 1
+    },
+    {
+      "id": "26",
+      "date": "2025-08-20",
+      "description": "Movie Night",
+      "categoryId": "Entertainment",
+      "type": "Expenses",
+      "amount": 12,
+      "userId": 1
+    },
+    {
+      "id": "27",
+      "date": "2025-08-25",
+      "description": "iTunes Music",
+      "categoryId": "Subscriptions",
+      "type": "Expenses",
+      "amount": 10,
+      "userId": 1
+    },
+    {
+      "id": "28",
+      "date": "2025-09-07",
+      "description": "Taxi Ride",
+      "categoryId": "Transport",
+      "type": "Expenses",
+      "amount": 15,
+      "userId": 1
+    },
+    {
+      "id": "29",
+      "date": "2025-09-10",
+      "description": "Groceries",
+      "categoryId": "Food/Groceries",
+      "type": "Expenses",
+      "amount": 40,
+      "userId": 1
+    },
+    {
+      "id": "30",
+      "date": "2025-09-12",
+      "description": "Yoga Class",
+      "categoryId": "Health/Fitness",
+      "type": "Expenses",
+      "amount": 25,
+      "userId": 1
+    },
+    {
+      "id": "31",
+      "date": "2025-10-01",
+      "description": "Internet Bill",
+      "categoryId": "Subscriptions",
+      "type": "Expenses",
+      "amount": 30,
+      "userId": 1
+    },
+    {
+      "id": "32",
+      "date": "2025-10-02",
+      "description": "Freelance Income",
+      "categoryId": "Salary",
+      "type": "Income",
+      "amount": 400,
+      "userId": 1
+    },
+    {
+      "id": "33",
+      "date": "2025-10-05",
+      "description": "Dinner Out",
+      "categoryId": "Food/Groceries",
+      "type": "Expenses",
+      "amount": 27,
+      "userId": 1
+    },
+    {
+      "id": "34",
+      "date": "2025-10-07",
+      "description": "Train Ticket",
+      "categoryId": "Transport",
+      "type": "Expenses",
+      "amount": 50,
+      "userId": 1
+    },
+    {
+      "id": "35",
+      "date": "2025-09-15",
+      "description": "Lunch at Cafe",
+      "categoryId": "Food/Groceries",
+      "type": "Expenses",
+      "amount": 20,
+      "userId": 1
+    },
+    {
+      "id": "36",
+      "date": "2025-09-16",
+      "description": "Movie Tickets",
+      "categoryId": "Entertainment",
+      "type": "Expenses",
+      "amount": 15,
+      "userId": 1
+    },
+    {
+      "id": "37",
+      "date": "2025-09-17",
+      "description": "Taxi Ride",
+      "categoryId": "Transport",
+      "type": "Expenses",
+      "amount": 18,
+      "userId": 1
+    },
+    {
+      "id": "38",
+      "date": "2025-09-18",
+      "description": "Grocery Shopping",
+      "categoryId": "Food/Groceries",
+      "type": "Expenses",
+      "amount": 45,
+      "userId": 1
+    },
+    {
+      "id": "39",
+      "date": "2025-09-20",
+      "description": "Yoga Class",
+      "categoryId": "Health/Fitness",
+      "type": "Expenses",
+      "amount": 25,
+      "userId": 1
+    },
+    {
+      "id": "40",
+      "date": "2025-09-22",
+      "description": "Book Purchase",
+      "categoryId": "Education/Courses",
+      "type": "Expenses",
+      "amount": 30,
+      "userId": 1
+    },
+    {
+      "id": "41",
+      "date": "2025-09-25",
+      "description": "Freelance Payment",
+      "categoryId": "Salary",
+      "type": "Income",
+      "amount": 300,
+      "userId": 1
+    },
+    {
+      "id": "42",
+      "date": "2025-10-05",
+      "description": "October Salary",
+      "categoryId": "Salary",
+      "type": "Income",
+      "amount": 1500,
+      "userId": 1
+    },
+    {
+      "id": "43",
+      "date": "2025-08-05",
+      "description": "August Salary",
+      "categoryId": "Salary",
+      "type": "Income",
+      "amount": 1500,
+      "userId": 1
+    },
+    {
+      "id": "4e966416-d60c-4d34-b38e-c446ba0180a7",
+      "date": "2025-10-11",
+      "categoryId": "software",
+      "type": "Expenses",
+      "amount": 15,
+      "description": "Adobe Illustrator",
+      "userId": 1
+    },
+    {
+      "id": "5f42aa8b-5f47-4317-859a-926f91abfd71",
+      "date": "2025-11-05",
+      "categoryId": "salary",
+      "type": "Income",
+      "amount": 1500,
+      "description": "October Salary (upcoming)",
+      "userId": 1
+    },
+    {
+      "id": "c5017ca0-328d-4c70-8523-3a7b8a5ba4bc",
+      "date": "2025-10-16",
+      "categoryId": "transport",
+      "type": "Expenses",
+      "amount": 12,
+      "description": "Bus ticket",
+      "userId": 1
+    },
+    {
+      "id": "ced16aab-cafb-4c72-a139-f8d1dacd734a",
+      "date": "2025-10-23",
+      "categoryId": "18e3c6c6-164d-4589-9340-0eb9257a16f8",
+      "type": "Expenses",
+      "amount": 570,
+      "description": "Axios Hotel",
+      "userId": 1
+    },
+    {
+      "id": "88fc4869-6892-4984-a8f5-7bc9c8432f4d",
+      "date": "2025-10-04",
+      "categoryId": "5e92339c-a451-430f-aeb0-11d9ee5a3aa5",
+      "type": "Expenses",
+      "amount": 13,
+      "description": "B-day gift for friend",
+      "userId": 1
+    },
+    {
+      "id": "748910f7-7069-4f3f-82eb-a362cf5ee62d",
+      "date": "2025-07-10",
+      "categoryId": "food-groceries",
+      "type": "Expenses",
+      "amount": 350,
+      "description": "Products",
+      "userId": 1
+    },
+    {
+      "id": "7c341c71-e46f-427a-9d0f-19f01423310a",
+      "date": "2025-07-05",
+      "categoryId": "salary",
+      "type": "Income",
+      "amount": 1500,
+      "description": "Salary",
+      "userId": 1
+    },
+    {
+      "id": "be25ae50-802a-4977-9662-36a5f9597714",
+      "date": "2025-06-05",
+      "categoryId": "salary",
+      "type": "Income",
+      "amount": 2000,
+      "description": "Salary",
+      "userId": 1
+    },
+    {
+      "id": "b013a4ff-e4df-4304-b31c-a358dd2a6672",
+      "date": "2025-06-19",
+      "categoryId": "food-groceries",
+      "type": "Expenses",
+      "amount": 500,
+      "description": "Products",
+      "userId": 1
+    },
+    {
+      "id": "060fb3c3-0b68-4fe6-bdef-e44a46a20951",
+      "date": "2025-10-19",
+      "categoryId": "5e92339c-a451-430f-aeb0-11d9ee5a3aa5",
+      "type": "Income",
+      "amount": 50,
+      "description": "Friend`s gift",
+      "userId": 1
+    },
+    {
+      "id": "23c22267-4456-4a34-a8e7-2df132aa83f7",
+      "date": "2025-11-02",
+      "categoryId": "abad810f-f195-46ed-9c8f-6be7d9c6a0fc",
+      "type": "Income",
+      "amount": 50,
+      "description": "Friend`s gift",
+      "userId": 1
+    },
+    {
+      "id": "ac30283e-8e11-442d-9af9-3c9547845fad",
+      "date": "2025-10-01",
+      "categoryId": "a7f4cb59-77f6-4ce1-a307-849d8be8c278",
+      "type": "Expenses",
+      "amount": 300,
+      "description": "Apartments rent",
+      "userId": 1
+    },
+    {
+      "id": "a5c7be4a-274f-4e90-ae54-48fb2d47fb3a",
+      "date": "2025-10-14",
+      "categoryId": "5e92339c-a451-430f-aeb0-11d9ee5a3aa5",
+      "type": "Income",
+      "amount": 50,
+      "description": "Parents gift",
+      "userId": 1
+    },
+    {
+      "id": "8bb4252f-eea2-4d7f-bc2c-c002f3bf29cd",
+      "date": "2025-10-10",
+      "categoryId": "abad810f-f195-46ed-9c8f-6be7d9c6a0fc",
+      "type": "Income",
+      "amount": 35,
+      "description": "Gift",
+      "userId": 1
+    }
+  ]
+}

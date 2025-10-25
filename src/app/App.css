@@ -1,0 +1,13 @@
+.app {
+  display: grid;
+  grid-template-columns: 380px, 1fr;
+  max-width: 100%;
+}
+
+.app__content {
+  margin-left: 382px;
+  display: flex;
+  flex-direction: column;
+}
+
+

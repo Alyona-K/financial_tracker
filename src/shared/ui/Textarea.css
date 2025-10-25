@@ -1,0 +1,42 @@
+.custom-textarea {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+}
+
+.custom-textarea__field {
+  resize: none;
+  padding: 12px 16px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1px solid #d0d5dd;
+  background-color: #f9fafb;
+  color: #1f2b3a;
+  font-family: inherit;
+  min-height: 80px;
+  transition: border 0.3s ease-in;
+}
+
+.custom-textarea__field:hover {
+  border: 1px solid #010316;
+}
+
+.custom-textarea__field:focus {
+  outline: none;
+  border: 1px solid #a4dcf7;
+}
+
+.custom-textarea__field::placeholder {
+  font-size: 14px;
+}
+
+.custom-textarea__label {
+  position: absolute;
+  left: 0;
+  top: -23px;
+  font-family: inherit;
+  color: #010316;
+  font-size: 16px;
+  font-weight: 500;
+}

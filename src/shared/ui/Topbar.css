@@ -1,0 +1,92 @@
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto;
+  padding: 24px 40px;
+  background-color: #fff;
+}
+
+.topbar__users {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.topbar__icons {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.topbar__icon {
+width: 20px;
+height: 20px;
+}
+
+.topbar__link {
+  position: relative;
+  color: #010316;
+  display: flex;
+  align-items: center;
+  transition: color 0.3s ease-in;
+}
+
+.topbar__link:hover,
+.topbar__link:focus-visible {
+  color: #667085;
+  outline: none;
+}
+
+.topbar__count {
+  align-items: center;
+  background-color: #010316;
+  border-radius: 50%;
+  color: #ffffff;
+  display: flex;
+  font-size: 9px;
+  font-weight: 600;
+  height: 17px;
+  justify-content: center;
+  line-height: 9px;
+  position: absolute;
+  right: -4px;
+  top: -8px;
+  width: 17px;
+}
+
+.topbar__auth {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.topbar__auth-link {
+  position: relative;
+}
+
+.topbar__auth-link:last-child::before {
+  position: absolute;
+  content: "";
+  width: 1px;
+  height: 16px;
+  background-color: #010316;
+  left: -9px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.topbar__auth-text {
+  font-family: inherit;
+  color: #010316;
+  font-size: 14px;
+  line-height: 18px;
+  transition: color 0.3s ease-in;
+}
+
+.topbar__auth-text:hover,
+.topbar__auth-text:focus-visible {
+  color: #667085;
+  outline: none;
+}
+

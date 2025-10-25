@@ -1,0 +1,15 @@
+.not-found-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  position: relative;
+  margin: 0;
+  padding: 60px 0 0;
+}
+
+.not-found-page__img {
+  display: flex;
+  width: 700px;
+  height: auto;
+}
