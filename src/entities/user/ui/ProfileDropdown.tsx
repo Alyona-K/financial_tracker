@@ -32,7 +32,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
       setTimeout(() => {
         setIsClosing(false);
         onClose();
-      }, 300); // длительность анимации
+      }, 300); 
     } else {
       onToggle();
     }
