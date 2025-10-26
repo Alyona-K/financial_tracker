@@ -13,18 +13,17 @@ declare module "*.svg" {
   export default value;
 }
 
+// --- для Vite ---
 interface ImportMetaEnv {
-  readonly VITE_BASENAME: string;
-}
-
-interface ImportMeta {
-  readonly env: ImportMetaEnv;
-}
-
-interface ImportMetaEnv {
+  readonly VITE_BASENAME?: string;
   readonly VITE_API_URL?: string;
 }
 
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+// для Jest
+declare const global: {
+  importMeta: ImportMeta;
+};

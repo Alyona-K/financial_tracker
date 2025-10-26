@@ -12,6 +12,7 @@ export const createTransaction = async (tx: Omit<Transaction, "id">): Promise<Tr
 };
 
 export const updateTransactionApi = async (tx: Transaction): Promise<Transaction> => {
+  if (!tx.id) throw new Error("Transaction ID is required");
   const { data } = await api.put<Transaction>(`/transactions/${tx.id}`, tx);
   return data;
 };

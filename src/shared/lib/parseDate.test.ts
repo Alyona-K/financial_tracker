@@ -1,27 +1,41 @@
 import { parseDate } from "./parseDate";
 
 describe("parseDate", () => {
-  test("should parse valid date string", () => {
+  it("parses a valid YYYY-MM-DD string correctly", () => {
     const result = parseDate("2025-10-12");
     expect(result).toBeInstanceOf(Date);
     expect(result?.getFullYear()).toBe(2025);
-    expect(result?.getMonth()).toBe(9); // октябрь = 9, потому что JS months 0-indexed
+    expect(result?.getMonth()).toBe(9); // October = 9
     expect(result?.getDate()).toBe(12);
   });
 
-  test("should return null for empty string", () => {
+  it("handles single-digit month and day", () => {
+    const result = parseDate("2025-1-5");
+    expect(result).toBeInstanceOf(Date);
+    expect(result?.getMonth()).toBe(0); // January
+    expect(result?.getDate()).toBe(5);
+  });
+
+  it("returns null for empty string", () => {
     expect(parseDate("")).toBeNull();
   });
 
-  test("should return null for invalid format", () => {
-    expect(parseDate("2025-10-12")).toEqual(new Date(2025, 9, 12));
+  it("returns null for invalid delimiters or formats", () => {
     expect(parseDate("2025/10/12")).toBeNull();
+    expect(parseDate("2025.10.12")).toBeNull();
+    expect(parseDate("10-12-2025")).toBeNull();
     expect(parseDate("invalid")).toBeNull();
   });
 
-  test("should handle single-digit month/day", () => {
-    const result = parseDate("2025-1-5");
-    expect(result?.getMonth()).toBe(0); // январь
-    expect(result?.getDate()).toBe(5);
+  it("returns null for malformed date components", () => {
+    // пустая строка или неполная дата
+    expect(parseDate("2025-")).toBeNull();
+
+    // месяц вне диапазона
+    expect(parseDate("2025-13-01")).toBeNull();
+    expect(parseDate("2025-00-15")).toBeNull();
+
+    // день вне диапазона
+    expect(parseDate("2025-02-30")).toBeNull(); // JS бы прокрутил в марте
   });
 });

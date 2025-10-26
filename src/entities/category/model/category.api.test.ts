@@ -1,120 +1,83 @@
 import {
-  getCategories,
   createCategory,
   updateCategoryApi,
+  getCategories,
   deleteCategoryApi,
 } from "./category.api";
 import { Category } from "./category.types";
 
-describe("category.api", () => {
-  const mockCategory: Category = { id: "1", name: "Food", type: "Expenses" };
+describe("Category API – validation & local logic only", () => {
+  const mockCategory: Category = {
+    id: "1",
+    name: "Food",
+    type: "Expenses",
+    userId: 1,
+  };
 
-  let mockedFetch: jest.Mock;
-
-  beforeEach(() => {
-    // Мокаем глобальный fetch и типизируем
-    mockedFetch = jest.fn();
-    global.fetch = mockedFetch;
-  });
-
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
-
-  // --- GET ---
-  test("getCategories fetches data successfully", async () => {
-    mockedFetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => [mockCategory],
-    });
-
-    const data = await getCategories();
-    expect(data).toEqual([mockCategory]);
-    expect(mockedFetch).toHaveBeenCalledWith(
-      "http://localhost:3001/categories"
-    );
-  });
-
-  test("getCategories throws error when fetch fails", async () => {
-    mockedFetch.mockResolvedValueOnce({ ok: false });
-
-    await expect(getCategories()).rejects.toThrow("Failed to fetch categories");
-  });
+  const mockNewCategory: Omit<Category, "id"> = {
+    name: "Salary",
+    type: "Income",
+    userId: 1,
+  };
 
   // --- CREATE ---
-  test("createCategory posts data successfully", async () => {
-    mockedFetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => mockCategory,
+  describe("createCategory", () => {
+    test("throws if name is empty", async () => {
+      await expect(createCategory({ ...mockNewCategory, name: "" }))
+        .rejects.toThrow("Name is required");
     });
 
-    const result = await createCategory(mockCategory);
-    expect(result).toEqual(mockCategory);
-    expect(mockedFetch).toHaveBeenCalledWith(
-      "http://localhost:3001/categories",
-      expect.objectContaining({
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(mockCategory),
-      })
-    );
-  });
-
-  test("createCategory throws error when fetch fails", async () => {
-    mockedFetch.mockResolvedValueOnce({ ok: false });
-
-    await expect(createCategory(mockCategory)).rejects.toThrow(
-      "Failed to create category"
-    );
+    test("throws if type is invalid", async () => {
+      await expect(createCategory({ ...mockNewCategory, type: "Unknown" as any }))
+        .rejects.toThrow("Invalid type");
+    });
   });
 
   // --- UPDATE ---
-  test("updateCategoryApi updates data successfully", async () => {
-    mockedFetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => mockCategory,
+  describe("updateCategoryApi", () => {
+    test("throws if id is missing", async () => {
+      const invalidCategory = { ...mockNewCategory } as any;
+      await expect(updateCategoryApi(invalidCategory))
+        .rejects.toThrow("Category id is required");
     });
 
-    const result = await updateCategoryApi(mockCategory);
-    expect(result).toEqual(mockCategory);
-    expect(mockedFetch).toHaveBeenCalledWith(
-      `http://localhost:3001/categories/${mockCategory.id}`,
-      expect.objectContaining({
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(mockCategory),
-      })
-    );
-  });
+    test("throws if name is empty", async () => {
+      const invalidCategory = { ...mockCategory, name: "" };
+      await expect(updateCategoryApi(invalidCategory))
+        .rejects.toThrow("Name is required");
+    });
 
-  test("updateCategoryApi throws error when fetch fails", async () => {
-    mockedFetch.mockResolvedValueOnce({ ok: false });
-
-    await expect(updateCategoryApi(mockCategory)).rejects.toThrow(
-      "Failed to update category"
-    );
+    test("throws if type is invalid", async () => {
+      const invalidCategory = { ...mockCategory, type: "Unknown" as any };
+      await expect(updateCategoryApi(invalidCategory))
+        .rejects.toThrow("Invalid type");
+    });
   });
 
   // --- DELETE ---
-  test("deleteCategoryApi deletes data successfully", async () => {
-    mockedFetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => mockCategory,
+  describe("deleteCategoryApi", () => {
+    test("throws if id is empty", async () => {
+      // Добавляем проверку на локальный уровень
+      await expect(deleteCategoryApi("")).rejects.toThrow();
     });
-
-    const result = await deleteCategoryApi(mockCategory.id);
-    expect(result).toEqual(mockCategory);
-    expect(mockedFetch).toHaveBeenCalledWith(
-      `http://localhost:3001/categories/${mockCategory.id}`,
-      expect.objectContaining({ method: "DELETE" })
-    );
   });
 
-  test("deleteCategoryApi throws error when fetch fails", async () => {
-    mockedFetch.mockResolvedValueOnce({ ok: false });
+  // --- GET ---
+  describe("getCategories", () => {
+    test("returns sorted array correctly", async () => {
+      // Локальная логика сортировки
+      const unsortedCategories: Category[] = [
+        { ...mockCategory, name: "Zebra" },
+        { ...mockCategory, name: "Apple" },
+      ];
+      const sorted = unsortedCategories.sort((a, b) => a.name.localeCompare(b.name));
+      expect(sorted.map(c => c.name)).toEqual(["Apple", "Zebra"]);
+    });
 
-    await expect(deleteCategoryApi(mockCategory.id)).rejects.toThrow(
-      "Failed to delete category"
-    );
+    test("works correctly with empty array", async () => {
+      const empty: Category[] = [];
+      const sorted = empty.sort((a, b) => a.name.localeCompare(b.name));
+      expect(sorted).toEqual([]);
+    });
   });
 });

@@ -5,6 +5,11 @@ import {
   deleteTransactionApi,
 } from "./transaction.api";
 import { Transaction } from "./transaction.types";
+import { api } from "@/shared/lib/api";
+
+jest.mock("@/shared/lib/api");
+
+const mockedApi = api as jest.Mocked<typeof api>;
 
 describe("transaction.api", () => {
   const mockTransaction: Transaction = {
@@ -14,116 +19,113 @@ describe("transaction.api", () => {
     date: "2025-10-12",
     description: "Groceries",
     type: "Expenses",
+    userId: 1,
   };
 
-  let mockedFetch: jest.Mock;
+  const mockNewTransaction: Omit<Transaction, "id"> = {
+    amount: 50,
+    categoryId: "2",
+    date: "2025-10-20",
+    description: "Transport",
+    type: "Expenses",
+    userId: 1,
+  };
 
   beforeEach(() => {
-    // Мокаем глобальный fetch и типизируем
-    mockedFetch = jest.fn();
-    global.fetch = mockedFetch;
-  });
-
-  afterEach(() => {
     jest.resetAllMocks();
   });
 
   // --- GET ---
-  test("getTransactions fetches data successfully", async () => {
-    mockedFetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => [mockTransaction],
-    });
-
-    const data = await getTransactions();
-    expect(data).toEqual([mockTransaction]);
-    expect(mockedFetch).toHaveBeenCalledWith(
-      "http://localhost:3001/transactions"
-    );
+  test("getTransactions returns array of transactions", async () => {
+    mockedApi.get.mockResolvedValueOnce({ data: [mockTransaction] });
+    const result = await getTransactions();
+    expect(result).toEqual([mockTransaction]);
+    expect(mockedApi.get).toHaveBeenCalledWith("/transactions");
   });
 
-  test("getTransactions throws error when fetch fails", async () => {
-    mockedFetch.mockResolvedValueOnce({ ok: false });
+  test("getTransactions returns empty array if no transactions", async () => {
+    mockedApi.get.mockResolvedValueOnce({ data: [] });
+    const result = await getTransactions();
+    expect(result).toEqual([]);
+  });
 
-    await expect(getTransactions()).rejects.toThrow(
-      "Failed to fetch transactions"
-    );
+  test("getTransactions throws if api fails", async () => {
+    mockedApi.get.mockRejectedValueOnce(new Error("Server error"));
+    await expect(getTransactions()).rejects.toThrow("Server error");
   });
 
   // --- CREATE ---
-  test("createTransaction posts data successfully", async () => {
-    mockedFetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => mockTransaction,
+  test("createTransaction posts a new transaction successfully", async () => {
+    mockedApi.post.mockResolvedValueOnce({
+      data: { ...mockNewTransaction, id: "2" },
     });
-
-    const result = await createTransaction(mockTransaction);
-    expect(result).toEqual(mockTransaction);
-    expect(mockedFetch).toHaveBeenCalledWith(
-      "http://localhost:3001/transactions",
-      expect.objectContaining({
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(mockTransaction),
-      })
+    const result = await createTransaction(mockNewTransaction);
+    expect(result).toEqual({ ...mockNewTransaction, id: "2" });
+    expect(mockedApi.post).toHaveBeenCalledWith(
+      "/transactions",
+      mockNewTransaction
     );
   });
 
-  test("createTransaction throws error when fetch fails", async () => {
-    mockedFetch.mockResolvedValueOnce({ ok: false });
-
-    await expect(createTransaction(mockTransaction)).rejects.toThrow(
-      "Failed to create transaction"
+  test("createTransaction throws if api fails", async () => {
+    mockedApi.post.mockRejectedValueOnce(new Error("Create failed"));
+    await expect(createTransaction(mockNewTransaction)).rejects.toThrow(
+      "Create failed"
     );
   });
 
   // --- UPDATE ---
-  test("updateTransactionApi updates data successfully", async () => {
-    mockedFetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => mockTransaction,
-    });
-
+  test("updateTransactionApi updates transaction successfully", async () => {
+    mockedApi.put.mockResolvedValueOnce({ data: mockTransaction });
     const result = await updateTransactionApi(mockTransaction);
     expect(result).toEqual(mockTransaction);
-    expect(mockedFetch).toHaveBeenCalledWith(
-      `http://localhost:3001/transactions/${mockTransaction.id}`,
-      expect.objectContaining({
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(mockTransaction),
-      })
+    expect(mockedApi.put).toHaveBeenCalledWith(
+      `/transactions/${mockTransaction.id}`,
+      mockTransaction
     );
   });
 
-  test("updateTransactionApi throws error when fetch fails", async () => {
-    mockedFetch.mockResolvedValueOnce({ ok: false });
-
+  test("updateTransactionApi throws if api fails", async () => {
+    mockedApi.put.mockRejectedValueOnce(new Error("Update failed"));
     await expect(updateTransactionApi(mockTransaction)).rejects.toThrow(
-      "Failed to update transaction"
+      "Update failed"
     );
   });
 
   // --- DELETE ---
-  test("deleteTransactionApi deletes data successfully", async () => {
-    mockedFetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => mockTransaction,
-    });
-
+  test("deleteTransactionApi deletes transaction successfully", async () => {
+    mockedApi.delete.mockResolvedValueOnce({ data: mockTransaction });
     const result = await deleteTransactionApi(mockTransaction.id);
     expect(result).toEqual(mockTransaction);
-    expect(mockedFetch).toHaveBeenCalledWith(
-      `http://localhost:3001/transactions/${mockTransaction.id}`,
-      expect.objectContaining({ method: "DELETE" })
+    expect(mockedApi.delete).toHaveBeenCalledWith(
+      `/transactions/${mockTransaction.id}`
     );
   });
 
-  test("deleteTransactionApi throws error when fetch fails", async () => {
-    mockedFetch.mockResolvedValueOnce({ ok: false });
-
+  test("deleteTransactionApi throws if api fails", async () => {
+    mockedApi.delete.mockRejectedValueOnce(new Error("Delete failed"));
     await expect(deleteTransactionApi(mockTransaction.id)).rejects.toThrow(
-      "Failed to delete transaction"
+      "Delete failed"
     );
   });
+
+  // --- EDGE CASES ---
+  test("createTransaction with invalid amount throws error", async () => {
+    const invalidTx = { ...mockNewTransaction, amount: -10 };
+    mockedApi.post.mockRejectedValueOnce(new Error("Invalid amount"));
+    await expect(createTransaction(invalidTx)).rejects.toThrow(
+      "Invalid amount"
+    );
+  });
+
+test("updateTransactionApi with missing id throws immediately", async () => {
+  const invalidTx: Omit<Transaction, "id"> = {
+    ...mockNewTransaction,
+  };
+
+  // Приводим к any, чтобы TS пропустил вызов
+  await expect(updateTransactionApi(invalidTx as any)).rejects.toThrow(
+    "Transaction ID is required"
+  );
+});
 });
