@@ -22,7 +22,8 @@ export const useTransactionsStore = create<TransactionsState>((set, get) => {
   useAuthStore.subscribe(
     (state) => state.isInitialized,
     (initialized) => {
-      if (initialized) get().fetchTransactions();
+      const { token } = useAuthStore.getState();
+      if (initialized && token) get().fetchTransactions();
     }
   );
 
@@ -31,9 +32,9 @@ export const useTransactionsStore = create<TransactionsState>((set, get) => {
     isLoading: false,
 
     fetchTransactions: async () => {
-      const { isInitialized } = useAuthStore.getState();
-      if (!isInitialized) {
-        console.warn("Auth not initialized yet, delaying fetchTransactions");
+      const { token, isInitialized } = useAuthStore.getState();
+      if (!isInitialized || !token) {
+        console.warn("Auth not initialized or token missing — skipping fetch");
         return;
       }
 
