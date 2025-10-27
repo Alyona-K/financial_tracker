@@ -11,25 +11,34 @@ function Banner() {
           ease.
         </p>
       </div>
-      <img
-        className="home__banner-img"
-        src={banner}
-        alt="Home banner"
-        width={1520}
-        height={676}
-      />
-      <div className="home__content-bottom">
-        <div className="home__heading-bottom-wrap">
-          <span className="home__heading-bottom home__heading-bottom--1">Track.</span>
-          <span className="home__heading-bottom home__heading-bottom--2">Manage.</span>
-          <span className="home__heading-bottom home__heading-bottom--3">Relax.</span>
+
+      <div className="home__content-bottom-wrap">
+        <img
+          className="home__banner-img"
+          src={banner}
+          alt="Home banner"
+          width={1520}
+          height={676}
+        />
+        <div className="home__content-bottom">
+          <div className="home__heading-bottom-wrap">
+            <span className="home__heading-bottom home__heading-bottom--1">
+              Track.
+            </span>
+            <span className="home__heading-bottom home__heading-bottom--2">
+              Manage.
+            </span>
+            <span className="home__heading-bottom home__heading-bottom--3">
+              Relax.
+            </span>
+          </div>
+          <p className="home__text-bottom">
+            Stay on top of your money with FinTrack.
+          </p>
+          <p className="home__text-bottom">
+            Manage your finances simply, clearly, and all in one spot.
+          </p>
         </div>
-        <p className="home__text-bottom">
-          Stay on top of your money with FinTrack.
-        </p>
-        <p className="home__text-bottom">
-          Manage your finances simply, clearly, and all in one spot.
-        </p>
       </div>
     </section>
   );
