@@ -20,5 +20,16 @@ export const authApi = {
     if (!user) throw new Error("User not logged in");
     return user;
   },
+
+async verify(): Promise<boolean> {
+  try {
+    // Просто пробуем получить список транзакций —
+    // если 401, значит токен мёртв.
+    await api.get("/transactions");
+    return true;
+  } catch {
+    return false;
+  }
+}
 };
 

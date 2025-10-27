@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, subscribeWithSelector } from "zustand/middleware";
 import { authApi } from "./auth.api";
 import type { User, LoginCredentials } from "./auth.types";
 
@@ -8,6 +8,8 @@ interface AuthState {
   token: string | null;
   isLoading: boolean;
   error: string | null;
+  isDemo: boolean;
+  isInitialized: boolean;
 
   login: (credentials: LoginCredentials) => Promise<void>;
   logout: () => void;
@@ -21,46 +23,72 @@ const DEMO_CREDENTIALS: LoginCredentials = {
 };
 
 export const useAuthStore = create<AuthState>()(
-  persist(
-    (set, get) => ({
-      user: null,
-      token: null,
-      isLoading: false,
-      error: null,
+  subscribeWithSelector(
+    persist(
+      (set, get) => ({
+        user: null,
+        token: null,
+        isLoading: false,
+        error: null,
+        isDemo: false,
+        isInitialized: false,
 
-      login: async ({ email, password }) => {
-        set({ isLoading: true, error: null });
-        try {
-          const { accessToken, user } = await authApi.login({ email, password });
-          set({ user, token: accessToken, isLoading: false });
-        } catch (err: any) {
-          set({
-            error: err.response?.data?.message || "Failed to log in",
-            isLoading: false,
-          });
-          throw err;
-        }
-      },
+        login: async (credentials) => {
+          set({ isLoading: true, error: null });
+          try {
+            const { accessToken, user } = await authApi.login(credentials);
+            set({
+              user,
+              token: accessToken,
+              isDemo: false,
+              isInitialized: true,
+              isLoading: false,
+            });
+          } catch (err: any) {
+            set({
+              error: err.response?.data?.message || "Failed to log in",
+              isLoading: false,
+            });
+            throw err;
+          }
+        },
+        logout: () =>
+          set({ user: null, token: null, isDemo: false, isInitialized: false }),
 
-      logout: () => set({ user: null, token: null }),
+        initDemoUser: async () => {
+          const { user, token } = get();
+          if (user && token) {
+            try {
+              await authApi.verify(); 
+              set({ isInitialized: true });
+              return;
+            } catch {
+              console.warn("Token expired, relogging demo user...");
+            }
+          }
 
-      initDemoUser: async () => {
-        const { user, token } = get();
-        if (user && token) return;
-        try {
-          await get().login(DEMO_CREDENTIALS);
-        } catch {
-          console.warn("Failed to login demo user");
-        }
-      },
+          try {
+            const { accessToken, user } = await authApi.login(DEMO_CREDENTIALS);
+            set({
+              user,
+              token: accessToken,
+              isDemo: true,
+              isInitialized: true,
+            });
+          } catch {
+            console.warn("Failed to login demo user");
+            set({ isInitialized: true });
+          }
+        },
 
-      // метод для “рефреша” токена при 401
-      refreshToken: async () => {
-        console.log("Refreshing demo token...");
-        await get().login(DEMO_CREDENTIALS);
-      },
-    }),
-    { name: "auth-storage" }
+        refreshToken: async () => {
+          const { isDemo } = get();
+          if (isDemo) return; // demo не требует refresh
+          console.log("Refreshing real token...");
+          // здесь реальный flow для production
+        },
+      }),
+      { name: "auth-storage" }
+    )
   )
 );
-

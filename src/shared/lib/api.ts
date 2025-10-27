@@ -6,7 +6,7 @@ export const api = axios.create({ baseURL: API_URL });
 
 // Добавляем интерцептор для запроса
 api.interceptors.request.use((config) => {
-  const token = useAuthStore.getState().token;
+  const { token } = useAuthStore.getState();
   if (token) {
     if (!config.headers) config.headers = new AxiosHeaders();
     (config.headers as AxiosHeaders).set("Authorization", `Bearer ${token}`);
@@ -21,12 +21,9 @@ api.interceptors.response.use(
     const authStore = useAuthStore.getState();
     const originalRequest = error.config;
 
-    if (
-      error.response?.status === 401 &&
-      !originalRequest._retry // чтобы не зациклить
-    ) {
+    if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      await authStore.refreshToken();
+      await authStore.initDemoUser(); // перезалогиниваем демо
       originalRequest.headers["Authorization"] = `Bearer ${authStore.token}`;
       return api.request(originalRequest);
     }
@@ -34,5 +31,3 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
-
