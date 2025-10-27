@@ -105,6 +105,13 @@
       "type": "Income",
       "userId": 1,
       "isDeleted": true
+    },
+    {
+      "id": "fd83b97b-9453-4c98-8514-8462209b83bc",
+      "name": "вими",
+      "type": "Income",
+      "userId": 1,
+      "isDeleted": true
     }
   ],
   "transactions": [
