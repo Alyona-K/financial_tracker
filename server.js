@@ -38,7 +38,7 @@ server.delete("/categories/:id", (req, res) => {
 });
 
 // --- кастомный GET категорий с фильтром для фронта (по желанию) ---
-server.get("/categories", (req, res) => {
+server.get("/categories", (_req, res) => {
   const categories = router.db.get("categories").value();
   res.json(categories.filter(c => !c.isDeleted)); // если хочешь, чтобы фронт по умолчанию не видел deleted
 });
