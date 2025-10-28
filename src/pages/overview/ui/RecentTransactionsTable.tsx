@@ -4,10 +4,11 @@ import { RecentTransactionRow } from "@/entities/transaction/ui/RecentTransactio
 import "./RecentTransactionsTable.css";
 
 export const RecentTransactionsTable = () => {
-  const { transactions, isLoading, fetchTransactions } = useTransactionsStore();
-  useEffect(() => {
-    fetchTransactions();
-  }, [fetchTransactions]);
+  const { transactions, isLoading } = useTransactionsStore();
+  // const { transactions, isLoading, fetchTransactions } = useTransactionsStore();
+  // useEffect(() => {
+  //   fetchTransactions();
+  // }, [fetchTransactions]);
 
   if (isLoading) {
     return (

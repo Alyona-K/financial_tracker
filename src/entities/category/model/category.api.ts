@@ -1,5 +1,6 @@
 import { api } from "@/shared/lib/api";
 import { Category } from "./category.types";
+import { useAuthStore } from "@/entities/auth/model/auth.store";
 
 export const getCategories = async (): Promise<Category[]> => {
   const { data } = await api.get<Category[]>("/categories");
@@ -7,9 +8,13 @@ export const getCategories = async (): Promise<Category[]> => {
 };
 
 export const createCategory = async (category: Omit<Category, "id">): Promise<Category> => {
-  if (!category.name) throw new Error("Name is required");
-  if (!["Income", "Expenses"].includes(category.type)) throw new Error("Invalid type");
-  const { data } = await api.post<Category>("/categories", category);
+  const { user } = useAuthStore.getState();
+  if (!user) throw new Error("User not logged in");
+
+  const { data } = await api.post<Category>("/categories", {
+    ...category,
+    userId: user.id, // <-- добавляем userId
+  });
   return data;
 };
 

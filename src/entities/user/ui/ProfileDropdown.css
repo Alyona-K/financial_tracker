@@ -16,10 +16,18 @@
   margin: 0;
   cursor: pointer;
   z-index: 1000;
+  min-width: 210px;
+  justify-content: space-between;
 }
 
 .profile-dropdown__btn:focus-visible {
   outline: none;
+}
+
+.profile-dropdown__user-data {
+  display: flex;
+  gap: 15px;
+  align-items: center;
 }
 
 .profile-dropdown__avatar {
@@ -51,6 +59,7 @@
   gap: 5px;
   transform-origin: top;
   animation-fill-mode: forwards;
+  z-index: 999;
 }
 
 .profile-dropdown__list.open {

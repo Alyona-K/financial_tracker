@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { Category } from "./category.types";
+import { useAuthStore } from "@/entities/auth/model/auth.store";
 import {
   getCategories,
   createCategory,
@@ -14,6 +15,7 @@ type CategoriesState = {
   addCategory: (category: Omit<Category, "id">) => Promise<void>;
   updateCategory: (category: Category) => Promise<void>;
   deleteCategory: (id: string) => Promise<void>;
+  clearCategories: () => void;
 };
 
 export const useCategoriesStore = create<CategoriesState>((set) => ({
@@ -21,17 +23,18 @@ export const useCategoriesStore = create<CategoriesState>((set) => ({
   isLoading: false,
 
   fetchCategories: async () => {
-    set({ isLoading: true });
-    try {
-      const data = await getCategories();
-      set({ categories: data });
-    } catch (e) {
-      console.error("Error fetching categories:", e);
-    } finally {
-      set({ isLoading: false });
-    }
-  },
-
+  set({ isLoading: true });
+  try {
+    const data = await getCategories();
+    const { user } = useAuthStore.getState();
+    const filtered = data.filter(cat => cat.userId === user?.id);
+    set({ categories: filtered });
+  } catch (e) {
+    console.error("Error fetching categories:", e);
+  } finally {
+    set({ isLoading: false });
+  }
+},
   addCategory: async (category) => {
     set({ isLoading: true });
     try {
@@ -78,5 +81,7 @@ export const useCategoriesStore = create<CategoriesState>((set) => ({
       set({ isLoading: false });
     }
   },
+
+  clearCategories: () => set({ categories: [] }),
 }));
 

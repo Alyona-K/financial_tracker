@@ -5,6 +5,12 @@
       "email": "demo@fintrack.com",
       "password": "$2b$10$lY3PXkQI0DeXtBVpQIAKGuT3D.as8w7rXp.T5lGQ72KcRfpC3hOVO",
       "name": "Julia Bennett"
+    },
+    {
+      "email": "demo2@email.com",
+      "password": "$2a$10$Slcx/jctu/BcaU0iHjOB1.g33.vmnp/ojuwYtVvZ8nc/HrdcIIrfe",
+      "name": "Alex Robertson",
+      "id": 2
     }
   ],
   "categories": [
@@ -100,18 +106,23 @@
       "isDeleted": false
     },
     {
-      "id": "55610bb6-4056-423d-8d0f-43674e58823c",
+      "id": "03d67a2c-4f7c-4516-96a1-2fc097091802",
       "name": "a",
       "type": "Income",
       "userId": 1,
       "isDeleted": true
     },
     {
-      "id": "4c763825-a69f-4f8f-97b2-a95a6d90b083",
-      "name": "aaa",
-      "type": "Income",
-      "userId": 1,
-      "isDeleted": true
+      "id": "d462cb3d-2b6b-419c-8d74-e557818b1fa9",
+      "name": "Food",
+      "type": "Expenses",
+      "userId": 2
+    },
+    {
+      "id": "817a62d7-ec60-40c8-ac27-0c3c59d60e9e",
+      "name": "Salary",
+      "type": "Expenses",
+      "userId": 2
     }
   ],
   "transactions": [
@@ -611,28 +622,31 @@
       "userId": 1
     },
     {
-      "id": "mrB8gLg",
-      "date": "2025-10-25",
-      "categoryId": "abad810f-f195-46ed-9c8f-6be7d9c6a0fc",
-      "type": "Expenses",
-      "amount": 34,
-      "description": "Flowers"
-    },
-    {
-      "id": "6ohhR-v",
-      "date": "2025-10-25",
-      "categoryId": "55610bb6-4056-423d-8d0f-43674e58823c",
-      "type": "Income",
-      "amount": 34,
-      "description": "Gift"
-    },
-    {
-      "id": "vmQoF4B",
-      "date": "2025-10-27",
-      "categoryId": "4c763825-a69f-4f8f-97b2-a95a6d90b083",
+      "date": "2025-10-28",
+      "categoryId": "03d67a2c-4f7c-4516-96a1-2fc097091802",
       "type": "Expenses",
       "amount": 20,
-      "description": "Vase"
+      "description": "Flowers",
+      "userId": 1,
+      "id": "cgD1S11"
+    },
+    {
+      "date": "2025-10-28",
+      "categoryId": "d462cb3d-2b6b-419c-8d74-e557818b1fa9",
+      "type": "Expenses",
+      "amount": 20,
+      "description": "Products",
+      "userId": 2,
+      "id": "KyF8bbc"
+    },
+    {
+      "date": "2025-10-28",
+      "categoryId": "817a62d7-ec60-40c8-ac27-0c3c59d60e9e",
+      "type": "Income",
+      "amount": 500,
+      "description": "Salary",
+      "userId": 2,
+      "id": "jjROE1n"
     }
   ]
 }

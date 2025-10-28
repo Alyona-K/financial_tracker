@@ -44,7 +44,6 @@ const AddEditTransactionModal: React.FC<AddEditTransactionModalProps> = ({
   const isEdit = mode === FORM_MODE.EDIT;
 
   const { categories, fetchCategories } = useCategoriesStore();
-  // const { addTransaction, updateTransaction } = useTransactionsStore();
 
   const [form, setForm] = useState<TransactionFormUI>({
     date: "",
@@ -63,11 +62,6 @@ const AddEditTransactionModal: React.FC<AddEditTransactionModalProps> = ({
     null
   );
   const datepickerRef = useRef<HTMLDivElement>(null);
-
-  // --- LOAD CATEGORIES ---
-  useEffect(() => {
-    if (categories.length === 0) fetchCategories();
-  }, [categories, fetchCategories]);
 
   // --- RESET FORM ON OPEN ---
   useEffect(() => {

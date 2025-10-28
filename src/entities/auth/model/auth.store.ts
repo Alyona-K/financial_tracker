@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { authApi } from "./auth.api";
-import type { User, LoginCredentials } from "./auth.types";
+import type { User, LoginCredentials, RegisterCredentials } from "./auth.types";
 
 interface AuthState {
   user: User | null;
@@ -10,8 +10,9 @@ interface AuthState {
   error: string | null;
 
   login: (credentials: LoginCredentials) => Promise<void>;
+  register: (credentials: RegisterCredentials) => Promise<void>;
   logout: () => void;
-  initDemoUser: () => Promise<void>;
+  initDemoUser: (skipIfAuthPage?: boolean) => Promise<void>;
   refreshToken: () => Promise<void>; // новый метод для автологина
 }
 
@@ -31,7 +32,10 @@ export const useAuthStore = create<AuthState>()(
       login: async ({ email, password }) => {
         set({ isLoading: true, error: null });
         try {
-          const { accessToken, user } = await authApi.login({ email, password });
+          const { accessToken, user } = await authApi.login({
+            email,
+            password,
+          });
           set({ user, token: accessToken, isLoading: false });
         } catch (err: any) {
           set({
@@ -42,17 +46,52 @@ export const useAuthStore = create<AuthState>()(
         }
       },
 
-      logout: () => set({ user: null, token: null }),
-
-      initDemoUser: async () => {
-        const { user, token } = get();
-        if (user && token) return;
+      register: async ({ name, email, password }: RegisterCredentials) => {
+        set({ isLoading: true, error: null });
         try {
-          await get().login(DEMO_CREDENTIALS);
-        } catch {
-          console.warn("Failed to login demo user");
+          const { accessToken, user } = await authApi.register({
+            name,
+            email,
+            password,
+          });
+          set({ user, token: accessToken, isLoading: false });
+        } catch (err: any) {
+          set({
+            error: err.response?.data?.message || "Failed to register",
+            isLoading: false,
+          });
+          throw err;
         }
       },
+
+      logout: () => set({ user: null, token: null }),
+
+      initDemoUser: async (skipIfAuthPage = false) => {
+        if (skipIfAuthPage) return; // не логиним на /login или /register
+
+        try {
+          console.log("[Auth] Auto login as demo user...");
+          // сброс предыдущего пользователя перед демо
+          set({ user: null, token: null });
+          const { accessToken, user } = await authApi.login(DEMO_CREDENTIALS);
+          set({ user, token: accessToken });
+        } catch (err) {
+          console.warn("[Auth] Failed to auto-login demo user", err);
+        }
+      },
+
+      // initDemoUser: async (skipIfAuthPage = false) => {
+      //   const { user, token } = get();
+      //   if (user && token) return;
+
+      //   if (skipIfAuthPage) return; // не логиним демо на /login или /register
+
+      //   try {
+      //     await get().login(DEMO_CREDENTIALS);
+      //   } catch {
+      //     console.warn("Failed to login demo user");
+      //   }
+      // },
 
       // метод для “рефреша” токена при 401
       refreshToken: async () => {
@@ -64,7 +103,32 @@ export const useAuthStore = create<AuthState>()(
   )
 );
 
+// initDemoUser: async (skipIfAuthPage = false) => {
+//   const { user, token } = get();
+//   if (user && token) return;
 
+//   if (skipIfAuthPage) return; // не логиним демо на /login или /register
+
+//   try {
+//     await get().login(DEMO_CREDENTIALS);
+//   } catch {
+//     console.warn("Failed to login demo user");
+//   }
+// },
+
+//-------------
+
+// initDemoUser: async () => {
+//   const { user, token } = get();
+//   if (user && token) return;
+//   try {
+//     await get().login(DEMO_CREDENTIALS);
+//   } catch {
+//     console.warn("Failed to login demo user");
+//   }
+// },
+
+//-------------------------
 
 // import { create } from "zustand";
 // import { persist, subscribeWithSelector } from "zustand/middleware";

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import TopbarSearch from "./TopbarSearch";
 import sprite from "@/assets/images/sprite.svg";
-import defaultAvatar from "@/assets/images/avatar.png";
+import defaultAvatar from "@/assets/images/default_avatar.png";
 import { useNotificationsStore } from "@/shared/store/useNotificationsStore";
 import { useAuthStore } from "@/entities/auth/model/auth.store";
 import ProfileDropdown from "@/entities/user/ui/ProfileDropdown";
@@ -20,10 +20,28 @@ function Topbar() {
 
   const [isProfileOpen, setProfileOpen] = useState(false);
 
+  const DEMO_CREDENTIALS = { email: "demo@fintrack.com", password: "demo123" };
+
+  const handleDemoLogin = async () => {
+    try {
+      await useAuthStore.getState().login(DEMO_CREDENTIALS);
+      navigate("/overview"); 
+    } catch (err) {
+      console.error("Failed to login demo user:", err);
+    }
+  };
+
   const PROFILE_OPTIONS = [
     { label: "View profile", action: () => navigate("/profile") },
-    { label: "Change account", action: () => navigate("/account/change") },
-    { label: "Log out", action: logout },
+    {
+      label: "Change account",
+      action: () => {
+        logout(); 
+        navigate("/login"); 
+      },
+    },
+    { label: "Create new account", action: () => navigate("/register") },
+    { label: "Login demo", action: handleDemoLogin }, // новая кнопка
   ];
 
   return (

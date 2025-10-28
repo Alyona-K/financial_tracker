@@ -48,11 +48,6 @@ const AddEditCategoryModal: React.FC<AddEditCategoryModalProps> = ({
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { user } = useAuthStore();
 
-  // --- Load categories ---
-  useEffect(() => {
-    if (categories.length === 0) fetchCategories();
-  }, [categories, fetchCategories]);
-
   // --- Reset form on open ---
   useEffect(() => {
     if (isOpen) {

@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { Transaction, TransactionFormData } from "./transaction.types";
+import { useAuthStore } from "@/entities/auth/model/auth.store";
 import {
   getTransactions,
   createTransaction,
@@ -14,6 +15,7 @@ type TransactionsState = {
   addTransaction: (tx: Omit<Transaction, "id">) => Promise<Transaction>;
   updateTransaction: (tx: TransactionFormData) => Promise<Transaction>;
   deleteTransaction: (id: string) => Promise<void>;
+  clearTransactions: () => void;
 };
 
 export const useTransactionsStore = create<TransactionsState>((set) => ({
@@ -21,16 +23,18 @@ export const useTransactionsStore = create<TransactionsState>((set) => ({
   isLoading: false,
 
   fetchTransactions: async () => {
-    set({ isLoading: true });
-    try {
-      const data = await getTransactions();
-      set({ transactions: data });
-    } catch (e) {
-      console.error("Error fetching transactions:", e);
-    } finally {
-      set({ isLoading: false });
-    }
-  },
+  set({ isLoading: true });
+  try {
+    const data = await getTransactions();
+    const { user } = useAuthStore.getState();
+    const filtered = data.filter(tx => tx.userId === user?.id);
+    set({ transactions: filtered });
+  } catch (e) {
+    console.error("Error fetching transactions:", e);
+  } finally {
+    set({ isLoading: false });
+  }
+},
 
   addTransaction: async (tx) => {
     set({ isLoading: true });
@@ -81,7 +85,22 @@ export const useTransactionsStore = create<TransactionsState>((set) => ({
       set({ isLoading: false });
     }
   },
+
+  clearTransactions: () => set({ transactions: [] }),
 }));
+
+
+  // fetchTransactions: async () => {
+  //   set({ isLoading: true });
+  //   try {
+  //     const data = await getTransactions();
+  //     set({ transactions: data });
+  //   } catch (e) {
+  //     console.error("Error fetching transactions:", e);
+  //   } finally {
+  //     set({ isLoading: false });
+  //   }
+  // },
 
 
 

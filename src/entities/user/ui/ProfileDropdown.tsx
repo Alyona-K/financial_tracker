@@ -32,7 +32,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
       setTimeout(() => {
         setIsClosing(false);
         onClose();
-      }, 300); 
+      }, 300);
     } else {
       onToggle();
     }
@@ -54,14 +54,17 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
         onClick={handleToggle}
         type="button"
       >
-        {avatarUrl && (
-          <img
-            src={avatarUrl}
-            alt="User avatar"
-            className="profile-dropdown__avatar"
-          />
-        )}
-        <span className="profile-dropdown__name">{userName || "Log in / Register"}</span>
+        <div className="profile-dropdown__user-data">
+          {avatarUrl && (
+            <img
+              src={avatarUrl}
+              alt="User avatar"
+              className="profile-dropdown__avatar"
+            />
+          )}
+          <span className="profile-dropdown__name">{userName}</span>
+        </div>
+
         <svg
           className={`profile-dropdown__arrow ${isOpen && !isClosing ? "open" : ""}`}
           width={22}
@@ -93,6 +96,3 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
 };
 
 export default ProfileDropdown;
-
-
-

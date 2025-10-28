@@ -31,10 +31,7 @@ const TransactionsTable: React.FC<TransactionsTableProps> = ({
 }) => {
   const transactions: TransactionWithCategoryName[] =
     useTransactionsWithCategoryNames();
-  const { categories, fetchCategories } = useCategoriesStore();
-  useEffect(() => {
-    fetchCategories();
-  }, [fetchCategories]);
+  const { categories } = useCategoriesStore();
 
   const [sortConfig, setSortConfig] = useState<{
     field: keyof Transaction;

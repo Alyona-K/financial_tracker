@@ -5,10 +5,12 @@ import { useTransactionsStore } from "@/entities/transaction/model/transaction.s
 type WidgetsState = {
   widgets: WidgetCardData[];
   refreshWidgets: () => void;
+  clearWidgets: () => void;
 };
 
 export const useWidgetsStore = create<WidgetsState>((set) => ({
   widgets: [],
+  
   refreshWidgets: () => {
     const { transactions } = useTransactionsStore.getState();
 
@@ -51,4 +53,6 @@ export const useWidgetsStore = create<WidgetsState>((set) => ({
 
     set({ widgets: newWidgets });
   },
+  clearWidgets: () => set({ widgets: [] }),
 }));
+

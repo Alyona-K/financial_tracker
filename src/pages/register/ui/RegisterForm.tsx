@@ -4,31 +4,39 @@ import Button from "@/shared/ui/Button";
 import { useAuthStore } from "@/entities/auth/model/auth.store";
 import { clearUserData } from "@/shared/lib/clearUserData";
 import { useNavigate } from "react-router-dom";
-import "./LoginForm.css";
+import "./RegisterForm.css";
 
-interface LoginFormData {
+interface RegisterFormData {
+  name: string;
   email: string;
   password: string;
 }
 
-const LoginForm = () => {
+const RegisterForm = () => {
   const navigate = useNavigate();
-  const [form, setForm] = useState<LoginFormData>({ email: "", password: "" });
-  const [errors, setErrors] = useState<
-    Partial<Record<keyof LoginFormData, string>>
-  >({});
-
-  const login = useAuthStore((state) => state.login);
+  const register = useAuthStore((state) => state.register);
   const isLoading = useAuthStore((state) => state.isLoading);
   const apiError = useAuthStore((state) => state.error);
 
-  const handleChange = (field: keyof LoginFormData, value: string) => {
+  const [form, setForm] = useState<RegisterFormData>({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const [errors, setErrors] = useState<
+    Partial<Record<keyof RegisterFormData, string>>
+  >({});
+
+  const handleChange = (field: keyof RegisterFormData, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
     setErrors((prev) => ({ ...prev, [field]: undefined }));
   };
 
   const validate = (): boolean => {
-    const newErrors: Partial<Record<keyof LoginFormData, string>> = {};
+    const newErrors: Partial<Record<keyof RegisterFormData, string>> = {};
+
+    if (!form.name.trim()) newErrors.name = "Name is required";
 
     if (!form.email.trim()) newErrors.email = "Email is required";
     else if (!/\S+@\S+\.\S+/.test(form.email))
@@ -47,17 +55,32 @@ const LoginForm = () => {
     if (!validate()) return;
 
     try {
-      clearUserData();
-      await login({ email: form.email, password: form.password });
-      console.log("Login successful");
-      navigate("/overview"); // редирект после логина
+      clearUserData(); 
+      await register(form);
+      console.log("Registration successful, stores cleared");
+      navigate("/overview");
     } catch (err) {
-      console.error("Login failed:", err);
+      console.error("Registration failed:", err);
     }
   };
 
   return (
     <form className="auth-form" onSubmit={handleSubmit}>
+      {/* --- NAME --- */}
+      <div className="auth-form__input-container">
+        <Input
+          label="Name"
+          type="text"
+          placeholder="Enter your name"
+          value={form.name}
+          onChange={(e) => handleChange("name", e.target.value)}
+          wrapperClassName="auth-form__input-wrap"
+          labelClassName="auth-form__label"
+          fieldClassName="auth-form__field"
+        />
+        {errors.name && <span className="auth-form__error">{errors.name}</span>}
+      </div>
+
       {/* --- EMAIL --- */}
       <div className="auth-form__input-container">
         <Input
@@ -103,10 +126,10 @@ const LoginForm = () => {
         type="submit"
         disabled={isLoading}
       >
-        {isLoading ? "Logging in..." : "Log in"}
+        {isLoading ? "Registering..." : "Register"}
       </Button>
     </form>
   );
 };
 
-export default LoginForm;
+export default RegisterForm;
