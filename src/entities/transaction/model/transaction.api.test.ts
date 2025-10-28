@@ -6,10 +6,13 @@ import {
 } from "./transaction.api";
 import { Transaction } from "./transaction.types";
 import { api } from "@/shared/lib/api";
+import { useAuthStore } from "@/entities/auth/model/auth.store";
 
 jest.mock("@/shared/lib/api");
+jest.mock("@/entities/auth/model/auth.store");
 
 const mockedApi = api as jest.Mocked<typeof api>;
+const mockedAuthStore = useAuthStore as jest.Mocked<any>;
 
 describe("transaction.api", () => {
   const mockTransaction: Transaction = {
@@ -33,6 +36,7 @@ describe("transaction.api", () => {
 
   beforeEach(() => {
     jest.resetAllMocks();
+    mockedAuthStore.getState.mockReturnValue({ user: { id: 1 } });
   });
 
   // --- GET ---
@@ -61,10 +65,10 @@ describe("transaction.api", () => {
     });
     const result = await createTransaction(mockNewTransaction);
     expect(result).toEqual({ ...mockNewTransaction, id: "2" });
-    expect(mockedApi.post).toHaveBeenCalledWith(
-      "/transactions",
-      mockNewTransaction
-    );
+    expect(mockedApi.post).toHaveBeenCalledWith("/transactions", {
+      ...mockNewTransaction,
+      userId: 1, // соответствует мокнутому юзеру
+    });
   });
 
   test("createTransaction throws if api fails", async () => {
@@ -118,14 +122,14 @@ describe("transaction.api", () => {
     );
   });
 
-test("updateTransactionApi with missing id throws immediately", async () => {
-  const invalidTx: Omit<Transaction, "id"> = {
-    ...mockNewTransaction,
-  };
+  test("updateTransactionApi with missing id throws immediately", async () => {
+    const invalidTx: Omit<Transaction, "id"> = {
+      ...mockNewTransaction,
+    };
 
-  // Приводим к any, чтобы TS пропустил вызов
-  await expect(updateTransactionApi(invalidTx as any)).rejects.toThrow(
-    "Transaction ID is required"
-  );
-});
+    // Приводим к any, чтобы TS пропустил вызов
+    await expect(updateTransactionApi(invalidTx as any)).rejects.toThrow(
+      "Transaction ID is required"
+    );
+  });
 });
