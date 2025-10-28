@@ -20,13 +20,13 @@ function OverviewPage() {
   const { setNotificationsCount } = useNotificationsStore();
 
   // --- Подгрузка данных при открытии страницы ---
-  useEffect(() => {
-    const initData = async () => {
-      await Promise.all([fetchCategories(), fetchTransactions()]);
-      refreshWidgets(); // после загрузки транзакций обновляем виджеты
-    };
-    initData();
-  }, []); // один раз при монтировании
+  // useEffect(() => {
+  //   const initData = async () => {
+  //     await Promise.all([fetchCategories(), fetchTransactions()]);
+  //     refreshWidgets(); // после загрузки транзакций обновляем виджеты
+  //   };
+  //   initData();
+  // }, []); // один раз при монтировании
 
   // --- Работа с модалкой ---
   const handleOpenModal = () => setIsModalOpen(true);
