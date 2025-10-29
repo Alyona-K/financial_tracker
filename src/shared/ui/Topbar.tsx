@@ -69,7 +69,7 @@ function Topbar() {
           <div className="topbar__account">
             {user ? (
               <ProfileDropdown
-                avatarUrl={user.avatar || defaultAvatar}
+                avatarUrl={user?.avatar || defaultAvatar}
                 userName={`${user.firstName} ${user.lastName}`}
                 options={PROFILE_OPTIONS}
                 isOpen={isProfileOpen}
