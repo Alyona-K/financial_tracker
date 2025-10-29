@@ -5,7 +5,7 @@ import Dropdown from "@/shared/ui/Dropdown";
 import { useCategoriesStore } from "@/entities/category/model/category.store";
 import type { Category } from "@/entities/category/model/category.types";
 import { FORM_MODE } from "@/shared/config/modes";
-import { useAuthStore } from "@/entities/auth/model/auth.store";
+import { useUserStore } from "@/entities/user/model/user.store";
 import "./AddEditCategoryModal.css";
 
 interface AddEditCategoryModalProps {
@@ -33,7 +33,7 @@ const AddEditCategoryModal: React.FC<AddEditCategoryModalProps> = ({
 }) => {
   const isEdit = mode === FORM_MODE.EDIT;
 
-  const { categories, fetchCategories } = useCategoriesStore();
+  const { categories } = useCategoriesStore();
 
   const [form, setForm] = useState<CategoryFormUI>({
     id: undefined,
@@ -46,7 +46,7 @@ const AddEditCategoryModal: React.FC<AddEditCategoryModalProps> = ({
   >({});
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const { user } = useAuthStore();
+  const { user } = useUserStore();
 
   // --- Reset form on open ---
   useEffect(() => {

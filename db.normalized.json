@@ -657,6 +657,15 @@
       "description": "Salary",
       "userId": 2,
       "id": "jjROE1n"
+    },
+    {
+      "date": "2025-10-29",
+      "categoryId": "abad810f-f195-46ed-9c8f-6be7d9c6a0fc",
+      "type": "Income",
+      "amount": 10,
+      "description": "Gift",
+      "userId": 1,
+      "id": "oP4xDX4"
     }
   ]
 }
