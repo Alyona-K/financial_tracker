@@ -1,29 +1,28 @@
-// import { create } from "zustand";
-// import { User } from "./user.types";
-// import { fetchUserByCredentials, registerUser } from "./user.api";
+import { create } from "zustand";
+import { userApi } from "./user.api";
+import type { User, UpdateUserPayload } from "./user.types";
 
-// type UserState = {
-//   currentUser: User | null;
-//   isAuthenticated: boolean;
-//   login: (email: string, password: string) => Promise<void>;
-//   register: (email: string, password: string, name: string) => Promise<void>;
-//   logout: () => void;
-// };
+interface UserState {
+  user: User | null;
+  fetchUser: (id: number) => Promise<void>;
+  updateUser: (data: UpdateUserPayload) => Promise<void>;
+  setUser: (user: User | null) => void;
+}
 
-// export const useUserStore = create<UserState>((set) => ({
-//   currentUser: null,
-//   isAuthenticated: false,
+export const useUserStore = create<UserState>((set, get) => ({
+  user: null,
 
-//   login: async (email, password) => {
-//     const user = await fetchUserByCredentials(email, password);
-//     if (!user) throw new Error("Invalid email or password");
-//     set({ currentUser: user, isAuthenticated: true });
-//   },
+  setUser: (user) => set({ user }),
 
-//   register: async (email, password, name) => {
-//     const newUser = await registerUser({ email, password, name });
-//     set({ currentUser: newUser, isAuthenticated: true });
-//   },
+  fetchUser: async (id) => {
+    const data = await userApi.getById(id);
+    set({ user: data });
+  },
 
-//   logout: () => set({ currentUser: null, isAuthenticated: false }),
-// }));
+  updateUser: async (data) => {
+    const current = get().user;
+    if (!current) return;
+    const updated = await userApi.update(current.id, data);
+    set({ user: updated });
+  },
+}));

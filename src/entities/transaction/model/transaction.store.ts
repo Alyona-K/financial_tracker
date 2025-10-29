@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { Transaction, TransactionFormData } from "./transaction.types";
-import { useAuthStore } from "@/entities/auth/model/auth.store";
+import { useUserStore } from "@/entities/user/model/user.store"; 
 import {
   getTransactions,
   createTransaction,
@@ -26,7 +26,7 @@ export const useTransactionsStore = create<TransactionsState>((set) => ({
   set({ isLoading: true });
   try {
     const data = await getTransactions();
-    const { user } = useAuthStore.getState();
+    const { user } = useUserStore.getState();
     const filtered = data.filter(tx => tx.userId === user?.id);
     set({ transactions: filtered });
   } catch (e) {

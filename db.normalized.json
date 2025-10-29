@@ -4,13 +4,23 @@
       "id": 1,
       "email": "demo@fintrack.com",
       "password": "$2b$10$lY3PXkQI0DeXtBVpQIAKGuT3D.as8w7rXp.T5lGQ72KcRfpC3hOVO",
-      "name": "Julia Bennett"
+      "firstName": "Julia",
+      "lastName": "Bennett",
+      "avatar": "/src/assets/images/avatar.png"
     },
     {
       "email": "demo2@email.com",
       "password": "$2a$10$Slcx/jctu/BcaU0iHjOB1.g33.vmnp/ojuwYtVvZ8nc/HrdcIIrfe",
-      "name": "Alex Robertson",
+      "firstName": "Alex",
+      "lastName": "Robertson",
       "id": 2
+    },
+    {
+      "email": "demo3@email.com",
+      "password": "$2a$10$PLN/vYp98ZgCKLB1DKK6Vuvn4RB16WMkCWWkeM9Mv1REShEtZ5z2m",
+      "firstName": "Ben",
+      "lastName": "Anderson",
+      "id": 3
     }
   ],
   "categories": [

@@ -6,13 +6,13 @@ import {
 } from "./transaction.api";
 import { Transaction } from "./transaction.types";
 import { api } from "@/shared/lib/api";
-import { useAuthStore } from "@/entities/auth/model/auth.store";
+import { useUserStore } from "@/entities/user/model/user.store";
 
 jest.mock("@/shared/lib/api");
-jest.mock("@/entities/auth/model/auth.store");
+jest.mock("@/entities/user/model/user.store");
 
 const mockedApi = api as jest.Mocked<typeof api>;
-const mockedAuthStore = useAuthStore as jest.Mocked<any>;
+const mockedAuthStore = useUserStore as jest.Mocked<any>;
 
 describe("transaction.api", () => {
   const mockTransaction: Transaction = {

@@ -1,9 +1,4 @@
-export interface User {
-  id: number;      // number, как в db.json
-  email: string;
-  name?: string;
-  avatar?: string;
-}
+import type { User } from "@/entities/user/model/user.types";
 
 export interface AuthResponse {
   accessToken: string; // <-- важно: json-server-auth возвращает accessToken
@@ -16,6 +11,6 @@ export interface LoginCredentials {
 }
 
 export interface RegisterCredentials extends LoginCredentials {
-  name?: string;
+  firstName: string;
+  lastName: string;
 }
-

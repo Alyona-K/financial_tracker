@@ -2,7 +2,8 @@ import { JSX, lazy, Suspense, useEffect, useState, useRef } from "react";
 import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { useAuthStore } from "@/entities/auth/model/auth.store";
-import { clearUserData } from "@/shared/lib/clearUserData"; // <--- добавляем
+import { useUserStore } from "@/entities/user/model/user.store";
+import { clearUserData } from "@/shared/lib/clearUserData"; 
 import { ROUTES } from "@/shared/config/routes";
 import Sidebar from "../shared/ui/Sidebar";
 import Topbar from "../shared/ui/Topbar";
@@ -17,6 +18,7 @@ const LazyTransactionsPage = lazy(() => import("../pages/transactions"));
 const LazyCategoriesPage = lazy(() => import("../pages/categories"));
 const LazyLoginPage = lazy(() => import("../pages/login"));
 const LazyRegisterPage = lazy(() => import("../pages/register"));
+const LazyUserProfilePage = lazy(() => import("../pages/profile"));
 
 function ProtectedRoute({ children }: { children: JSX.Element }) {
   const token = useAuthStore((s) => s.token);
@@ -66,6 +68,16 @@ function AppRoutes() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path={ROUTES.PROFILE}
+            element={
+              <ProtectedRoute>
+                <AnimatedPage>
+                  <LazyUserProfilePage />
+                </AnimatedPage>
+              </ProtectedRoute>
+            }
+          />
 
           <Route path={ROUTES.LOGIN} element={<LazyLoginPage />} />
           <Route path={ROUTES.REGISTER} element={<LazyRegisterPage />} />
@@ -82,7 +94,7 @@ function App() {
   const isAuthPage = authRoutes.includes(location.pathname);
 
   const initDemoUser = useAuthStore((s) => s.initDemoUser);
-  const user = useAuthStore((s) => s.user);
+  const user = useUserStore((s) => s.user);
   const [ready, setReady] = useState(false);
 
   const prevUserId = useRef<number | null>(null);
@@ -102,7 +114,7 @@ function App() {
     (async () => {
       if (!isAuthPage) {
         // если юзер не залогинен вручную
-        const { user } = useAuthStore.getState();
+        const { user } = useUserStore.getState();
         if (!user) {
           await initDemoUser(); // только тогда логин демо
         }
@@ -112,17 +124,6 @@ function App() {
       }
     })();
   }, [isAuthPage, initDemoUser]);
-  // useEffect(() => {
-  //   (async () => {
-  //     if (!isAuthPage) {
-  //       // сброс предыдущего пользователя
-  //       useAuthStore.getState().logout();
-  //       clearUserData();
-  //       await initDemoUser(); // сработает только если user еще не залогинен
-  //     }
-  //     setReady(true);
-  //   })();
-  // }, [isAuthPage, initDemoUser]);
 
   if (!ready && !isAuthPage) return <div>Loading user...</div>;
 
@@ -141,94 +142,3 @@ function App() {
 
 export default App;
 
-// function App() {
-//   const location = useLocation();
-//   const authRoutes = [ROUTES.LOGIN, ROUTES.REGISTER];
-//   const isAuthPage = authRoutes.includes(location.pathname);
-
-//   const initDemoUser = useAuthStore((s) => s.initDemoUser);
-//   const user = useAuthStore((s) => s.user);
-//   const [ready, setReady] = useState(false);
-
-//   // при изменении юзера очищаем данные
-//   const prevUserId = useRef<number | null>(null);
-
-//   useEffect(() => {
-//     if (user?.id !== prevUserId.current) {
-//       if (prevUserId.current !== null) {
-//         // если уже был залогинен кто-то — чистим данные
-//         clearUserData();
-//       }
-//       prevUserId.current = user?.id ?? null;
-//     }
-//   }, [user]);
-
-//   useEffect(() => {
-//     if (!isAuthPage) {
-//       (async () => {
-//         // очистка предыдущего пользователя, если есть
-//         useAuthStore.getState().logout();
-//         clearUserData();
-
-//         await initDemoUser();
-//         console.log(
-//           "Demo user initialized, token:",
-//           useAuthStore.getState().token
-//         );
-//         setReady(true);
-//       })();
-//     } else {
-//       setReady(true);
-//     }
-//   }, [isAuthPage]);
-
-//   if (!ready && !isAuthPage) return <div>Loading user...</div>;
-
-//   return (
-//     <div className="app">
-//       {!isAuthPage && <Sidebar />}
-//       <div className="app__content">
-//         {!isAuthPage && <Topbar />}
-//         <main>
-//           <AppRoutes />
-//         </main>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default App;
-
-//-------------
-
-//   useEffect(() => {
-//   if (!isAuthPage) {
-//     (async () => {
-//       await initDemoUser();
-//       console.log("Demo user initialized, token:", useAuthStore.getState().token);
-//       setReady(true);
-//     })();
-//   } else {
-//     setReady(true); // просто выставляем ready = true для /login и /register
-//   }
-// }, [isAuthPage]);
-
-//----------------
-
-//   useEffect(() => {
-//   (async () => {
-//     await initDemoUser(isAuthPage); // пропускаем демо для /login и /register
-//     console.log("Demo user initialized, token:", useAuthStore.getState().token);
-//     setReady(true);
-//   })();
-// }, [isAuthPage]);
-
-//--------------
-
-// useEffect(() => {
-//   (async () => {
-//     await initDemoUser();
-//     console.log("Demo user initialized, token:", useAuthStore.getState().token);
-//     setReady(true);
-//   })();
-// }, []);

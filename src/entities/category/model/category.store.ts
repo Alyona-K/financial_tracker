@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { Category } from "./category.types";
-import { useAuthStore } from "@/entities/auth/model/auth.store";
+import { useUserStore } from "@/entities/user/model/user.store"; 
 import {
   getCategories,
   createCategory,
@@ -26,7 +26,7 @@ export const useCategoriesStore = create<CategoriesState>((set) => ({
   set({ isLoading: true });
   try {
     const data = await getCategories();
-    const { user } = useAuthStore.getState();
+    const { user } = useUserStore.getState();
     const filtered = data.filter(cat => cat.userId === user?.id);
     set({ categories: filtered });
   } catch (e) {

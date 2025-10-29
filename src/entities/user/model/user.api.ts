@@ -1,24 +1,16 @@
-// import axios from "axios";
-// import { User } from "./user.types";
+import { api } from "@/shared/lib/api";
+import type { User, UpdateUserPayload } from "./user.types";
 
-// const API_URL = "http://localhost:3001/users";
+export const userApi = {
+  async getById(id: number): Promise<User> {
+    const { data } = await api.get(`/users/${id}`);
+    return data;
+  },
 
-// export const fetchUserByCredentials = async (
-//   email: string,
-//   password: string
-// ): Promise<User | null> => {
-//   const { data } = await axios.get<User[]>(
-//     `${API_URL}?email=${email}&password=${password}`
-//   );
-//   return data.length > 0 ? data[0] : null;
-// };
+  async update(id: number, payload: UpdateUserPayload): Promise<User> {
+    const { data } = await api.patch(`/users/${id}`, payload);
+    return data;
+  },
+};
 
-// export const registerUser = async (
-//   userData: Omit<User, "id">
-// ): Promise<User> => {
-//   const { data } = await axios.post<User>(API_URL, {
-//     ...userData,
-//     id: crypto.randomUUID(),
-//   });
-//   return data;
-// };
+

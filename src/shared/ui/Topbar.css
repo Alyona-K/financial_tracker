@@ -4,7 +4,7 @@
   justify-content: space-between;
   margin: 0 auto;
   padding: 24px 40px 24px 60px;
-  background-color: #fff;
+  background-color: #fbfcfe;
 }
 
 .topbar__users {
@@ -20,8 +20,8 @@
 }
 
 .topbar__icon {
-width: 20px;
-height: 20px;
+  width: 20px;
+  height: 20px;
 }
 
 .topbar__link {
@@ -89,4 +89,3 @@ height: 20px;
   color: #667085;
   outline: none;
 }
-

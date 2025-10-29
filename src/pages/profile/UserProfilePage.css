@@ -1,0 +1,7 @@
+.profile {
+      display: flex;
+      flex-direction: column;
+      gap: 130px;
+      padding: 0 0 0 20px;
+      margin: 0 auto 60px;
+}

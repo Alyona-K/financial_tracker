@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { WidgetCardData, WidgetCardType } from "./widget.types";
+import { WidgetCardData } from "./widget.types";
 import { useTransactionsStore } from "@/entities/transaction/model/transaction.store";
 
 type WidgetsState = {

@@ -1,6 +1,6 @@
 import { api } from "@/shared/lib/api";
 import { Category } from "./category.types";
-import { useAuthStore } from "@/entities/auth/model/auth.store";
+import { useUserStore } from "@/entities/user/model/user.store"; 
 
 export const getCategories = async (): Promise<Category[]> => {
   const { data } = await api.get<Category[]>("/categories");
@@ -8,7 +8,7 @@ export const getCategories = async (): Promise<Category[]> => {
 };
 
 export const createCategory = async (category: Omit<Category, "id">): Promise<Category> => {
-  const { user } = useAuthStore.getState();
+  const { user } = useUserStore.getState();
   if (!user) throw new Error("User not logged in");
 
   const { data } = await api.post<Category>("/categories", {

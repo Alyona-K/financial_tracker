@@ -1,23 +1,22 @@
 import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import TopbarSearch from "./TopbarSearch";
 import sprite from "@/assets/images/sprite.svg";
 import defaultAvatar from "@/assets/images/default_avatar.png";
 import { useNotificationsStore } from "@/shared/store/useNotificationsStore";
 import { useAuthStore } from "@/entities/auth/model/auth.store";
+import { useUserStore } from "@/entities/user/model/user.store";
 import ProfileDropdown from "@/entities/user/ui/ProfileDropdown";
-import { useNavigate } from "react-router-dom";
 import "./Topbar.css";
 
 function Topbar() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const user = useUserStore((s) => s.user);
+  const logout = useAuthStore((s) => s.logout);
   const notificationsCount = useNotificationsStore(
     (state) => state.notificationsCount
   );
-
-  const user = useAuthStore((s) => s.user);
-  const logout = useAuthStore((s) => s.logout);
-
-  const navigate = useNavigate();
-
   const [isProfileOpen, setProfileOpen] = useState(false);
 
   const DEMO_CREDENTIALS = { email: "demo@fintrack.com", password: "demo123" };
@@ -25,7 +24,7 @@ function Topbar() {
   const handleDemoLogin = async () => {
     try {
       await useAuthStore.getState().login(DEMO_CREDENTIALS);
-      navigate("/overview"); 
+      navigate("/overview");
     } catch (err) {
       console.error("Failed to login demo user:", err);
     }
@@ -36,8 +35,8 @@ function Topbar() {
     {
       label: "Change account",
       action: () => {
-        logout(); 
-        navigate("/login"); 
+        logout();
+        navigate("/login");
       },
     },
     { label: "Create new account", action: () => navigate("/register") },
@@ -71,7 +70,7 @@ function Topbar() {
             {user ? (
               <ProfileDropdown
                 avatarUrl={user.avatar || defaultAvatar}
-                userName={user.name}
+                userName={`${user.firstName} ${user.lastName}`}
                 options={PROFILE_OPTIONS}
                 isOpen={isProfileOpen}
                 onToggle={() => setProfileOpen(true)}
