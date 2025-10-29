@@ -6,7 +6,7 @@
       "password": "$2b$10$lY3PXkQI0DeXtBVpQIAKGuT3D.as8w7rXp.T5lGQ72KcRfpC3hOVO",
       "firstName": "Julia",
       "lastName": "Bennett",
-      "avatar": "/src/assets/images/avatar.png"
+      "avatar": "/assets/images/avatar.png"
     },
     {
       "email": "demo2@email.com",
