@@ -8,6 +8,7 @@ type EditableFieldProps = {
   value: string;
   field: keyof User;
   onSave: (field: keyof User, value: string) => Promise<void>;
+  readOnly?: boolean;
 };
 
 export function EditableField({
@@ -15,6 +16,7 @@ export function EditableField({
   value,
   field,
   onSave,
+  readOnly,
 }: EditableFieldProps) {
   const [editing, setEditing] = useState(false);
   const [inputValue, setInputValue] = useState(value);
@@ -53,22 +55,22 @@ export function EditableField({
       ) : (
         <div className="editable-field__value-wrap">
           <span className="editable-field__value">{value || "—"}</span>
-          <svg
-            className="editable-field__edit-icon"
-            onClick={() => setEditing(true)}
-            width={14}
-            height={13}
-            aria-hidden="true"
-          >
-            <use xlinkHref={`${sprite}#edit-icon`} />
-          </svg>
+          {!readOnly && (
+            <svg
+              className="editable-field__edit-icon"
+              onClick={() => setEditing(true)}
+              width={14}
+              height={13}
+              aria-hidden="true"
+            >
+              <use xlinkHref={`${sprite}#edit-icon`} />
+            </svg>
+          )}
         </div>
       )}
     </div>
   );
 }
-
-
 
 //--------------------------------
 

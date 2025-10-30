@@ -15,7 +15,6 @@
 
 .profile__banner-img {
   width: 100%;
-  
 }
 
 .profile__user {
@@ -36,6 +35,33 @@
   border-radius: 50%;
 }
 
+.profile__edit-btn {
+  cursor: pointer;
+  color: #667085;
+  transition: color 0.3s ease-in;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  background-color: #fff;
+  padding: 4px;
+  border-radius: 50%;
+  border: none;
+  box-shadow: 2px 2px 3px rgba(207, 208, 210, 1);
+  bottom: 40px;
+  right: 20px;
+}
+
+.profile__edit-btn:hover,
+.profile__edit-btn:focus-visible {
+  color: #282458;
+  outline: none;
+}
+
+.profile__edit-icon {
+  width: 20px;
+  height: 19px;
+}
+
 .profile__user-name {
   font-family: inherit;
   margin: 0;
@@ -44,4 +70,5 @@
   line-height: 26px;
   color: #282458;
   font-weight: 700;
+  pointer-events: none;
 }
