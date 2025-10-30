@@ -3,7 +3,7 @@
     {
       "id": 1,
       "email": "demo@fintrack.com",
-      "password": "$2b$10$lY3PXkQI0DeXtBVpQIAKGuT3D.as8w7rXp.T5lGQ72KcRfpC3hOVO",
+      "password": "$2a$10$25k.eB/5VvaE1wn1foA1tO4XZYU8uj4HsZlPTlq/OqUtE8d0wD4lq",
       "firstName": "Julia",
       "lastName": "Bennett",
       "avatar": "/images/avatar.png",
@@ -11,7 +11,7 @@
     },
     {
       "email": "demo2@email.com",
-      "password": "$2a$10$LQ/JIR31qD.1Avcb4WAai.gXwfJoPopiC20rO0dp9kMEX32ynUUr6",
+      "password": "$2a$10$X9KSBkATIQIWvUPkZGP4Merfiipjfj2EHzHgypHmxUm.8u6xrLkVC",
       "firstName": "Alex",
       "lastName": "Robertson",
       "id": 2,

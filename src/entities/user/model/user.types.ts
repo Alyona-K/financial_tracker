@@ -11,3 +11,5 @@ export interface User {
 export type UpdateUserPayload = Partial<
   Omit<User, "id" | "email"> // email обычно нельзя менять
 >;
+
+

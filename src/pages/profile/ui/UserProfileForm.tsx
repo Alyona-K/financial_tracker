@@ -78,7 +78,7 @@ const UserProfileForm = () => {
             user.id,
             newPassword
           );
-          setUser(updatedUser); // обновляем локально
+          setUser(updatedUser);
           setIsChangePasswordOpen(false);
           alert("Password updated successfully");
         }}
