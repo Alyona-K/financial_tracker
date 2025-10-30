@@ -21,11 +21,11 @@
 .profile__user {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 5px;
   align-items: center;
   position: absolute;
   transform: translate3d(-50%, 50%, 0);
-  top: 52%;
+  top: 50%;
   left: 50%;
 }
 

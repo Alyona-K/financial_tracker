@@ -1,0 +1,97 @@
+.editable-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background-color: transparent;
+  border: none;
+}
+
+.editable-field__input-wrapper {
+  position: relative;
+  display: flex;
+  margin: 0;
+}
+
+.editable-field__field {
+  background-color: transparent;
+  border: transparent;
+  padding: 5px;
+  transition: border 0.3s ease-in;
+}
+
+.editable-field__field:focus {
+  outline: none;
+  border: 1px solid #667085;
+  border-radius: 4px;
+}
+
+.editable-field__label {
+  font-family: inherit;
+  margin: 0;
+  padding: 0;
+  font-size: 18px;
+  line-height: 26px;
+  color: #282458;
+  font-weight: 700;
+}
+
+.editable-field__display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  justify-content: space-between;
+  background-color: transparent;
+  border: none;
+}
+
+.editable-field__value-wrap {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  gap: 15px;
+  align-items: center;
+}
+
+.editable-field__value {
+  font-family: inherit;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  line-height: 24px;
+  color: #667085;
+  font-weight: 500;
+}
+
+.editable-field__toggle {
+  display: flex;
+  align-items: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  transition: color 0.3s ease-in;
+  color: #667085;
+  position: absolute;
+  transform: translate3d(50%, -50%, 0);
+  top: 50%;
+  right: 15px;
+}
+
+.editable-field__toggle:hover,
+.editable-field__toggle:focus-visible {
+  color: #282458;
+  outline: none;
+}
+
+.editable-field__edit-icon {
+  cursor: pointer;
+  color: #667085;
+  transition: color 0.3s ease-in;
+}
+
+.editable-field__edit-icon:hover,
+.editable-field__edit-icon:focus-visible {
+  color: #282458;
+}

@@ -1,0 +1,14 @@
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  width: 540px;
+  padding: 30px 80px;
+  margin: 0 auto;
+  background-color: #fff;
+  border: 1px solid #d7d6f7;
+  border-radius: 8px;
+  box-shadow: 2px 2px 4px rgba(207, 208, 210, 1);
+}

@@ -6,14 +6,16 @@
       "password": "$2b$10$lY3PXkQI0DeXtBVpQIAKGuT3D.as8w7rXp.T5lGQ72KcRfpC3hOVO",
       "firstName": "Julia",
       "lastName": "Bennett",
-      "avatar": "/images/avatar.png"
+      "avatar": "/images/avatar.png",
+      "location": "Canada"
     },
     {
       "email": "demo2@email.com",
-      "password": "$2a$10$Slcx/jctu/BcaU0iHjOB1.g33.vmnp/ojuwYtVvZ8nc/HrdcIIrfe",
+      "password": "$2a$10$LQ/JIR31qD.1Avcb4WAai.gXwfJoPopiC20rO0dp9kMEX32ynUUr6",
       "firstName": "Alex",
       "lastName": "Robertson",
-      "id": 2
+      "id": 2,
+      "location": "USA"
     },
     {
       "email": "demo3@email.com",

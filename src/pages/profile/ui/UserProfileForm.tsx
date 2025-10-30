@@ -1,107 +1,89 @@
 import { useState } from "react";
-import Input from "@/shared/ui/Input";
-import Button from "@/shared/ui/Button";
 import { useUserStore } from "@/entities/user/model/user.store";
 import { userApi } from "@/entities/user/model/user.api";
-import type { UpdateUserPayload } from "@/entities/user/model/user.types";
+import { EditableField } from "@/shared/ui/EditableField";
+import ChangePasswordModal from "@/features/user/ui/ChangePasswordModal";
+import type { User, UpdateUserPayload } from "@/entities/user/model/user.types";
+import sprite from "@/assets/images/sprite.svg";
 import "./UserProfileForm.css";
 
 const UserProfileForm = () => {
   const user = useUserStore((s) => s.user);
+  const setUser = useUserStore((s) => s.setUser);
+  const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
 
-  // Начальные значения берем из стора, или пустые строки
-  const [form, setForm] = useState({
-    firstName: user?.firstName || "",
-    lastName: user?.lastName || "",
-    avatar: user?.avatar || "",
-    location: user?.location || "",
-    password: "",
-  });
+  if (!user) return <p>Loading user...</p>;
 
-  const [errors, setErrors] = useState<Partial<Record<keyof typeof form, string>>>({});
-  const [apiError, setApiError] = useState<string | null>(null);
-  const [isSaving, setIsSaving] = useState(false);
+  const handleSave = async (field: keyof User, value: string) => {
+    const payload: Partial<UpdateUserPayload> = { [field]: value };
 
-  const handleChange = (field: keyof typeof form, value: string) => {
-    setForm((prev) => ({ ...prev, [field]: value }));
-    setErrors((prev) => ({ ...prev, [field]: undefined }));
-    setApiError(null);
-  };
+    // если пароль — обрабатываем отдельно (только если непустой)
+    if (field === "password" && !value.trim()) return;
 
-  const validate = (): boolean => {
-    const newErrors: Partial<Record<keyof typeof form, string>> = {};
-    if (!form.firstName.trim()) newErrors.firstName = "First name is required";
-    if (!form.lastName.trim()) newErrors.lastName = "Last name is required";
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validate() || !user) return;
-
-    const payload: UpdateUserPayload = {
-      firstName: form.firstName,
-      lastName: form.lastName,
-      avatar: form.avatar,
-      location: form.location,
-      ...(form.password ? { password: form.password } : {}),
-    };
-
-    try {
-      setIsSaving(true);
-      const updatedUser = await userApi.update(user.id, payload);
-      useUserStore.getState().setUser(updatedUser);
-      setIsSaving(false);
-      alert("Profile updated successfully!");
-    } catch (err: any) {
-      setIsSaving(false);
-      setApiError(err.response?.data?.message || "Failed to update profile");
-    }
+    const updatedUser = await userApi.update(user.id, payload);
+    setUser(updatedUser);
   };
 
   return (
-    <form className="profile-form" onSubmit={handleSubmit}>
-      <Input
+    <div className="profile-form">
+      <EditableField
         label="First Name"
-        value={form.firstName}
-        onChange={(e) => handleChange("firstName", e.target.value)}
+        field="firstName"
+        value={user.firstName || ""}
+        onSave={handleSave}
       />
-      {errors.firstName && <span className="form-error">{errors.firstName}</span>}
 
-      <Input
+      <EditableField
         label="Last Name"
-        value={form.lastName}
-        onChange={(e) => handleChange("lastName", e.target.value)}
-      />
-      {errors.lastName && <span className="form-error">{errors.lastName}</span>}
-
-      <Input
-        label="Avatar URL"
-        value={form.avatar}
-        onChange={(e) => handleChange("avatar", e.target.value)}
+        field="lastName"
+        value={user.lastName || ""}
+        onSave={handleSave}
       />
 
-      <Input
+      <EditableField
+        label="Email"
+        field="email"
+        value={user.email || ""}
+        onSave={handleSave}
+      />
+
+      <div className="editable-field">
+        <span className="editable-field__label">Password:</span>
+        <div className="editable-field__value-wrap">
+          <span className="editable-field__value">••••••</span>
+          <svg
+            className="editable-field__edit-icon"
+            onClick={() => setIsChangePasswordOpen(true)}
+            width={14}
+            height={13}
+            aria-hidden="true"
+          >
+            <use xlinkHref={`${sprite}#edit-icon`} />
+          </svg>
+        </div>
+      </div>
+
+      <EditableField
         label="Location"
-        value={form.location}
-        onChange={(e) => handleChange("location", e.target.value)}
+        field="location"
+        value={user.location || ""}
+        onSave={handleSave}
       />
-
-      <Input
-        label="Password"
-        type="password"
-        value={form.password}
-        onChange={(e) => handleChange("password", e.target.value)}
-        placeholder="Leave empty to keep current"
+      <ChangePasswordModal
+        isOpen={isChangePasswordOpen}
+        onCancel={() => setIsChangePasswordOpen(false)}
+        onSave={async (_currentPassword, newPassword) => {
+          if (!user) return;
+          const updatedUser = await userApi.changePassword(
+            user.id,
+            newPassword
+          );
+          setUser(updatedUser); // обновляем локально
+          setIsChangePasswordOpen(false);
+          alert("Password updated successfully");
+        }}
       />
-
-      {apiError && <div className="form-error form-error--api">{apiError}</div>}
-
-      <Button type="submit" disabled={isSaving}>
-        {isSaving ? "Saving..." : "Save Changes"}
-      </Button>
-    </form>
+    </div>
   );
 };
 
