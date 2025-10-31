@@ -36,7 +36,8 @@
   font-weight: 500;
 }
 
-.add-edit-transaction-form__datepicker-input {
+.add-edit-transaction-form__datepicker-input,
+ .react-datepicker__input-container input{
   width: 100%;
   font-size: 14px;
   border-radius: 8px;
@@ -57,7 +58,7 @@
   top: 50%;
   right: 12px;
   transform: translateY(-50%);
-  cursor: pointer;
+  pointer-events: none;
   z-index: 2;
   color: #36373f;
 }

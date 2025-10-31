@@ -47,3 +47,24 @@
 .auth-form__error--api {
   bottom: 125px;
 }
+
+.auth-form__toggle {
+  display: flex;
+  align-items: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  transition: color 0.3s ease-in;
+  color: #667085;
+  position: absolute;
+  transform: translate3d(50%, -50%, 0);
+  top: 50%;
+  right: 20px;
+}
+
+.auth-form__toggle:hover,
+.auth-form__toggle:focus-visible {
+  color: #282458;
+  outline: none;
+}

@@ -5,10 +5,8 @@ import Welcome from "./ui/Welcome";
 import AddEditTransactionModal from "@/features/transaction/AddEditTransaction/ui/AddEditTransactionModal";
 import { FORM_MODE } from "@/shared/config/modes";
 import { useTransactionsStore } from "@/entities/transaction/model/transaction.store";
-import {
-  Transaction,
-  TransactionFormData,
-} from "@/entities/transaction/model/transaction.types";
+import { useUserStore } from "@/entities/user/model/user.store";
+import { TransactionFormData } from "@/entities/transaction/model/transaction.types";
 import { useNotificationsStore } from "@/shared/store/useNotificationsStore";
 
 function TransactionsPage() {
@@ -40,9 +38,13 @@ function TransactionsPage() {
   const [selectedTransaction, setSelectedTransaction] =
     useState<TransactionFormData | null>(null);
 
+  const user = useUserStore((s) => s.user);
+
   useEffect(() => {
-    fetchTransactions();
-  }, [fetchTransactions]);
+    if (user) {
+      fetchTransactions();
+    }
+  }, [user, fetchTransactions]);
 
   // обработчик, который передаем в Controls
   const handleDateRangeChange = (start: Date | null, end: Date | null) => {

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import TopbarSearch from "./TopbarSearch";
 import sprite from "@/assets/images/sprite.svg";
 import defaultAvatar from "@/assets/images/default_avatar.png";
@@ -10,7 +10,6 @@ import ProfileDropdown from "@/entities/user/ui/ProfileDropdown";
 import "./Topbar.css";
 
 function Topbar() {
-  const location = useLocation();
   const navigate = useNavigate();
   const user = useUserStore((s) => s.user);
   const logout = useAuthStore((s) => s.logout);
@@ -40,7 +39,14 @@ function Topbar() {
       },
     },
     { label: "Create new account", action: () => navigate("/register") },
-    { label: "Login demo", action: handleDemoLogin }, // новая кнопка
+    { label: "Login demo", action: handleDemoLogin },
+    {
+      label: "Log out",
+      action: () => {
+        logout();
+        navigate("/");
+      },
+    },
   ];
 
   return (
@@ -84,6 +90,9 @@ function Topbar() {
                 <a href="/register" className="topbar__auth-link">
                   <span className="topbar__auth-text">Register</span>
                 </a>
+                <button className="topbar__auth-link" onClick={handleDemoLogin}>
+                  <span className="topbar__auth-text">Log in as Demo</span>
+                </button>
               </div>
             )}
           </div>

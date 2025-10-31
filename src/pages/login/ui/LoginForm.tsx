@@ -2,11 +2,7 @@ import { useAuthStore } from "@/entities/auth/model/auth.store";
 import { clearUserData } from "@/shared/lib/clearUserData";
 import { useNavigate } from "react-router-dom";
 import AuthForm from "@/shared/ui/AuthForm";
-
-interface LoginFormData {
-  email: string;
-  password: string;
-}
+import { loginSchema, LoginFormData } from "@/entities/auth/validation";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -16,7 +12,10 @@ const LoginForm = () => {
 
   const handleLoginSubmit = async (form: LoginFormData) => {
     clearUserData();
-    await login(form);
+    await login({
+      email: form.email,
+      password: form.password,
+    });
     navigate("/overview");
   };
 
@@ -29,7 +28,6 @@ const LoginForm = () => {
           type: "email",
           placeholder: "Enter your email",
           required: true,
-          validator: (v) => (/\S+@\S+\.\S+/.test(v) ? null : "Invalid email"),
         },
         {
           name: "password",
@@ -37,11 +35,13 @@ const LoginForm = () => {
           placeholder: "Enter your password",
           type: "password",
           required: true,
-          validator: (v) =>
-            v.length >= 6 ? null : "Password must be at least 6 characters",
         },
       ]}
-      initialValues={{ email: "", password: "" }}
+      initialValues={{
+        email: "",
+        password: "",
+      }}
+      validationSchema={loginSchema}
       onSubmit={handleLoginSubmit}
       submitLabel="Log in"
       isLoading={isLoading}

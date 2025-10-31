@@ -8,10 +8,12 @@ interface AuthState {
   token: string | null;
   isLoading: boolean;
   error: string | null;
+  skipAutoLogin: boolean; // <--- новый флаг
 
   login: (credentials: LoginCredentials) => Promise<void>;
   register: (credentials: RegisterCredentials) => Promise<void>;
-  logout: () => void;
+  // logout: () => void;
+  logout: (fullClear?: boolean) => void;
   initDemoUser: (skipIfAuthPage?: boolean) => Promise<void>;
   refreshToken: () => Promise<void>; // новый метод для автологина
 }
@@ -27,6 +29,7 @@ export const useAuthStore = create<AuthState>()(
       token: null,
       isLoading: false,
       error: null,
+      skipAutoLogin: false,
 
       login: async (credentials) => {
         set({ isLoading: true, error: null });
@@ -64,17 +67,24 @@ export const useAuthStore = create<AuthState>()(
         }
       },
 
-      logout: () => {
-        set({ token: null });
+      logout: (fullClear = false) => {
+        set({ token: null, skipAutoLogin: true });
         useUserStore.getState().setUser(null);
+        if (fullClear) {
+          localStorage.removeItem("auth-storage");
+        }
       },
 
-      initDemoUser: async (skipIfAuthPage = false) => {
-        if (skipIfAuthPage) return;
-        try {
-          set({ token: null });
-          useUserStore.getState().setUser(null);
+      // logout: () => {
+      //   set({ token: null });
+      //   useUserStore.getState().setUser(null);
+      // },
 
+      initDemoUser: async (skipIfAuthPage = false) => {
+        const currentUser = useUserStore.getState().user;
+        if (skipIfAuthPage || currentUser) return;
+
+        try {
           const { accessToken, user } = await authApi.login(DEMO_CREDENTIALS);
           set({ token: accessToken });
           useUserStore.getState().setUser(user);
@@ -90,6 +100,3 @@ export const useAuthStore = create<AuthState>()(
     { name: "auth-storage" }
   )
 );
-
-
-

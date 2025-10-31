@@ -23,7 +23,8 @@ api.interceptors.response.use(
 
     if (
       error.response?.status === 401 &&
-      !originalRequest._retry // чтобы не зациклить
+      !originalRequest._retry &&
+      !authStore.skipAutoLogin // <-- здесь проверяем
     ) {
       originalRequest._retry = true;
       await authStore.refreshToken();
@@ -34,5 +35,3 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
-

@@ -3,12 +3,14 @@ import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { useAuthStore } from "@/entities/auth/model/auth.store";
 import { useUserStore } from "@/entities/user/model/user.store";
-import { clearUserData } from "@/shared/lib/clearUserData"; 
+import { useCategoriesStore } from "@/entities/category/model/category.store";
+import { useTransactionsStore } from "@/entities/transaction/model/transaction.store";
+import type { User } from "@/entities/user/model/user.types";
+import { clearUserData } from "@/shared/lib/clearUserData";
 import { ROUTES } from "@/shared/config/routes";
 import Sidebar from "../shared/ui/Sidebar";
 import Topbar from "../shared/ui/Topbar";
 import AnimatedPage from "../shared/ui/AnimatedPage";
-import "./DatePickerGlobal.css";
 import "./App.css";
 
 const LazyHomePage = lazy(() => import("../pages/home"));
@@ -99,29 +101,36 @@ function App() {
 
   const prevUserId = useRef<number | null>(null);
 
-  // очищаем сторы только при смене юзера
+  const isDemoUser = (u: User | null) => u?.email === "demo@fintrack.com";
+
+  // Очищаем сторы только при смене реального пользователя
   useEffect(() => {
     if (user?.id !== prevUserId.current) {
-      if (prevUserId.current !== null) {
+      if (prevUserId.current !== null && !isDemoUser(user)) {
         clearUserData();
       }
       prevUserId.current = user?.id ?? null;
+
+      if (user) {
+        // после смены — сразу подгружаем новые данные
+        const { fetchCategories } = useCategoriesStore.getState();
+        const { fetchTransactions } = useTransactionsStore.getState();
+        Promise.all([fetchCategories(), fetchTransactions()]);
+      }
     }
   }, [user]);
 
-  // инициализация демо пользователя
   useEffect(() => {
     (async () => {
       if (!isAuthPage) {
-        // если юзер не залогинен вручную
-        const { user } = useUserStore.getState();
-        if (!user) {
-          await initDemoUser(); // только тогда логин демо
+        const authStore = useAuthStore.getState();
+        const userStore = useUserStore.getState();
+
+        if (!authStore.token && !userStore.user) {
+          await initDemoUser(); // логиним демо при старте
         }
-        setReady(true);
-      } else {
-        setReady(true);
       }
+      setReady(true);
     })();
   }, [isAuthPage, initDemoUser]);
 
@@ -142,3 +151,48 @@ function App() {
 
 export default App;
 
+
+
+
+// очищаем сторы только при смене юзера
+// useEffect(() => {
+//   if (user?.id !== prevUserId.current) {
+//     if (prevUserId.current !== null) {
+//       clearUserData();
+//     }
+//     prevUserId.current = user?.id ?? null;
+//   }
+// }, [user]);
+
+// инициализация демо пользователя
+//   useEffect(() => {
+//   (async () => {
+//     if (!isAuthPage) {
+//       const authStore = useAuthStore.getState();
+//       const userStore = useUserStore.getState();
+
+//       if (!authStore.token && !userStore.user) {
+//         await initDemoUser();
+//       }
+//       setReady(true);
+//     } else {
+//       setReady(true);
+//     }
+//   })();
+// }, [isAuthPage, initDemoUser]);
+
+//---------------
+// useEffect(() => {
+//   (async () => {
+//     if (!isAuthPage) {
+//       // если юзер не залогинен вручную
+//       const { user } = useUserStore.getState();
+//       if (!user) {
+//         await initDemoUser(); // только тогда логин демо
+//       }
+//       setReady(true);
+//     } else {
+//       setReady(true);
+//     }
+//   })();
+// }, [isAuthPage, initDemoUser]);

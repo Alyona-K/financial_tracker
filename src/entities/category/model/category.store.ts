@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { Category } from "./category.types";
-import { useUserStore } from "@/entities/user/model/user.store"; 
+import { useUserStore } from "@/entities/user/model/user.store";
 import {
   getCategories,
   createCategory,
@@ -23,18 +23,28 @@ export const useCategoriesStore = create<CategoriesState>((set) => ({
   isLoading: false,
 
   fetchCategories: async () => {
-  set({ isLoading: true });
-  try {
-    const data = await getCategories();
-    const { user } = useUserStore.getState();
-    const filtered = data.filter(cat => cat.userId === user?.id);
-    set({ categories: filtered });
-  } catch (e) {
-    console.error("Error fetching categories:", e);
-  } finally {
-    set({ isLoading: false });
-  }
-},
+    set({ isLoading: true });
+    try {
+      const user = useUserStore.getState().user;
+      if (!user) {
+        console.warn("[CategoriesStore] No user, skipping fetchCategories");
+        set({ categories: [] });
+        return;
+      }
+
+      const data = await getCategories();
+      const filtered = data
+        .filter((cat) => cat.userId === user.id)
+        .sort((a, b) => a.name.localeCompare(b.name));
+
+      set({ categories: filtered });
+    } catch (e) {
+      console.error("Error fetching categories:", e);
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
   addCategory: async (category) => {
     set({ isLoading: true });
     try {
@@ -84,4 +94,3 @@ export const useCategoriesStore = create<CategoriesState>((set) => ({
 
   clearCategories: () => set({ categories: [] }),
 }));
-

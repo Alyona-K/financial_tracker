@@ -63,9 +63,13 @@
 
 .topbar__auth-link {
   position: relative;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
 }
 
-.topbar__auth-link:last-child::before {
+.topbar__auth-link:not(:first-child)::before {
   position: absolute;
   content: "";
   width: 1px;

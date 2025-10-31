@@ -2,13 +2,7 @@ import { useAuthStore } from "@/entities/auth/model/auth.store";
 import { clearUserData } from "@/shared/lib/clearUserData";
 import { useNavigate } from "react-router-dom";
 import AuthForm from "@/shared/ui/AuthForm";
-
-interface RegisterFormData {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-}
+import { registerSchema, RegisterFormData } from "@/entities/auth/validation";
 
 const RegisterForm = () => {
   const navigate = useNavigate();
@@ -17,9 +11,14 @@ const RegisterForm = () => {
   const apiError = useAuthStore((state) => state.error);
 
   const handleRegisterSubmit = async (form: RegisterFormData) => {
-    clearUserData(); // очистка стора
-    await register(form); // вызов стора
-    navigate("/overview"); // редирект
+    clearUserData();
+    await register({
+      firstName: form.firstName,
+      lastName: form.lastName,
+      email: form.email,
+      password: form.password,
+    });
+    navigate("/overview");
   };
   return (
     <AuthForm<RegisterFormData>
@@ -42,7 +41,6 @@ const RegisterForm = () => {
           placeholder: "Enter your email",
           type: "email",
           required: true,
-          validator: (v) => (/\S+@\S+\.\S+/.test(v) ? null : "Invalid email"),
         },
         {
           name: "password",
@@ -50,11 +48,23 @@ const RegisterForm = () => {
           placeholder: "Enter your password",
           type: "password",
           required: true,
-          validator: (v) =>
-            v.length >= 6 ? null : "Password must be at least 6 characters",
+        },
+        {
+          name: "confirmPassword",
+          label: "Confirm password",
+          placeholder: "Repeat your password",
+          type: "password",
+          required: true,
         },
       ]}
-      initialValues={{ firstName: "", lastName: "", email: "", password: "" }}
+      initialValues={{
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+      }}
+      validationSchema={registerSchema}
       onSubmit={handleRegisterSubmit}
       submitLabel="Register"
       isLoading={isLoading}

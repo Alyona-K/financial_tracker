@@ -9,6 +9,7 @@ function ProfileBanner() {
   const user = useUserStore((s) => s.user);
   const updateUser = useUserStore((s) => s.updateUser);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   const handleAvatarClick = () => {
     fileInputRef.current?.click();
@@ -18,15 +19,37 @@ function ProfileBanner() {
     const file = e.target.files?.[0];
     if (!file || !user) return;
 
-    // Создаём локальный URL для превью
-    const reader = new FileReader();
-    reader.onloadend = async () => {
-      const avatarUrl = reader.result as string;
+    try {
+      setIsUploading(true);
 
-      // Обновляем стор и через апи
+      // === 1. Формируем данные для Cloudinary ===
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "unsigned_upload"); // твой пресет
+      formData.append("folder", "fintrack/avatars");
+
+      // === 2. Отправляем на Cloudinary ===
+      const response = await fetch(
+        "https://api.cloudinary.com/v1_1/dlz6x4ygk/image/upload",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error?.message || "Upload failed");
+
+      // === 3. Берём короткий URL (secure_url) ===
+      const avatarUrl = data.secure_url;
+
+      // === 4. Сохраняем в стор и БД ===
       await updateUser({ avatar: avatarUrl });
-    };
-    reader.readAsDataURL(file);
+    } catch (err) {
+      console.error("Ошибка загрузки аватара:", err);
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   return (
@@ -51,6 +74,7 @@ function ProfileBanner() {
             className="profile__edit-btn"
             type="button"
             onClick={handleAvatarClick}
+            disabled={isUploading}
           >
             <svg
               className="profile__edit-icon"
@@ -71,6 +95,9 @@ function ProfileBanner() {
           <div className="profile__user-name">
             {user && [user.firstName, user.lastName].filter(Boolean).join(" ")}
           </div>
+          {isUploading && (
+            <div className="profile__uploading">Uploading...</div>
+          )}
         </div>
       </div>
     </section>

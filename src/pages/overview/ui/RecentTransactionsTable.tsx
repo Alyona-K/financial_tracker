@@ -1,14 +1,9 @@
-import { useEffect } from "react";
 import { useTransactionsStore } from "@/entities/transaction/model/transaction.store";
 import { RecentTransactionRow } from "@/entities/transaction/ui/RecentTransactionRow";
 import "./RecentTransactionsTable.css";
 
 export const RecentTransactionsTable = () => {
   const { transactions, isLoading } = useTransactionsStore();
-  // const { transactions, isLoading, fetchTransactions } = useTransactionsStore();
-  // useEffect(() => {
-  //   fetchTransactions();
-  // }, [fetchTransactions]);
 
   if (isLoading) {
     return (
@@ -42,7 +37,7 @@ export const RecentTransactionsTable = () => {
           key={t.id}
           date={t.date}
           description={t.description}
-          categoryId={t.categoryId} // передаем id
+          categoryId={t.categoryId}
           type={t.type}
           amount={t.amount}
         />

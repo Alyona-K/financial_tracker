@@ -11,6 +11,7 @@ import Dropdown from "@/shared/ui/Dropdown";
 import { TransactionFormData } from "@/entities/transaction/model/transaction.types";
 import { FORM_MODE } from "@/shared/config/modes";
 import "react-datepicker/dist/react-datepicker.css";
+import "@/shared/ui/DatePickerGlobal.css";
 import "./AddEditTransactionModal.css";
 
 registerLocale("en-GB", enGB);

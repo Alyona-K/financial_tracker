@@ -1,13 +1,3 @@
-/* Стили контейнера DatePicker */
-/* .react-datepicker-popper {
-  z-index: 10000;
-}
-.react-datepicker-wrapper {
-  width: 290px;
-  font-family: inherit;
-  z-index: 1000;
-} */
-
 /* Стили инпута */
 .range-datepicker__wrapper .react-datepicker__input-container input {
   width: 100%;
@@ -21,7 +11,7 @@
   transition: border 0.3s ease-in;
 }
 
-.react-datepicker__input-container input:hover {
+/* .react-datepicker__input-container input:hover {
   border: 1px solid #010316;
 }
 
@@ -31,39 +21,39 @@
 }
 
 /* Плейсхолдер */
-.react-datepicker__input-container input::placeholder {
+/* .react-datepicker__input-container input::placeholder {
   color: #667085;
-}
+} */
 
 /* Стили календаря */
-.react-datepicker {
+/* .react-datepicker {
   border: 1px solid #ddd;
   border-radius: 10px;
   padding: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   
-}
+} */
 
 /* Заголовок месяца */
-.react-datepicker__current-month {
+/* .react-datepicker__current-month {
   font-weight: 600;
   font-size: 16px;
   color: #222;
-}
+} */
 
 /* Кнопки */
-.react-datepicker__navigation-icon::before {
+/* .react-datepicker__navigation-icon::before {
   border-color: #555;
-}
+} */
 
 /* Выбранная дата */
-.react-datepicker__day--selected,
+/* .react-datepicker__day--selected,
 .react-datepicker__day--in-selecting-range,
 .react-datepicker__day--in-range {
   background-color: #4f46e5;
   color: #fff;
   border-radius: 50%;
-}
+} */
 
 .datepicker__calendar-icon {
   position: absolute;
@@ -94,10 +84,10 @@
   opacity: 1;
 }
 
-.react-datepicker__close-icon {
+/* .react-datepicker__close-icon {
   display: none;
 }
 
 .react-datepicker__navigation-icon {
   top: 11px;
-}
+} */

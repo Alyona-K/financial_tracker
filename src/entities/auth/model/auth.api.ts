@@ -1,5 +1,9 @@
 import { api } from "@/shared/lib/api";
-import { AuthResponse, LoginCredentials, RegisterCredentials } from "./auth.types";
+import {
+  AuthResponse,
+  LoginCredentials,
+  RegisterCredentials,
+} from "./auth.types";
 import { useUserStore } from "@/entities/user/model/user.store";
 
 export const authApi = {
@@ -21,7 +25,3 @@ export const authApi = {
     return user;
   },
 };
-
-
-
-

@@ -128,25 +128,25 @@ export function EditableField({
 //             onBlur={handleSave}
 //             onKeyDown={(e) => e.key === "Enter" && handleSave()}
 //           />
-//           {isPassword && (
-//             <button
-//               type="button"
-//               className="editable-field__toggle"
-//               onMouseDown={(e) => e.preventDefault()} // не теряем фокус
-//               onClick={() => setShowPassword((prev) => !prev)}
-//             >
-//               <svg
-//                 className="editable-field__show-icon"
-//                 width={16}
-//                 height={16}
-//                 aria-hidden="true"
-//               >
-//                 <use
-//                   xlinkHref={`${sprite}#${showPassword ? "eye-off-icon" : "eye-icon"}`}
-//                 />
-//               </svg>
-//             </button>
-//           )}
+          // {isPassword && (
+          //   <button
+          //     type="button"
+          //     className="editable-field__toggle"
+          //     onMouseDown={(e) => e.preventDefault()} // не теряем фокус
+          //     onClick={() => setShowPassword((prev) => !prev)}
+          //   >
+          //     <svg
+          //       className="editable-field__show-icon"
+          //       width={16}
+          //       height={16}
+          //       aria-hidden="true"
+          //     >
+          //       <use
+          //         xlinkHref={`${sprite}#${showPassword ? "eye-off-icon" : "eye-icon"}`}
+          //       />
+          //     </svg>
+          //   </button>
+          // )}
 //         </span>
 //       ) : (
 //         <div className="editable-field__value-wrap">
