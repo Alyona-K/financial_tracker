@@ -161,6 +161,13 @@
       "name": "Daily care",
       "type": "Expenses",
       "userId": 1
+    },
+    {
+      "id": "212b5246-d087-42fb-92cb-a5345b3348ca",
+      "name": "aa",
+      "type": "Income",
+      "userId": 3,
+      "isDeleted": true
     }
   ],
   "transactions": [

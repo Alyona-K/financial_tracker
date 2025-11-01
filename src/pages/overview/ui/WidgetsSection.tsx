@@ -1,14 +1,12 @@
-import { useState } from "react";
 import { WidgetCard } from "@/shared/ui/WidgetCard";
-import { useWidgetsData } from "@/shared/hooks/useWidgetsData";
+import { useWidgetsStore } from "@/entities/widget/model/widget.store";
 import "./WidgetsSection.css";
 
 export const WidgetsSection = () => {
-  const { widgets } = useWidgetsData();
-  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const { widgets, openMenuId, setOpenMenuId } = useWidgetsStore();
 
   const handleToggleMenu = (id: string) => {
-    setOpenMenuId((prev) => (prev === id ? null : id));
+    setOpenMenuId(openMenuId === id ? null : id);
   };
 
   return (
