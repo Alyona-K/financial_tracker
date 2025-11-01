@@ -1,0 +1,55 @@
+@use "@/shared/styles/variables" as *;
+
+.btn {
+  width: 100%;
+  padding: 12px;
+  background-color: $color-black;
+  border-radius: 8px;
+  border: 1px solid $color-black;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19.6px;
+  justify-content: center;
+  transition:
+    background-color 0.3s ease-in-out,
+    border 0.3s ease-in-out;
+  color: $color-white;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $color-blue-zodiac;
+    border: 1px solid $color-blue-zodiac;
+  }
+
+  /* sizes */
+  &--small {
+    padding: 7px 12px;
+    font-size: 14px;
+    width: 80px;
+  }
+  &--medium {
+    padding: 7px 16px;
+    font-size: 14px;
+    width: 100px;
+  }
+  &--large {
+    padding: 12px 20px;
+    font-size: 16px;
+    width: 300px;
+  }
+
+  /* variants */
+  &--delete {
+    background-color: $color-pacific-blue;
+    border: 1px solid $color-pacific-blue;
+    transition:
+      background-color 0.3s ease-in,
+      border 0.3s ease-in;
+  }
+  &--delete:hover {
+    background-color: $color-free-speech-red;
+    border: 1px solid $color-free-speech-red;
+  }
+}

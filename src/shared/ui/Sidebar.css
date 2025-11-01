@@ -90,7 +90,7 @@
 .sidebar__subitem-text {
   color: #667085;
   font-family: inherit;
-  font-size: 14;
+  font-size: 16px;
   transition:
     font-weight ease-out 0.3s,
     color ease-out 0.3s;
