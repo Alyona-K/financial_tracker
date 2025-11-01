@@ -155,6 +155,12 @@
       "type": "Expenses",
       "userId": 2,
       "isDeleted": true
+    },
+    {
+      "id": "0bc5cb4c-6954-4590-8b75-8c0620239b05",
+      "name": "Daily care",
+      "type": "Expenses",
+      "userId": 1
     }
   ],
   "transactions": [
@@ -542,7 +548,7 @@
       "categoryId": "salary",
       "type": "Income",
       "amount": 1500,
-      "description": "October Salary (upcoming)",
+      "description": "October Salary",
       "userId": 1
     },
     {
@@ -733,6 +739,51 @@
       "amount": 280,
       "userId": 2,
       "description": "Products"
+    },
+    {
+      "date": "2025-11-01",
+      "categoryId": "0bc5cb4c-6954-4590-8b75-8c0620239b05",
+      "type": "Expenses",
+      "amount": 30,
+      "description": "Skincare products",
+      "userId": 1,
+      "id": "-_ey_7A"
+    },
+    {
+      "date": "2025-11-02",
+      "categoryId": "food-groceries",
+      "type": "Expenses",
+      "amount": 150,
+      "description": "Products",
+      "userId": 1,
+      "id": "AuWShi-"
+    },
+    {
+      "date": "2025-11-05",
+      "categoryId": "817a62d7-ec60-40c8-ac27-0c3c59d60e9e",
+      "type": "Income",
+      "amount": 1100,
+      "description": "October salary",
+      "userId": 2,
+      "id": "16AeVNw"
+    },
+    {
+      "date": "2025-11-02",
+      "categoryId": "d462cb3d-2b6b-419c-8d74-e557818b1fa9",
+      "type": "Expenses",
+      "amount": 150,
+      "description": "Products",
+      "userId": 2,
+      "id": "FIeDPE8"
+    },
+    {
+      "date": "2025-11-01",
+      "categoryId": "78a376b2-c18d-439d-84bf-ae7725646b20",
+      "type": "Income",
+      "amount": 30,
+      "description": "Bonus",
+      "userId": 2,
+      "id": "nKzSPP-"
     }
   ]
 }

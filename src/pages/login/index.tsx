@@ -1,5 +1,5 @@
 import LoginForm from "./ui/LoginForm";
-import Welcome from "./ui/Welcome";
+import { AuthWelcome } from "@/shared/ui/AuthWelcome";
 import "./LoginPage.css";
 
 const LoginPage = () => {
@@ -7,7 +7,10 @@ const LoginPage = () => {
     <section className="auth-page">
       <div className="container">
         <div className="auth-page__wrap">
-          <Welcome />
+          <AuthWelcome
+            title="Sign in to Your Account"
+            text="Welcome back! Log in to unlock exclusive features tailored to your financial needs."
+          />
           <LoginForm />
         </div>
       </div>

@@ -1,5 +1,5 @@
 import RegisterForm from "./ui/RegisterForm";
-import Welcome from "./ui/Welcome";
+import { AuthWelcome } from "@/shared/ui/AuthWelcome";
 import "./RegisterPage.css";
 
 const RegisterPage = () => {
@@ -7,7 +7,10 @@ const RegisterPage = () => {
     <section className="auth-page">
       <div className="auth-page__container">
         <div className="auth-page__wrap">
-          <Welcome />
+          <AuthWelcome
+            title="Create Your Account"
+            text="Join FinTrack today! Sign up to manage your finances and track your transactions seamlessly."
+          />
           <RegisterForm />
         </div>
       </div>
