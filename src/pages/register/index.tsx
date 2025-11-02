@@ -1,6 +1,6 @@
 import RegisterForm from "./ui/RegisterForm";
 import { AuthWelcome } from "@/shared/ui/AuthWelcome";
-import "./RegisterPage.css";
+import "./RegisterPage.scss";
 
 const RegisterPage = () => {
   return (

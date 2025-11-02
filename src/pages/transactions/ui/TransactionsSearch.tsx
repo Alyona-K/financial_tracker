@@ -1,6 +1,6 @@
 import React from "react";
 import Input from "@/shared/ui/Input";
-import "./TransactionsSearch.css";
+import "./TransactionsSearch.scss";
 
 type TransactionsSearchProps = {
   value: string;

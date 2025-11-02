@@ -1,0 +1,10 @@
+.app {
+  display: grid;
+  max-width: 100%;
+
+  &__content {
+    margin-left: 360px;
+    display: flex;
+    flex-direction: column;
+  }
+}

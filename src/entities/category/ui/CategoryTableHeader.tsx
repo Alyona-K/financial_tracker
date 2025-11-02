@@ -1,4 +1,4 @@
-import "./CategoryTableHeader.css";
+import "./CategoryTableHeader.scss";
 
 const CategoryTableHeader = () => {
   return (

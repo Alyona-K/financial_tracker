@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import sprite from "@/assets/images/sprite.svg";
-import "./ProfileDropdown.css";
+import "./ProfileDropdown.scss";
 
 interface ProfileOption {
   label: string;

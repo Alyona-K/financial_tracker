@@ -1,5 +1,5 @@
 import notFoundImg from "@/assets/images/404.png"; 
-import "./NotFound.css";
+import "./NotFound.scss";
 
 const NotFound = () => {
   return (

@@ -1,6 +1,6 @@
 import ProfileBanner from "./ui/ProfileBanner";
 import UserProfileForm from "@/pages/profile/ui/UserProfileForm";
-import "./UserProfilePage.css";
+import "./UserProfilePage.scss";
 
 function UserProfilePage() {
   return (

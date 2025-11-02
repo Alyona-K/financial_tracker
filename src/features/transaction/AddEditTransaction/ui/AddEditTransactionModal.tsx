@@ -12,7 +12,7 @@ import { TransactionFormData } from "@/entities/transaction/model/transaction.ty
 import { FORM_MODE } from "@/shared/config/modes";
 import "react-datepicker/dist/react-datepicker.css";
 import "@/shared/ui/DatePickerGlobal.css";
-import "./AddEditTransactionModal.css";
+import "./AddEditTransactionModal.scss";
 
 registerLocale("en-GB", enGB);
 

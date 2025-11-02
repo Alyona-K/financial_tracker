@@ -1,3 +1,13 @@
-.input-wrapper {
-   width: 340px;
+@use "@/shared/styles/variables" as *;
+
+.topbar {
+  &__input-wrapper {
+    width: 300px;
+  }
+
+  &__search-icon {
+    width: 22px;
+    height: 22px;
+    color: $color-grey-suit;
+  }
 }

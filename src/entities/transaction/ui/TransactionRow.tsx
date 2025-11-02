@@ -5,12 +5,11 @@ import { formatDate } from "@/shared/lib/formatDate";
 import { TYPE_COLORS } from "@/shared/config/colors";
 import { useCategoriesStore } from "@/entities/category/model/category.store";
 import ConfirmModal from "@/shared/ui/ConfirmModal";
-import "./TransactionRow.css";
+import "./TransactionRow.scss";
 
 type TransactionRowProps = {
   date: string;
   description: string;
-  // categoryId: string; // теперь только id
   categoryName: string;
   type: "Income" | "Expenses";
   amount: number;
@@ -18,7 +17,6 @@ type TransactionRowProps = {
   onEdit?: (transaction: {
     date: string;
     description: string;
-    // categoryId: string;
     categoryName: string;
     type: "Income" | "Expenses";
     amount: number;
@@ -45,7 +43,7 @@ export const TransactionRow: React.FC<TransactionRowProps> = ({
 }) => {
   const { categories } = useCategoriesStore();
 
-  // ищем название категории по id
+  // ищем название категории
   const category = categoryName;
 
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);

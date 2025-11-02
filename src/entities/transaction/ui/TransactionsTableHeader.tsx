@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Transaction } from "@/entities/transaction/model/transaction.types";
 import sprite from "@/assets/images/sprite.svg";
 import Dropdown from "@/shared/ui/Dropdown";
-import "./TransactionsTableHeader.css";
+import "./TransactionsTableHeader.scss";
 
 type TransactionsTableHeaderProps = {
   onSort: (field: keyof Transaction, direction: "asc" | "desc") => void;

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Welcome from "./ui/Welcome";
+import { SectionHeader } from "@/shared/ui/SectionHeader";
 import WidgetsSection from "@/pages/overview/ui/WidgetsSection";
 import AnalyticsSection from "./ui/AnalyticsSection";
 import RecentTransactions from "./ui/RecentTransactions";
@@ -10,8 +10,11 @@ import { useTransactionsStore } from "@/entities/transaction/model/transaction.s
 import { useNotificationsStore } from "@/shared/store/useNotificationsStore";
 import { useWidgetsStore } from "@/entities/widget/model/widget.store";
 import { useWidgetsData } from "@/shared/hooks/useWidgetsData";
+import { useUserStore } from "@/entities/user/model/user.store";
 
 function OverviewPage() {
+  const user = useUserStore((s) => s.user);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { addTransaction } = useTransactionsStore();
@@ -45,7 +48,10 @@ function OverviewPage() {
   return (
     <section className="overview">
       <div className="container">
-        <Welcome />
+        <SectionHeader
+          title={`Welcome, ${user?.firstName ?? "Guest"}!`}
+          text="This dashboard provides a personalized overview of your financial well-being and allows you to easily access key features of FinTrack."
+        />
         <WidgetsSection />
         <AnalyticsSection />
         <RecentTransactions onAddClick={handleOpenModal} />

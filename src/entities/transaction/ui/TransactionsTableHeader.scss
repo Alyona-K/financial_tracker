@@ -1,0 +1,101 @@
+@use "@/shared/styles/variables" as *;
+
+.transactions-table {
+  &__header {
+    display: grid;
+    grid-template-columns: 110px 150px 145px 110px 125px 1fr;
+    background-color: $color-black-pearl;
+    color: $color-white;
+    margin: 0 0 12px;
+    padding: 17px 13px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    width: 900px;
+  }
+
+  &__cell {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    position: relative;
+    padding: 0 2px 0 0;
+  }
+
+  &__cell:not(:first-child) {
+    padding: 0 2px 0 15px;
+  }
+
+  &__cell:nth-child(n + 2)::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 25px;
+    background-color: $color-white;
+  }
+
+  &__cell-name {
+    font-family: inherit;
+    font-size: 18px;
+    line-height: 20px;
+  }
+
+  &__btn {
+    display: flex;
+    background-color: transparent;
+    border: unset;
+    padding: 0;
+    margin: 0;
+    align-items: center;
+    cursor: pointer;
+    color: $color-white;
+    transition: color $transition-300;
+  }
+
+  &__btn:hover {
+    color: $color-colombia-blue;
+  }
+
+  &__select {
+    display: flex;
+    appearance: none;
+    padding: 0;
+    font-family: inherit;
+    font-size: 18px;
+    line-height: 20px;
+    border: none;
+    outline: none;
+    color: #fff;
+    background-color: transparent;
+    cursor: pointer;
+    width: 130px;
+    height: 30px;
+  }
+
+  &__select option[disabled] {
+    font-weight: bold;
+    color: #555;
+  }
+
+  &__select option {
+    padding: 4px;
+    font-weight: normal;
+    color: $color-black-russian;
+    font-size: 13px;
+  }
+
+  &__icon {
+    transition: transform 0.2s ease;
+  }
+
+  &__icon.asc {
+    transform: scaleY(-1);
+  }
+
+  &__icon.desc {
+    transform: scaleY(1);
+  }
+}

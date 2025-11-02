@@ -1,6 +1,6 @@
 import { useTransactionsStore } from "@/entities/transaction/model/transaction.store";
 import { RecentTransactionRow } from "@/entities/transaction/ui/RecentTransactionRow";
-import "./RecentTransactionsTable.css";
+import "./RecentTransactionsTable.scss";
 
 export const RecentTransactionsTable = () => {
   const { transactions, isLoading } = useTransactionsStore();
@@ -10,7 +10,7 @@ export const RecentTransactionsTable = () => {
       <div className="recent-transactions-table__loading">
         Loading transactions...
       </div>
-    ); // сюда можно потом вставить спиннер или скелетон
+    ); 
   }
 
   if (transactions.length === 0) {

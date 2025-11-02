@@ -1,6 +1,6 @@
 import LoginForm from "./ui/LoginForm";
 import { AuthWelcome } from "@/shared/ui/AuthWelcome";
-import "./LoginPage.css";
+import "./LoginPage.scss";
 
 const LoginPage = () => {
   return (

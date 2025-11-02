@@ -1,0 +1,13 @@
+.transactions-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+  gap: 30px;
+  margin: 0 0 15px;
+
+  &__dates {
+    display: flex;
+    position: relative;
+  }
+}

@@ -1,5 +1,5 @@
 import Banner from "./ui/Banner";
-import "./HomePage.css";
+import "./HomePage.scss";
 
 function HomePage() {
   return (

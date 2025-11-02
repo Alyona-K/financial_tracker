@@ -14,7 +14,7 @@ import {
   filterTransactionsByCategory,
   filterTransactionsByType,
 } from "@/shared/lib/transactions";
-import "./TransactionsTable.css";
+import "./TransactionsTable.scss";
 
 type TransactionsTableProps = {
   searchQuery: string;

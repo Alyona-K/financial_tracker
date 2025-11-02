@@ -141,7 +141,17 @@ export const WidgetCard: React.FC<WidgetCardProps> = ({
           </div>
         )}
 
-        <span className="widget-card__change">{change}</span>
+        <span
+          className={`widget-card__change ${
+            changePercent > 0
+              ? "widget-card__change--income"
+              : changePercent < 0
+                ? "widget-card__change--expenses"
+                : ""
+          }`}
+        >
+          {change}
+        </span>
       </div>
     </div>
   );

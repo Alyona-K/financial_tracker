@@ -1,6 +1,6 @@
 import { WidgetCard } from "@/shared/ui/WidgetCard";
 import { useWidgetsStore } from "@/entities/widget/model/widget.store";
-import "./WidgetsSection.css";
+import "./WidgetsSection.scss";
 
 export const WidgetsSection = () => {
   const { widgets, openMenuId, setOpenMenuId } = useWidgetsStore();

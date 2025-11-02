@@ -7,12 +7,13 @@ const TopbarSearch: React.FC = () => {
 
   return (
     <div className="topbar__search">
-      <div className="input-wrapper">
+      <div className="topbar__input-wrapper">
         <Input
           placeholder="Search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           icon="search-icon"
+          iconClassName="topbar__search-icon"
         />
       </div>
     </div>

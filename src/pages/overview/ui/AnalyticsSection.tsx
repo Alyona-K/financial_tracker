@@ -12,7 +12,7 @@ import {
 } from "recharts";
 import Dropdown from "@/shared/ui/Dropdown";
 import { parseDate } from "@/shared/lib/parseDate";
-import "./AnalyticsSection.css";
+import "./AnalyticsSection.scss";
 
 const AnalyticsSection = () => {
   const { transactions, fetchTransactions } = useTransactionsStore();

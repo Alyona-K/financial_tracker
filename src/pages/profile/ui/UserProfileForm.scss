@@ -1,3 +1,5 @@
+@use "@/shared/styles/variables" as *;
+
 .profile-form {
   display: flex;
   flex-direction: column;
@@ -7,8 +9,8 @@
   width: 540px;
   padding: 30px 80px;
   margin: 0 auto;
-  background-color: #fff;
-  border: 1px solid #d7d6f7;
+  background-color: $color-white;
+  border: 1px solid $color-quartz;
   border-radius: 8px;
-  box-shadow: 2px 2px 4px rgba(207, 208, 210, 1);
+  box-shadow: 2px 2px 4px $color-link-water;
 }

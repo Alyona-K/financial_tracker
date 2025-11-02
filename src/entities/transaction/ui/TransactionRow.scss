@@ -1,0 +1,34 @@
+@use "@/shared/styles/variables" as *;
+
+.transaction-row {
+  display: grid;
+  grid-template-columns: 110px 150px 145px 110px 125px 1fr;
+  background-color: $color-white;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px $color-portage-40;
+  width: 900px;
+  margin: 0 0 12px;
+  padding: 17px 13px;
+  align-items: center;
+
+  &__cell {
+    font-family: inherit;
+    font-size: 14px;
+    color: $color-paua;
+    padding: 0;
+  }
+
+  &__cell:not(:first-child) {
+    padding: 0 0 0 11px;
+  }
+
+  &__cell--btns {
+    display: flex;
+    gap: 10px;
+  }
+
+  &__deleted {
+    color: $color-dark-gray;
+    font-style: italic;
+  }
+}

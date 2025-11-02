@@ -1,0 +1,24 @@
+@use "@/shared/styles/variables" as *;
+
+.category-row {
+  display: grid;
+  grid-template-columns: 290px 1fr 290px;
+  background-color: $color-white;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px $color-portage-40;
+  width: 800px;
+  margin: 0 0 12px;
+  padding: 14px 30px;
+  align-items: center;
+
+  &__cell {
+    font-family: inherit;
+    font-size: 16px;
+    color: $color-paua;
+  }
+
+  &__cell--btns {
+    display: flex;
+    gap: 15px;
+  }
+}

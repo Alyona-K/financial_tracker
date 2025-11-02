@@ -1,0 +1,31 @@
+@use "@/shared/styles/variables" as *;
+
+.category-table-header {
+  display: grid;
+  grid-template-columns: 290px 1fr 290px;
+  background-color: $color-black-pearl;
+  color: $color-white;
+  margin: 0 0 12px;
+  padding: 17px 30px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  width: 800px;
+
+  &__cell {
+    font-family: inherit;
+    font-size: 18px;
+    line-height: 20px;
+    position: relative;
+  }
+
+  &__cell:nth-child(n + 2)::before {
+    content: "";
+    position: absolute;
+    left: -11px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 25px;
+    background-color: $color-white;
+  }
+}

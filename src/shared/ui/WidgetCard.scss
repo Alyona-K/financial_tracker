@@ -57,8 +57,19 @@
   &__change {
     font-size: 12px;
     line-height: 14px;
+    border-radius: 16px;
+    padding: 4px 12px;
     margin: 0;
-    padding: 0;
+
+    &--income {
+      color: $color-malachite;
+      background-color: $color-malachite-15;
+    }
+
+    &--expenses {
+      color: $color-red-orange;
+      background-color: $color-red-orange-15;
+    }
   }
 
   &__menu-dropdown {
@@ -72,7 +83,7 @@
     background-color: $color-white;
     padding: 10px;
     border: 1px solid $color-quartz;
-    box-shadow: 2px 2px 2px rgba(207, 208, 210, 1);
+    box-shadow: 2px 2px 2px $color-link-water;
     border-radius: 4px;
 
     opacity: 0;
@@ -102,10 +113,25 @@
     font-weight: 500;
     cursor: pointer;
     padding: 4px;
-    transition: color 0.3s ease-in;
+    transition: color $transition-300;
   }
 
   &__menu-dropdown-btn:hover {
     color: $color-black-pearl;
+  }
+
+  &--income &__icon {
+    background-color: $color-dodger-blue-20;
+    border-radius: 50%;
+  }
+
+  &--expenses &__icon {
+    background-color: $color-red-20;
+    border-radius: 50%;
+  }
+
+  &--balance &__icon {
+    background-color: $color-dark-tangerine-20;
+    border-radius: 50%;
   }
 }

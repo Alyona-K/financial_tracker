@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Button from "@/shared/ui/Button";
 import ConfirmModal from "@/shared/ui/ConfirmModal";
 import { useCategoriesStore } from "@/entities/category/model/category.store";
-import "./CategoryRow.css";
+import "./CategoryRow.scss";
 
 type CategoryRowProps = {
   categoryId: string; // теперь только id

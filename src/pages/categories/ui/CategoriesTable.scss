@@ -1,10 +1,12 @@
+@use "@/shared/styles/variables" as *;
+
 .categories-table {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #fff;
-  border: 1px solid #d7d6f7;
+  background-color: $color-white;
+  border: 1px solid $color-quartz;
   border-radius: 8px;
   padding: 30px;
   margin: 0 auto 40px;

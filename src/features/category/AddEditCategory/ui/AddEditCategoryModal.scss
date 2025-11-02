@@ -1,0 +1,92 @@
+@use "@/shared/styles/variables" as *;
+
+.add-edit-category-form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin: 0 auto 25px;
+  padding: 0;
+  width: 400px;
+
+  &__name,
+  &__type {
+    position: relative;
+  }
+
+  &__dropdown-btn {
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid $color-link-water;
+    padding: 12px 16px;
+    background-color: $color-alice-blue;
+    color: $color-black-russian;
+    height: 42px;
+    transition:
+      border $transition-300,
+      color $transition-300;
+  }
+
+  &__dropdown-btn:hover {
+    border: 1px solid $color-black-russian;
+    color: $color-east-bay;
+  }
+
+  &__dropdown-label,
+  &__name-label {
+    position: absolute;
+    left: 0;
+    top: -23px;
+    font-family: inherit;
+    color: $color-black-russian;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  &__dropdown-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    width: 100%;
+    background-color: $color-alice-blue;
+  }
+
+  &__dropdown-item {
+    color: $color-paua;
+    transition:
+      background-color 0.3s ease-in-out,
+      color 0.3s ease-in-out;
+  }
+
+  &__dropdown-item:hover {
+    color: $color-white;
+    background-color: $color-manatee;
+  }
+
+  &__name-field {
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid $color-link-water;
+    padding: 12px 16px;
+    background-color: $color-alice-blue;
+    color: $color-black-russian;
+    height: 42px;
+    width: 100%;
+    transition: border $transition-300;
+  }
+
+  &__name-field:hover {
+    border: 1px solid $color-black-russian;
+  }
+
+  &__form-error {
+    color: $color-red;
+    font-size: 10px;
+    line-height: 12px;
+    margin: 0;
+    padding: 0;
+    display: block;
+    position: absolute;
+  }
+}

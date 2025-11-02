@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import TransactionsTable from "./ui/TransactionsTable";
 import TransactionsControls from "./ui/TransactionsControls";
-import Welcome from "./ui/Welcome";
+// import Welcome from "./ui/Welcome";
+import { SectionHeader } from "@/shared/ui/SectionHeader";
 import AddEditTransactionModal from "@/features/transaction/AddEditTransaction/ui/AddEditTransactionModal";
 import { FORM_MODE } from "@/shared/config/modes";
 import { useTransactionsStore } from "@/entities/transaction/model/transaction.store";
@@ -104,7 +105,10 @@ function TransactionsPage() {
   return (
     <section className="transactions">
       <div className="container">
-        <Welcome />
+        <SectionHeader
+          title="Transactions"
+          text="Here you can manage all your transactions: search, filter, add new ones or edit existing ones."
+        />
         <TransactionsControls
           onSearchChange={setSearchQuery}
           onDateRangeChange={handleDateRangeChange}

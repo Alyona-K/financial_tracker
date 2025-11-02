@@ -11,7 +11,7 @@ import { ROUTES } from "@/shared/config/routes";
 import Sidebar from "../shared/ui/Sidebar";
 import Topbar from "../shared/ui/Topbar";
 import AnimatedPage from "../shared/ui/AnimatedPage";
-import "./App.css";
+import "./App.scss";
 
 const LazyHomePage = lazy(() => import("../pages/home"));
 const LazyNotFoundPage = lazy(() => import("../pages/404"));

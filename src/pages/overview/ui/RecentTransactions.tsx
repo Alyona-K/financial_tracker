@@ -1,6 +1,6 @@
 import Button from "@/shared/ui/Button";
 import { RecentTransactionsTable } from "./RecentTransactionsTable";
-import "./RecentTransactions.css";
+import "./RecentTransactions.scss";
 
 type RecentTransactionsProps = {
   onAddClick: () => void;

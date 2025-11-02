@@ -2,7 +2,7 @@ import { useUserStore } from "@/entities/user/model/user.store";
 import { userApi } from "@/entities/user/model/user.api";
 import { EditableField } from "@/shared/ui/EditableField";
 import type { User, UpdateUserPayload } from "@/entities/user/model/user.types";
-import "./UserProfileForm.css";
+import "./UserProfileForm.scss";
 
 const UserProfileForm = () => {
   const user = useUserStore((s) => s.user);

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Button from "@/shared/ui/Button";
 import TransactionsSearch from "./TransactionsSearch";
 import RangeDatePicker from "@/shared/ui/RangeDatePicker";
-import "./TransactionsControls.css";
+import "./TransactionsControls.scss";
 
 type TransactionsControlsProps = {
   onSearchChange: (query: string) => void;

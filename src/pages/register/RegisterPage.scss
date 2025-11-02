@@ -1,0 +1,21 @@
+@use "@/shared/styles/variables" as *;
+
+.auth-page {
+  &__wrap {
+    position: absolute;
+    width: 450px;
+    margin: 0;
+    padding: 50px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background-color: $color-white;
+    border: 1px solid $color-quartz;
+    border-radius: 10px;
+    box-shadow: 2px 2px 4px $color-link-water;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+  }
+}

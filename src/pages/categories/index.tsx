@@ -1,11 +1,13 @@
 import { useState } from "react";
 import CategoriesTable from "./ui/CategoriesTable";
-import Welcome from "./ui/Welcome";
+import { SectionHeader } from "@/shared/ui/SectionHeader";
+import Button from "@/shared/ui/Button";
 import AddEditCategoryModal from "@/features/category/AddEditCategory/ui/AddEditCategoryModal";
 import { useCategoriesStore } from "@/entities/category/model/category.store";
 import { useNotificationsStore } from "@/shared/store/useNotificationsStore";
 import type { Category } from "@/entities/category/model/category.types";
 import { FORM_MODE } from "@/shared/config/modes";
+import "./CategoriesPage.scss";
 
 function CategoriesPage() {
   const { addCategory, updateCategory, deleteCategory } = useCategoriesStore();
@@ -37,7 +39,6 @@ function CategoriesPage() {
       await addCategory(category);
       setNotificationsCount((prev: number) => prev + 1); // <-- увеличиваем счетчик
       alert("Category added!");
-      
     } else {
       await updateCategory(category);
       setNotificationsCount((prev: number) => prev + 1); // можно увеличивать или не трогать, по логике
@@ -56,7 +57,18 @@ function CategoriesPage() {
   return (
     <section className="categories">
       <div className="container">
-        <Welcome onAddClick={handleAddClick} />
+        <SectionHeader
+          title="Categories"
+          text="Manage your categories to better organize your income and expenses. Add new categories or edit existing ones as needed."
+        >
+          <Button
+            className="categories__btn btn btn--large"
+            type="button"
+            onClick={handleAddClick}
+          >
+            Add category
+          </Button>
+        </SectionHeader>
         <CategoriesTable
           onEditClick={(categoryId) => {
             const category = useCategoriesStore

@@ -3,7 +3,7 @@ import profileBanner from "@/assets/images/profile-banner.png";
 import defaultAvatar from "@/assets/images/default_avatar.png";
 import { useUserStore } from "@/entities/user/model/user.store";
 import sprite from "@/assets/images/sprite.svg";
-import "./ProfileBanner.css";
+import "./ProfileBanner.scss";
 
 function ProfileBanner() {
   const user = useUserStore((s) => s.user);

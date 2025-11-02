@@ -6,10 +6,10 @@
   position: relative;
   margin: 0;
   padding: 60px 0 0;
-}
 
-.not-found-page__img {
-  display: flex;
-  width: 700px;
-  height: auto;
+  &__img {
+    display: flex;
+    width: 700px;
+    height: auto;
+  }
 }

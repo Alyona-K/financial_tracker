@@ -1,28 +1,29 @@
+@use "@/shared/styles/variables" as *;
+
 .recent-transactions {
   display: flex;
   flex-direction: column;
   gap: 40px;
   padding: 30px;
   margin: 0 auto 40px;
-  background-color: #fff;
-  background-color: #fff;
-  border: 1px solid #d7d6f7;
+  background-color: $color-white;
+  border: 1px solid $color-quartz;
   border-radius: 8px;
-  box-shadow: 2px 2px 4px rgba(207, 208, 210, 1);
-}
+  box-shadow: 2px 2px 4px $color-link-water;
 
-.recent-transactions__content-top {
+  &__content-top {
     display: flex;
     align-items: center;
     justify-content: space-between;
-}
+  }
 
-.recent-transactions__title {
+  &__title {
     margin: 0;
     padding: 0;
     font-size: 24px;
     line-height: 26px;
-    color: #282458;
+    color: $color-paua;
     font-weight: 700;
     font-family: inherit;
+  }
 }

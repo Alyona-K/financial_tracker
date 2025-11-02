@@ -1,0 +1,31 @@
+@use "@/shared/styles/variables" as *;
+
+.transactions-search {
+  &__field {
+    border: 1px solid $color-ghost-white;
+    background-color: $color-ghost-white;
+    border-radius: 8px;
+    color: $color-raven;
+    font-family: inherit;
+    font-size: 16px;
+    line-height: 24px;
+    padding: 10px 40px 10px 16px;
+    width: 300px;
+    transition: border $transition-300;
+  }
+
+  &__field:hover {
+    border: 1px solid $color-black-russian;
+  }
+
+  &__icon {
+    color: $color-grey-suit;
+    left: 250px;
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+  }
+}

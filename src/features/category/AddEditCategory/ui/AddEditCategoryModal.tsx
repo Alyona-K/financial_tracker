@@ -6,7 +6,7 @@ import { useCategoriesStore } from "@/entities/category/model/category.store";
 import type { Category } from "@/entities/category/model/category.types";
 import { FORM_MODE } from "@/shared/config/modes";
 import { useUserStore } from "@/entities/user/model/user.store";
-import "./AddEditCategoryModal.css";
+import "./AddEditCategoryModal.scss";
 
 interface AddEditCategoryModalProps {
   isOpen: boolean;
