@@ -13,7 +13,15 @@ const router = jsonServer.router("db.normalized.json");
 const middlewares = jsonServer.defaults();
 
 // --- подключаем CORS и стандартные middlewares ---
-server.use(cors());
+server.use(
+  cors({
+    origin: [
+      "http://localhost:5173",            // для разработки
+      "https://financialtracker-ak.vercel.app", // для продакшена
+    ],
+    credentials: true,
+  })
+);
 server.use(middlewares);
 
 // --- кастомный soft DELETE для категорий ---
