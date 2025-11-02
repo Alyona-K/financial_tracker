@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Input from "@/shared/ui/Input";
-import "./TopbarSearch.css";
+import "./TopbarSearch.scss";
 
 const TopbarSearch: React.FC = () => {
   const [query, setQuery] = useState("");

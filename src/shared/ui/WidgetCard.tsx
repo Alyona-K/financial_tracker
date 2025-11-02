@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import sprite from "@/assets/images/sprite.svg";
 import { formatCurrency } from "@/shared/lib/formatCurrency";
-import "./WidgetCard.css";
+import "./WidgetCard.scss";
 
 export type WidgetCardType = "income" | "expenses" | "balance";
 

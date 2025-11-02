@@ -1,0 +1,43 @@
+@use "@/shared/styles/variables" as *;
+
+.custom-input {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  color: $color-east-bay;
+
+  &__field {
+    border: 1px solid $color-solitude;
+    border-radius: 50px;
+    color: $color-raven;
+    font-family: inherit;
+    font-size: 16px;
+    line-height: 24px;
+    padding: 12px 16px 12px 48px;
+    width: 100%;
+    transition: border $transition-300;
+  }
+
+  &__field:hover {
+    border: 1px solid $color-black-russian;
+  }
+
+  &__field:focus-visible {
+    outline: none;
+    border: 1px solid $color-link-water;
+  }
+
+  &__field::placeholder {
+    font-size: 14px;
+  }
+
+  &__icon {
+    color: $color-raven;
+    left: 16px;
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}

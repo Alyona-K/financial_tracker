@@ -1,7 +1,7 @@
 import React from "react";
 import { motion, Variants, cubicBezier } from "framer-motion";
 import sprite from "@/assets/images/sprite.svg";
-import "./Modal.css";
+import "./Modal.scss";
 
 interface ModalProps {
   isOpen: boolean;

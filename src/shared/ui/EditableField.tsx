@@ -1,7 +1,7 @@
 import { useState } from "react";
 import sprite from "@/assets/images/sprite.svg";
 import type { User } from "@/entities/user/model/user.types";
-import "./EditableField.css";
+import "./EditableField.scss";
 
 type EditableFieldProps = {
   label: string;

@@ -5,7 +5,7 @@ import { enGB } from "date-fns/locale";
 import sprite from "@/assets/images/sprite.svg";
 import "react-datepicker/dist/react-datepicker.css";
 import "./DatePickerGlobal.css";
-import "./RangeDatePicker.css";
+import "./RangeDatePicker.scss";
 
 registerLocale("en-GB", enGB);
 

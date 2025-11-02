@@ -8,11 +8,7 @@ type Props = {
 
 export function LinkPrefetch({ to, prefetch, children }: Props) {
   return (
-    <a
-      href={to}
-      onMouseEnter={() => prefetch?.()}
-      onFocus={() => prefetch?.()} // для клавиатуры
-    >
+    <a href={to} onMouseEnter={() => prefetch?.()} onFocus={() => prefetch?.()}>
       {children}
     </a>
   );

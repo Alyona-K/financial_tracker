@@ -1,0 +1,67 @@
+@use "@/shared/styles/variables" as *;
+
+.modal {
+  &__backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    width: 100vw;
+    height: 100vh;
+    background: $color-black-70;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__content {
+    background-color: $color-white;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    padding: 30px 100px;
+    z-index: 1001;
+    box-shadow: 3px 3px 4px $color-black-25;
+    position: absolute;
+  }
+
+  &__header-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: inherit;
+    color: $color-paua;
+    margin: 0 auto 40px;
+    padding: 0;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 36px;
+  }
+
+  &__close {
+    background-color: $color-white;
+    color: $color-black-russian;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    box-shadow: 0 3px 3px $color-black-25;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    cursor: pointer;
+    transition:
+      background-color $transition-300,
+      color $transition-300;
+  }
+
+  &__close:hover,
+  &__close:focus-visible {
+    background-color: $color-black-russian;
+    color: $color-white;
+    outline: none;
+  }
+}

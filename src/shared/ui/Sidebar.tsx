@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import logo from "@/assets/images/fintrack-logo.png";
 import sprite from "@/assets/images/sprite.svg";
 import { useNotificationsStore } from "@/shared/store/useNotificationsStore";
-import "./Sidebar.css";
+import "./Sidebar.scss";
 
 function Sidebar() {
   const notificationsCount = useNotificationsStore(

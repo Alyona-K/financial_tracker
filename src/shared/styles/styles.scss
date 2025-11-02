@@ -1,9 +1,9 @@
 /* Global */
 /* ------------------------------------ */
-@import "variables";
-@import "mixins";
-@import "normalize";
-@import "reboot";
-@import "visually-hidden";
-@import "fonts";
-@import "container";
+@forward "variables";
+@forward "mixins";
+@forward "normalize";
+@forward "reboot";
+@forward "visually-hidden";
+@forward "fonts";
+@forward "container";

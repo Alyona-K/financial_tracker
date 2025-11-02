@@ -1,0 +1,97 @@
+@use "@/shared/styles/variables" as *;
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto;
+  padding: 24px 40px 24px 60px;
+  background-color: $color-alice-blue;
+
+  &__users {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+  }
+
+  &__icons {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+
+  &__icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  &__link {
+    position: relative;
+    color: $color-black-russian;
+    display: flex;
+    align-items: center;
+    transition: color $transition-300;
+  }
+
+  &__link:hover,
+  &__link:focus-visible {
+    color: $color-raven;
+    outline: none;
+  }
+
+  &__count {
+    align-items: center;
+    background-color: $color-black-russian;
+    border-radius: 50%;
+    color: $color-white;
+    display: flex;
+    font-size: 9px;
+    font-weight: 600;
+    height: 17px;
+    justify-content: center;
+    line-height: 9px;
+    position: absolute;
+    right: -4px;
+    top: -8px;
+    width: 17px;
+  }
+
+  &__auth {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+
+  &__auth-link {
+    position: relative;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  &__auth-link:not(:first-child)::before {
+    position: absolute;
+    content: "";
+    width: 1px;
+    height: 16px;
+    background-color: $color-black-russian;
+    left: -9px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  &__auth-text {
+    font-family: inherit;
+    color: $color-black-russian;
+    font-size: 14px;
+    line-height: 18px;
+    transition: color $transition-300;
+  }
+
+  &__auth-text:hover,
+  &__auth-text:focus-visible {
+    color: $color-raven;
+    outline: none;
+  }
+}

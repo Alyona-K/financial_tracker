@@ -1,6 +1,6 @@
 import React from "react";
 import sprite from "@/assets/images/sprite.svg";
-import "./Input.css";
+import "./Input.scss";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   icon?: string;

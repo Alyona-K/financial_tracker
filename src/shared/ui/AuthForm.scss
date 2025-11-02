@@ -1,0 +1,71 @@
+@use "@/shared/styles/variables" as *;
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  gap: 35px;
+
+  &__input-container {
+    position: relative;
+    width: 100%;
+  }
+
+  &__field {
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid $color-link-water;
+    padding: 14px 16px;
+    background-color: $color-alice-blue;
+    color: $color-black-russian;
+    height: 42px;
+    width: 100%;
+    transition: border $transition-300;
+  }
+
+  &__label {
+    position: absolute;
+    left: 0;
+    top: -23px;
+    font-family: inherit;
+    color: $color-black-russian;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  &__error,
+  &__error--api {
+    color: $color-red;
+    font-size: 12px;
+    line-height: 14px;
+    margin: 0;
+    padding: 0;
+    display: block;
+    position: absolute;
+  }
+
+  &__error--api {
+    bottom: 125px;
+  }
+
+  &__toggle {
+    display: flex;
+    align-items: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    transition: color $transition-300;
+    color: $color-raven;
+    position: absolute;
+    transform: translate3d(50%, -50%, 0);
+    top: 50%;
+    right: 20px;
+  }
+  &__toggle:hover,
+  &__toggle:focus-visible {
+    color: $color-paua;
+    outline: none;
+  }
+}

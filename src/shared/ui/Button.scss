@@ -3,9 +3,9 @@
 .btn {
   width: 100%;
   padding: 12px;
-  background-color: $color-black;
+  background-color: $color-black-pearl;
   border-radius: 8px;
-  border: 1px solid $color-black;
+  border: 1px solid $color-black-pearl;
   display: flex;
   align-items: center;
   font-size: 16px;
@@ -13,14 +13,20 @@
   line-height: 19.6px;
   justify-content: center;
   transition:
-    background-color 0.3s ease-in-out,
-    border 0.3s ease-in-out;
+    background-color $transition-300,
+    border $transition-300;
   color: $color-white;
   cursor: pointer;
 
   &:hover {
     background-color: $color-blue-zodiac;
     border: 1px solid $color-blue-zodiac;
+  }
+
+  &[disabled],
+  &--disabled {
+    background-color: $color-raven;
+    pointer-events: none;
   }
 
   /* sizes */
@@ -45,8 +51,8 @@
     background-color: $color-pacific-blue;
     border: 1px solid $color-pacific-blue;
     transition:
-      background-color 0.3s ease-in,
-      border 0.3s ease-in;
+      background-color $transition-300,
+      border $transition-300;
   }
   &--delete:hover {
     background-color: $color-free-speech-red;

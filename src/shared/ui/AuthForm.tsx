@@ -3,7 +3,7 @@ import { z } from "zod";
 import Input from "@/shared/ui/Input";
 import Button from "@/shared/ui/Button";
 import sprite from "@/assets/images/sprite.svg";
-import "./AuthForm.css";
+import "./AuthForm.scss";
 
 interface FieldConfig {
   name: string;

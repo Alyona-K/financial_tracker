@@ -1,0 +1,99 @@
+@use "@/shared/styles/variables" as *;
+
+.editable-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background-color: transparent;
+  border: none;
+
+  &__input-wrapper {
+    position: relative;
+    display: flex;
+    margin: 0;
+  }
+
+  &__field {
+    background-color: transparent;
+    border: transparent;
+    padding: 5px;
+    transition: border $transition-300;
+  }
+
+  &__field:focus {
+    outline: none;
+    border: 1px solid $color-raven;
+    border-radius: 4px;
+  }
+
+  &__label {
+    font-family: inherit;
+    margin: 0;
+    padding: 0;
+    font-size: 18px;
+    line-height: 26px;
+    color: $color-paua;
+    font-weight: 700;
+  }
+
+  &__display {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    justify-content: space-between;
+    background-color: transparent;
+    border: none;
+  }
+
+  &__value-wrap {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    gap: 15px;
+    align-items: center;
+  }
+
+  &__value {
+    font-family: inherit;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    line-height: 24px;
+    color: $color-raven;
+    font-weight: 500;
+  }
+
+  &__toggle {
+    display: flex;
+    align-items: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    transition: color $transition-300;
+    color: $color-raven;
+    position: absolute;
+    transform: translate3d(50%, -50%, 0);
+    top: 50%;
+    right: 15px;
+  }
+
+  &__toggle:hover,
+  &__toggle:focus-visible {
+    color: $color-paua;
+    outline: none;
+  }
+
+  &__edit-icon {
+    cursor: pointer;
+    color: $color-raven;
+    transition: color $transition-300;
+  }
+
+  &__edit-icon:hover,
+  &__edit-icon:focus-visible {
+    color: $color-paua;
+  }
+}

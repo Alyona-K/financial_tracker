@@ -1,7 +1,8 @@
 import React from "react";
-import "./Textarea.css";
+import "./Textarea.scss";
 
-interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+interface TextareaProps
+  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
   wrapperClassName?: string;
   fieldClassName?: string;
@@ -24,7 +25,10 @@ const Textarea: React.FC<TextareaProps> = ({
         {...props}
       />
       {label && (
-        <label className={`custom-textarea__label ${labelClassName}`} htmlFor={id}>
+        <label
+          className={`custom-textarea__label ${labelClassName}`}
+          htmlFor={id}
+        >
           {label}
         </label>
       )}

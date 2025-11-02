@@ -7,7 +7,7 @@ import { useNotificationsStore } from "@/shared/store/useNotificationsStore";
 import { useAuthStore } from "@/entities/auth/model/auth.store";
 import { useUserStore } from "@/entities/user/model/user.store";
 import ProfileDropdown from "@/entities/user/ui/ProfileDropdown";
-import "./Topbar.css";
+import "./Topbar.scss";
 
 function Topbar() {
   const navigate = useNavigate();

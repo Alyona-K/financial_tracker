@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import sprite from "@/assets/images/sprite.svg";
-import "./Dropdown.css";
+import "./Dropdown.scss";
 
 type DropdownProps = {
   label?: string;

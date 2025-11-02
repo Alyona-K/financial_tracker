@@ -1,6 +1,6 @@
 import logo from "@/assets/images/fintrack-logo.png";
 import { NavLink } from "react-router-dom";
-import "./AuthWelcome.css";
+import "./AuthWelcome.scss";
 
 interface AuthWelcomeProps {
   title: string;

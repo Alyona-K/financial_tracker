@@ -1,0 +1,44 @@
+@use "@/shared/styles/variables" as *;
+
+.custom-textarea {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+
+  &__field {
+    resize: none;
+    padding: 12px 16px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid $color-link-water;
+    background-color: $color-alice-blue;
+    color: $color-black-russian;
+    font-family: inherit;
+    min-height: 80px;
+    transition: border $transition-300;
+  }
+
+  &__field:hover {
+    border: 1px solid $color-black-russian;
+  }
+
+  &__field:focus {
+    outline: none;
+    border: 1px solid $color-colombia-blue;
+  }
+
+  &__field::placeholder {
+    font-size: 14px;
+  }
+
+  &__label {
+    position: absolute;
+    left: 0;
+    top: -23px;
+    font-family: inherit;
+    color: $color-black-russian;
+    font-size: 16px;
+    font-weight: 500;
+  }
+}

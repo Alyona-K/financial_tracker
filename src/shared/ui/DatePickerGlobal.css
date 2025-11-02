@@ -8,10 +8,22 @@
   z-index: 1000;
 }
 
-.react-datepicker__input-container input:hover {
+.range-datepicker__wrapper .react-datepicker__input-container input {
+  width: 100%;
+  padding: 12px 16px 12px 45px;
+  border-radius: 10px;
+  border: 1px solid #8c89b4;
+  font-size: 16px;
+  color: #333;
+  background-color: #f9fafb;
+  cursor: pointer;
+  transition: border 0.3s ease-in;
+}
+
+.range-datepicker__wrapper .react-datepicker__input-container input:hover {
   border: 1px solid #010316;
 }
-.react-datepicker__input-container input:focus {
+.range-datepicker__wrapper .react-datepicker__input-container input:focus {
   outline: none;
   border: 1px solid #525066;
 }
