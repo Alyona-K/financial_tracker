@@ -17,7 +17,7 @@ function Sidebar() {
   };
 
   return (
-    <aside className="sidebar">
+    <aside className="sidebar" data-testid="sidebar">
       <NavLink className="sidebar__logo" to="/" aria-label="Main page link">
         <img
           className="sidebar__logo-img"

@@ -1,3 +1,17 @@
+jest.mock("@/shared/lib/api", () => ({
+  api: {
+    get: jest.fn(),
+    post: jest.fn(),
+    put: jest.fn(),
+    patch: jest.fn(),
+    delete: jest.fn(),
+  },
+}));
+jest.mock("@/shared/config/config", () => ({
+  API_URL: "http://localhost:3001",
+}));
+jest.mock("@/entities/user/model/user.store");
+
 import {
   createCategory,
   updateCategoryApi,
@@ -6,10 +20,7 @@ import {
 } from "./category.api";
 import { Category } from "./category.types";
 import { api } from "@/shared/lib/api";
-import { useUserStore } from "@/entities/user/model/user.store"; 
-
-jest.mock("@/shared/lib/api");
-jest.mock("@/entities/user/model/user.store");
+import { useUserStore } from "@/entities/user/model/user.store";
 
 const mockedApi = api as jest.Mocked<typeof api>;
 const mockedAuthStore = useUserStore as jest.Mocked<any>;
@@ -30,7 +41,6 @@ describe("Category API – with auth integration", () => {
 
   beforeEach(() => {
     jest.resetAllMocks();
-    // Подставляем пользователя
     mockedAuthStore.getState.mockReturnValue({ user: { id: 1 } });
   });
 

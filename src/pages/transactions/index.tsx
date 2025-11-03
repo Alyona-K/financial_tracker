@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import TransactionsTable from "./ui/TransactionsTable";
 import TransactionsControls from "./ui/TransactionsControls";
-// import Welcome from "./ui/Welcome";
 import { SectionHeader } from "@/shared/ui/SectionHeader";
 import AddEditTransactionModal from "@/features/transaction/AddEditTransaction/ui/AddEditTransactionModal";
 import { FORM_MODE } from "@/shared/config/modes";
@@ -138,24 +137,4 @@ function TransactionsPage() {
 
 export default TransactionsPage;
 
-//--------
 
-//   const handleModalSubmit = async (data: TransactionFormData) => {
-//   try {
-//     if (modalMode === FORM_MODE.ADD) {
-//       const { id, ...payload } = data; // убрали id
-//       await addTransaction(payload);   // теперь тип совпадает с Omit<Transaction, "id">
-//       setNotificationsCount((prev) => prev + 1);
-//       alert("Transaction added!");
-//     } else if (modalMode === FORM_MODE.EDIT) {
-//       if (!data.id) return; // защита
-//       await updateTransaction(data as Transaction); // тут id обязателен
-//       setNotificationsCount((prev) => prev + 1);
-//       alert("Transaction updated!");
-//     }
-
-//     setIsModalOpen(false);
-//   } catch (e) {
-//     console.error(e);
-//   }
-// };

@@ -51,7 +51,7 @@ function Topbar() {
 
   return (
     <header className="header">
-      <div className="topbar">
+      <div className="topbar" data-testid="topbar">
         <TopbarSearch />
 
         <div className="topbar__users">

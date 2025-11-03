@@ -89,12 +89,22 @@ const AnalyticsSection = () => {
         <ResponsiveContainer width="100%" height={400}>
           <BarChart
             data={chartData}
-            margin={{ top: 20, right: 30, left: 0, bottom: 20 }}
+            margin={{ top: 20, right: 30, left: 10, bottom: 20 }}
           >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="month" />
-            <YAxis tickFormatter={(val) => `$${val / 1000}k`} />
-            <Tooltip formatter={(val: number) => `$${val}`} />
+            <YAxis
+              width={80}
+              domain={[0, "auto"]}
+              padding={{ top: 0, bottom: 0 }}
+              tickFormatter={(val) => `€${val.toLocaleString("en-US")}`}
+            />
+            <Tooltip
+              formatter={(val: number) => [
+                `€${val.toLocaleString("en-US")}`,
+                "Amount",
+              ]}
+            />
             <Legend />
             <Bar dataKey="Income" fill="#6b3af1ff" />
             <Bar dataKey="Expenses" fill="#5AC8FA" />

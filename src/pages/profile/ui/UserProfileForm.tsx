@@ -21,36 +21,44 @@ const UserProfileForm = () => {
   };
 
   return (
-    <div className="profile-form">
-      <EditableField
-        label="First Name"
-        field="firstName"
-        value={user.firstName || ""}
-        onSave={handleSave}
-      />
+    <ul className="profile-form__list">
+      <li className="profile-form__item">
+        <EditableField
+          label="First Name"
+          field="firstName"
+          value={user.firstName || ""}
+          onSave={handleSave}
+        />
+      </li>
 
-      <EditableField
-        label="Last Name"
-        field="lastName"
-        value={user.lastName || ""}
-        onSave={handleSave}
-      />
+      <li className="profile-form__item">
+        <EditableField
+          label="Last Name"
+          field="lastName"
+          value={user.lastName || ""}
+          onSave={handleSave}
+        />
+      </li>
 
-      <EditableField
-        label="Email"
-        field="email"
-        value={user.email || ""}
-        onSave={handleSave}
-        readOnly
-      />
+      <li className="profile-form__item">
+        <EditableField
+          label="Email"
+          field="email"
+          value={user.email || ""}
+          onSave={handleSave}
+          readOnly
+        />
+      </li>
 
-      <EditableField
-        label="Location"
-        field="location"
-        value={user.location || ""}
-        onSave={handleSave}
-      />
-    </div>
+      <li className="profile-form__item">
+        <EditableField
+          label="Location"
+          field="location"
+          value={user.location || ""}
+          onSave={handleSave}
+        />
+      </li>
+    </ul>
   );
 };
 

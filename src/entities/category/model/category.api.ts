@@ -24,6 +24,10 @@ export const updateCategoryApi = async (
   category: Category
 ): Promise<Category> => {
   if (!category.id) throw new Error("Category id is required");
+  if (!category.name?.trim()) throw new Error("Name is required");
+  if (!["Income", "Expenses"].includes(category.type))
+    throw new Error("Invalid type");
+
   const { data } = await api.put<Category>(
     `/categories/${category.id}`,
     category

@@ -29,28 +29,9 @@ export const updateTransactionApi = async (
   return data;
 };
 
-// export const updateTransactionApi = async (
-//   tx: Transaction
-// ): Promise<Transaction> => {
-//   if (!tx.id) throw new Error("Transaction ID is required");
-//   const { data } = await api.put<Transaction>(`/transactions/${tx.id}`, tx);
-//   return {
-//     ...data,
-//     userId: tx.userId, // гарантируем, что userId сохранится
-//   };
-// };
-
 export const deleteTransactionApi = async (
   id: string
 ): Promise<Transaction> => {
   const { data } = await api.delete<Transaction>(`/transactions/${id}`);
   return data;
 };
-
-// export const updateTransactionApi = async (
-//   tx: Transaction
-// ): Promise<Transaction> => {
-//   if (!tx.id) throw new Error("Transaction ID is required");
-//   const { data } = await api.put<Transaction>(`/transactions/${tx.id}`, tx);
-//   return data;
-// };

@@ -75,11 +75,6 @@ export const useAuthStore = create<AuthState>()(
         }
       },
 
-      // logout: () => {
-      //   set({ token: null });
-      //   useUserStore.getState().setUser(null);
-      // },
-
       initDemoUser: async (skipIfAuthPage = false) => {
         const currentUser = useUserStore.getState().user;
         if (skipIfAuthPage || currentUser) return;

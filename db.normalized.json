@@ -24,6 +24,14 @@
       "firstName": "Ben",
       "lastName": "Anderson",
       "id": 3
+    },
+    {
+      "email": "demo4@email.com",
+      "password": "$2a$10$dvcqLHLzwhXideZYj48yYuDk67NY8CHTrlN4D8gGUdgORi5wAcA/C",
+      "firstName": "John",
+      "lastName": "Anderson",
+      "id": 4,
+      "location": "Swiss"
     }
   ],
   "categories": [
@@ -161,6 +169,12 @@
       "name": "Daily care",
       "type": "Expenses",
       "userId": 1
+    },
+    {
+      "id": "fa1f2635-bcc4-4096-8ff6-300e96dbf5ed",
+      "name": "Groceries",
+      "type": "Expenses",
+      "userId": 4
     }
   ],
   "transactions": [
@@ -784,6 +798,15 @@
       "description": "Bonus",
       "userId": 2,
       "id": "nKzSPP-"
+    },
+    {
+      "date": "2025-11-03",
+      "categoryId": "fa1f2635-bcc4-4096-8ff6-300e96dbf5ed",
+      "type": "Expenses",
+      "amount": 200,
+      "description": "Products",
+      "userId": 4,
+      "id": "hTQItnf"
     }
   ]
 }

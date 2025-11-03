@@ -1,3 +1,16 @@
+jest.mock("@/shared/lib/api", () => ({
+  api: {
+    get: jest.fn(),
+    post: jest.fn(),
+    patch: jest.fn(),
+    delete: jest.fn(),
+  },
+}));
+jest.mock("@/shared/config/config", () => ({
+  API_URL: "http://localhost:3001",
+}));
+jest.mock("@/entities/user/model/user.store");
+
 import {
   getTransactions,
   createTransaction,
@@ -7,9 +20,6 @@ import {
 import { Transaction } from "./transaction.types";
 import { api } from "@/shared/lib/api";
 import { useUserStore } from "@/entities/user/model/user.store";
-
-jest.mock("@/shared/lib/api");
-jest.mock("@/entities/user/model/user.store");
 
 const mockedApi = api as jest.Mocked<typeof api>;
 const mockedAuthStore = useUserStore as jest.Mocked<any>;
@@ -67,7 +77,7 @@ describe("transaction.api", () => {
     expect(result).toEqual({ ...mockNewTransaction, id: "2" });
     expect(mockedApi.post).toHaveBeenCalledWith("/transactions", {
       ...mockNewTransaction,
-      userId: 1, // соответствует мокнутому юзеру
+      userId: 1,
     });
   });
 
@@ -80,17 +90,17 @@ describe("transaction.api", () => {
 
   // --- UPDATE ---
   test("updateTransactionApi updates transaction successfully", async () => {
-    mockedApi.put.mockResolvedValueOnce({ data: mockTransaction });
+    mockedApi.patch.mockResolvedValueOnce({ data: mockTransaction });
     const result = await updateTransactionApi(mockTransaction);
     expect(result).toEqual(mockTransaction);
-    expect(mockedApi.put).toHaveBeenCalledWith(
+    expect(mockedApi.patch).toHaveBeenCalledWith(
       `/transactions/${mockTransaction.id}`,
       mockTransaction
     );
   });
 
   test("updateTransactionApi throws if api fails", async () => {
-    mockedApi.put.mockRejectedValueOnce(new Error("Update failed"));
+    mockedApi.patch.mockRejectedValueOnce(new Error("Update failed"));
     await expect(updateTransactionApi(mockTransaction)).rejects.toThrow(
       "Update failed"
     );
@@ -127,7 +137,6 @@ describe("transaction.api", () => {
       ...mockNewTransaction,
     };
 
-    // Приводим к any, чтобы TS пропустил вызов
     await expect(updateTransactionApi(invalidTx as any)).rejects.toThrow(
       "Transaction ID is required"
     );

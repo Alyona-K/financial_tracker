@@ -44,7 +44,7 @@ const AddEditTransactionModal: React.FC<AddEditTransactionModalProps> = ({
 }) => {
   const isEdit = mode === FORM_MODE.EDIT;
 
-  const { categories, fetchCategories } = useCategoriesStore();
+  const { categories } = useCategoriesStore();
 
   const [form, setForm] = useState<TransactionFormUI>({
     date: "",
