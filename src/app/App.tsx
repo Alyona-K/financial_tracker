@@ -99,26 +99,27 @@ function App() {
   const user = useUserStore((s) => s.user);
   const [ready, setReady] = useState(false);
 
-  const prevUserId = useRef<number | null>(null);
+   const prevUser = useRef<User | null>(null);
 
   const isDemoUser = (u: User | null) => u?.email === "demo@fintrack.com";
 
   // Очищаем сторы только при смене реального пользователя
   useEffect(() => {
-    if (user?.id !== prevUserId.current) {
-      if (prevUserId.current !== null && !isDemoUser(user)) {
-        clearUserData();
-      }
-      prevUserId.current = user?.id ?? null;
-
-      if (user) {
-        // после смены — сразу подгружаем новые данные
-        const { fetchCategories } = useCategoriesStore.getState();
-        const { fetchTransactions } = useTransactionsStore.getState();
-        Promise.all([fetchCategories(), fetchTransactions()]);
-      }
+  if (user?.id !== prevUser.current?.id) {
+    if (prevUser.current && !isDemoUser(prevUser.current)) {
+      clearUserData();
     }
-  }, [user]);
+
+    prevUser.current = user ?? null;
+
+    if (user) {
+      const { fetchCategories } = useCategoriesStore.getState();
+      const { fetchTransactions } = useTransactionsStore.getState();
+      Promise.all([fetchCategories(), fetchTransactions()]);
+    }
+  }
+}, [user]);
+
 
   useEffect(() => {
     (async () => {
@@ -151,4 +152,19 @@ function App() {
 
 export default App;
 
+ // const prevUserId = useRef<number | null>(null);
+  // useEffect(() => {
+  //   if (user?.id !== prevUserId.current) {
+  //     if (prevUserId.current !== null && !isDemoUser(user)) {
+  //       clearUserData();
+  //     }
+  //     prevUserId.current = user?.id ?? null;
 
+  //     if (user) {
+  //       // после смены — сразу подгружаем новые данные
+  //       const { fetchCategories } = useCategoriesStore.getState();
+  //       const { fetchTransactions } = useTransactionsStore.getState();
+  //       Promise.all([fetchCategories(), fetchTransactions()]);
+  //     }
+  //   }
+  // }, [user]);

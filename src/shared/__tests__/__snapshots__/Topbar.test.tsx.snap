@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Topbar matches snapshot when user is logged in 1`] = `
+<div>
+  <header
+    class="header"
+  >
+    <div
+      class="topbar"
+      data-testid="topbar"
+    >
+      <div>
+        TopbarSearchMock
+      </div>
+      <div
+        class="topbar__users"
+      >
+        <div
+          class="topbar__icons"
+        >
+          <a
+            aria-hidden="true"
+            class="topbar__link"
+            href="#"
+          >
+            <svg
+              class="topbar__icon"
+              height="22"
+              width="22"
+            >
+              <use
+                xlink:href="sprite-mock#settings-icon"
+              />
+            </svg>
+          </a>
+          <a
+            aria-hidden="true"
+            class="topbar__link"
+            href="#"
+          >
+            <svg
+              class="topbar__icon"
+              height="22"
+              width="22"
+            >
+              <use
+                xlink:href="sprite-mock#notifications-icon"
+              />
+            </svg>
+          </a>
+        </div>
+        <div
+          class="topbar__account"
+        >
+          <div>
+            ProfileDropdownMock
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+</div>
+`;

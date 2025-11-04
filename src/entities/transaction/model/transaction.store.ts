@@ -59,23 +59,23 @@ export const useTransactionsStore = create<TransactionsState>((set) => ({
   },
 
   updateTransaction: async (tx) => {
-  if (!tx.id) throw new Error("Transaction ID is required for update");
-  set({ isLoading: true });
-  try {
-    const saved = await updateTransactionApi(tx as Transaction);
-    set((state) => ({
-      transactions: state.transactions.map((t) =>
-        t.id === saved.id ? { ...t, ...saved, userId: t.userId } : t
-      ),
-    }));
-    return saved;
-  } catch (e) {
-    console.error("Error updating transaction:", e);
-    throw e;
-  } finally {
-    set({ isLoading: false });
-  }
-},
+    if (!tx.id) throw new Error("Transaction ID is required for update");
+    set({ isLoading: true });
+    try {
+      const saved = await updateTransactionApi(tx as Transaction);
+      set((state) => ({
+        transactions: state.transactions.map((t) =>
+          t.id === saved.id ? { ...t, ...saved, userId: t.userId } : t
+        ),
+      }));
+      return saved;
+    } catch (e) {
+      console.error("Error updating transaction:", e);
+      throw e;
+    } finally {
+      set({ isLoading: false });
+    }
+  },
 
   deleteTransaction: async (id) => {
     set({ isLoading: true });
@@ -94,7 +94,3 @@ export const useTransactionsStore = create<TransactionsState>((set) => ({
 
   clearTransactions: () => set({ transactions: [] }),
 }));
-
-
-
-

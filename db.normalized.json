@@ -807,6 +807,15 @@
       "description": "Products",
       "userId": 4,
       "id": "hTQItnf"
+    },
+    {
+      "date": "2025-11-04",
+      "categoryId": "d462cb3d-2b6b-419c-8d74-e557818b1fa9",
+      "type": "Expenses",
+      "amount": 15,
+      "description": "Products",
+      "userId": 2,
+      "id": "1cydyUj"
     }
   ]
 }

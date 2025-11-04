@@ -122,8 +122,6 @@ jest.mock("@/shared/lib/clearUserData", () => ({
   clearUserData: jest.fn(),
 }));
 
-import React from "react";
-
 import { render, screen, waitFor, act } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
@@ -134,8 +132,20 @@ import { useUserStore } from "@/entities/user/model/user.store";
 import { clearUserData } from "@/shared/lib/clearUserData";
 
 describe("App", () => {
-  const user1 = { id: 1, email: "user1@test.com", firstName: "U1", lastName: "Test", avatar: "" };
-  const user2 = { id: 2, email: "user2@test.com", firstName: "U2", lastName: "Test", avatar: "" };
+  const user1 = {
+    id: 1,
+    email: "user1@test.com",
+    firstName: "U1",
+    lastName: "Test",
+    avatar: "",
+  };
+  const user2 = {
+    id: 2,
+    email: "user2@test.com",
+    firstName: "U2",
+    lastName: "Test",
+    avatar: "",
+  };
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -145,14 +155,18 @@ describe("App", () => {
 
   it("renders loading spinner initially if not ready and not auth page", async () => {
     // Делаем так, чтобы initDemoUser "завис" и ready не стал true
-    const initDemoMock: () => Promise<void> = jest.fn(() => new Promise<void>(() => {}));
+    const initDemoMock: () => Promise<void> = jest.fn(
+      () => new Promise<void>(() => {})
+    );
     useAuthStore.getState().initDemoUser = initDemoMock;
     useAuthStore.getState().token = null;
 
     await act(async () => {
       render(
         <BrowserRouter>
-          <App />
+          <AppInit>
+            <App />
+          </AppInit>
         </BrowserRouter>
       );
     });
@@ -169,7 +183,9 @@ describe("App", () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <App />
+          <AppInit>
+            <App />
+          </AppInit>
         </BrowserRouter>
       );
     });
@@ -190,7 +206,9 @@ describe("App", () => {
     await act(async () => {
       render(
         <BrowserRouter>
-          <App />
+          <AppInit>
+            <App />
+          </AppInit>
         </BrowserRouter>
       );
     });
@@ -201,11 +219,19 @@ describe("App", () => {
     });
   });
 
-  it("clears user data when switching from one real user to another", async () => {
-    // Устанавливаем первого пользователя
-    useUserStore.getState().setUser({ ...user1 });
+  it("does not render Sidebar and Topbar on auth pages", async () => {
+    useAuthStore.getState().token = "123";
+    useUserStore.getState().setUser({
+      id: 1,
+      email: "user@test.com",
+      firstName: "Test",
+      lastName: "User",
+      avatar: "",
+    });
 
-    // Рендерим App
+    // Пробрасываем путь, который относится к auth
+    window.history.pushState({}, "Login page", "/login");
+
     await act(async () => {
       render(
         <BrowserRouter>
@@ -216,12 +242,42 @@ describe("App", () => {
       );
     });
 
+    await waitFor(() => {
+      expect(screen.queryByTestId("sidebar")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("topbar")).not.toBeInTheDocument();
+    });
+  });
+
+  it("clears user data when switching from one real user to another", async () => {
+    // Устанавливаем первого пользователя
+    useUserStore.getState().setUser({ ...user1 });
+
+    // Сначала рендерим App
+    const { rerender } = render(
+      <BrowserRouter>
+        <AppInit>
+          <App />
+        </AppInit>
+      </BrowserRouter>
+    );
+
     // Смена пользователя на второго через мок-стор (новая ссылка)
-    await act(async () => {
+    act(() => {
       useUserStore.getState().setUser({ ...user2 });
     });
 
+    // Перерендерим App, чтобы хук useUserStore заново получил новое состояние
+    rerender(
+      <BrowserRouter>
+        <AppInit>
+          <App />
+        </AppInit>
+      </BrowserRouter>
+    );
+
     // Ждём, пока useEffect сработает и вызовет clearUserData
-    await waitFor(() => expect(clearUserData).toHaveBeenCalled());
+    await waitFor(() => {
+      expect(clearUserData).toHaveBeenCalled();
+    });
   });
 });
