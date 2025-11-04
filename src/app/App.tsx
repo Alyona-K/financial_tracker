@@ -10,6 +10,7 @@ import { clearUserData } from "@/shared/lib/clearUserData";
 import { ROUTES } from "@/shared/config/routes";
 import Sidebar from "../shared/ui/Sidebar";
 import Topbar from "../shared/ui/Topbar";
+import { Loader } from "@/shared/ui/Loader";
 import AnimatedPage from "../shared/ui/AnimatedPage";
 import "./App.scss";
 
@@ -35,7 +36,7 @@ function AppRoutes() {
   const location = useLocation();
 
   return (
-    <Suspense fallback={<div>Loading page...</div>}>
+    <Suspense fallback={<Loader />}>
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           <Route path={ROUTES.HOME} element={<LazyHomePage />} />
