@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-// Email: обязательное поле, латиница, стандартный формат
+// --- FIELD SCHEMAS ---
 const emailSchema = z
   .string()
   .min(1, "Email is required")
@@ -8,7 +8,6 @@ const emailSchema = z
     message: "Invalid email, must contain only Latin characters",
   });
 
-// Пароль: минимум 6 символов, только латиница и цифры
 const passwordSchema = z
   .string()
   .min(6, "Password must be at least 6 characters")
@@ -16,13 +15,14 @@ const passwordSchema = z
     message: "Password must contain only Latin characters",
   });
 
-// --- Схема для логина ---
+// --- LOGIN SCHEMA ---
 export const loginSchema = z.object({
   email: emailSchema,
   password: passwordSchema,
 });
 export type LoginFormData = z.infer<typeof loginSchema>;
 
+// --- REGISTER SCHEMA ---
 export const registerSchema = z
   .object({
     firstName: z.string().min(1, "First name is required"),
@@ -36,5 +36,4 @@ export const registerSchema = z
     path: ["confirmPassword"],
   });
 
-// Тип автоматически выводится из схемы
 export type RegisterFormData = z.infer<typeof registerSchema>;

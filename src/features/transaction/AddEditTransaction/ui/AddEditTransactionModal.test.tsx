@@ -1,7 +1,7 @@
-// --- MOCKS ---
-// SVG
+// MOCK SVG
 jest.mock("@/assets/images/sprite.svg", () => "test-file-stub");
-// Modal с поддержкой заголовка
+
+// MOCK MODAL
 jest.mock("@/shared/ui/Modal", () => ({
   __esModule: true,
   default: ({ children, title }: any) => (
@@ -11,25 +11,27 @@ jest.mock("@/shared/ui/Modal", () => ({
     </div>
   ),
 }));
-// Реакт-дейтпикер простой input
+
+// --- MOCK DATEPICKER ---
 jest.mock("react-datepicker", () => ({
   __esModule: true,
   default: ({ onChange, placeholder }: any) => (
     <input
       data-testid="datepicker"
-      value="" // всегда пустое
+      value=""
       placeholder={placeholder}
       onChange={(e) => onChange(null)}
     />
   ),
   registerLocale: jest.fn(),
 }));
-// Category store
+
+// --- MOCK CATEGORY STORE ---
 jest.mock("@/entities/category/model/category.store", () => ({
   useCategoriesStore: () => ({ categories: [{ id: "1", name: "Food" }] }),
 }));
 
-// CSS
+// --- MOCK CSS ---
 jest.mock("@/shared/ui/DatePickerGlobal.css", () => ({}));
 jest.mock("./AddEditTransactionModal.scss", () => ({}));
 
@@ -45,6 +47,7 @@ describe("AddEditTransactionModal", () => {
     jest.clearAllMocks();
   });
 
+  // --- RENDER TEST ---
   it("renders when open and shows correct title", () => {
     render(
       <AddEditTransactionModal
@@ -59,6 +62,7 @@ describe("AddEditTransactionModal", () => {
     expect(screen.getByText(/Add new transaction/i)).toBeInTheDocument();
   });
 
+  // --- VALIDATION TEST ---
   it("shows errors when submitting empty form", async () => {
     render(
       <AddEditTransactionModal
@@ -71,11 +75,11 @@ describe("AddEditTransactionModal", () => {
 
     fireEvent.click(screen.getByRole("button", { name: /add transaction/i }));
 
-    // теперь должно быть 5 ошибок (включая дату)
     expect(await screen.findAllByText(/is required/i)).toHaveLength(4);
     expect(onSubmit).not.toHaveBeenCalled();
   });
 
+  // --- SUBMIT TEST ---
   it("calls onSubmit with correct data and closes modal", async () => {
     render(
       <AddEditTransactionModal
@@ -110,6 +114,7 @@ describe("AddEditTransactionModal", () => {
     });
   });
 
+  // --- EDIT MODE TEST ---
   it("fills fields with initialData in edit mode", () => {
     render(
       <AddEditTransactionModal

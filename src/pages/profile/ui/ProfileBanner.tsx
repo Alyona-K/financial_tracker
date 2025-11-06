@@ -11,6 +11,7 @@ function ProfileBanner() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [isUploading, setIsUploading] = useState(false);
 
+  // --- AVATAR UPLOAD HANDLERS ---
   const handleAvatarClick = () => {
     fileInputRef.current?.click();
   };
@@ -22,13 +23,12 @@ function ProfileBanner() {
     try {
       setIsUploading(true);
 
-      // === 1. Формируем данные для Cloudinary ===
+      // --- UPLOAD AVATAR TO CLOUDINARY ---
       const formData = new FormData();
       formData.append("file", file);
       formData.append("upload_preset", "unsigned_upload"); // твой пресет
       formData.append("folder", "fintrack/avatars");
 
-      // === 2. Отправляем на Cloudinary ===
       const response = await fetch(
         "https://api.cloudinary.com/v1_1/dlz6x4ygk/image/upload",
         {
@@ -40,10 +40,9 @@ function ProfileBanner() {
       const data = await response.json();
       if (!response.ok) throw new Error(data.error?.message || "Upload failed");
 
-      // === 3. Берём короткий URL (secure_url) ===
       const avatarUrl = data.secure_url;
 
-      // === 4. Сохраняем в стор и БД ===
+      // --- SAVE AVATAR URL TO STORE AND DB ---
       await updateUser({ avatar: avatarUrl });
     } catch (err) {
       console.error("Ошибка загрузки аватара:", err);

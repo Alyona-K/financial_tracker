@@ -1,4 +1,4 @@
-// Моки API и конфигов
+// --- API & STORE MOCKS ---
 jest.mock("@/shared/lib/api", () => ({
   api: { get: jest.fn(), post: jest.fn(), patch: jest.fn(), delete: jest.fn() },
 }));
@@ -21,11 +21,13 @@ jest.mock("@/entities/user/model/user.store", () => ({
   useUserStore: userStoreMock,
 }));
 
+// --- IMPORTS ---
 import { act } from "@testing-library/react";
 import { useAuthStore } from "./auth.store";
 import { useUserStore } from "@/entities/user/model/user.store";
 import { authApi } from "./auth.api";
 
+// --- TESTS: AUTH STORE ---
 describe("Auth Store", () => {
   const mockUser = {
     id: 1,
@@ -41,6 +43,7 @@ describe("Auth Store", () => {
     (useUserStore.getState().setUser as jest.Mock).mockImplementation(() => {});
   });
 
+  // --- LOGIN ---
   it("should login successfully and set token and user", async () => {
     (authApi.login as jest.Mock).mockResolvedValue({
       accessToken: "abc123",
@@ -72,6 +75,7 @@ describe("Auth Store", () => {
     expect(useAuthStore.getState().error).toBe("Invalid credentials");
   });
 
+  // --- REGISTER ---
   it("should register successfully and set token and user", async () => {
     (authApi.register as jest.Mock).mockResolvedValue({
       accessToken: "reg123",
@@ -79,20 +83,19 @@ describe("Auth Store", () => {
     });
 
     await act(async () => {
-      await useAuthStore
-        .getState()
-        .register({
-          email: "new@test.com",
-          password: "123",
-          firstName: "T",
-          lastName: "U",
-        });
+      await useAuthStore.getState().register({
+        email: "new@test.com",
+        password: "123",
+        firstName: "T",
+        lastName: "U",
+      });
     });
 
     expect(useAuthStore.getState().token).toBe("reg123");
     expect(useUserStore.getState().setUser).toHaveBeenCalledWith(mockUser);
   });
 
+  // --- LOGOUT ---
   it("should logout and clear token and user", () => {
     useAuthStore.getState().logout();
 
@@ -101,6 +104,7 @@ describe("Auth Store", () => {
     expect(useAuthStore.getState().skipAutoLogin).toBe(true);
   });
 
+  // --- INIT DEMO USER ---
   it("should init demo user if no user exists", async () => {
     (authApi.login as jest.Mock).mockResolvedValue({
       accessToken: "demo123",
@@ -120,6 +124,7 @@ describe("Auth Store", () => {
     expect(authApi.login).not.toHaveBeenCalled();
   });
 
+  // --- REFRESH TOKEN ---
   it("should refresh token using demo credentials", async () => {
     (useAuthStore.getState().login as jest.Mock) = jest
       .fn()

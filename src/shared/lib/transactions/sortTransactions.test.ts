@@ -36,6 +36,7 @@ describe("sortTransactions", () => {
 
   const ids = (arr: Transaction[]) => arr.map((t) => t.id);
 
+  // --- TESTS FOR DATE SORTING ---
   describe("sorting by date", () => {
     it("sorts ascending (oldest first)", () => {
       const result = sortTransactions(base, "date", "asc");
@@ -48,10 +49,10 @@ describe("sortTransactions", () => {
     });
   });
 
+  // --- TESTS FOR AMOUNT SORTING WITH TYPE AWARENESS ---
   describe("sorting by amount", () => {
     it("sorts ascending, taking type (Income/Expenses) into account", () => {
       const result = sortTransactions(base, "amount", "asc");
-      // Income считается положительным, Expenses — отрицательным
       expect(ids(result)).toEqual(["t1", "t3", "t2"]);
     });
 
@@ -61,10 +62,11 @@ describe("sortTransactions", () => {
     });
   });
 
+  // --- TESTS FOR SORTING BY CATEGORY NAME ---
   describe("sorting by category name", () => {
     it("sorts ascending by linked category name", () => {
       const result = sortTransactions(base, "categoryId", "asc", categories);
-      expect(ids(result)).toEqual(["t1", "t3", "t2"]); // Food < Salary
+      expect(ids(result)).toEqual(["t1", "t3", "t2"]);
     });
 
     it("handles missing category gracefully (treats as 'deleted')", () => {
@@ -74,7 +76,7 @@ describe("sortTransactions", () => {
           id: "t4",
           amount: 10,
           type: "Expenses",
-          categoryId: "999", // нет в списке
+          categoryId: "999",
           date: "2025-10-13",
           description: "X",
         },
@@ -86,11 +88,11 @@ describe("sortTransactions", () => {
         "asc",
         categories
       );
-      // "deleted" идёт раньше по алфавиту, чем Food и Salary
       expect(ids(result)[0]).toBe("t4");
     });
   });
 
+  // --- TESTS FOR STRING FIELD SORTING (CASE-INSENSITIVE) ---
   describe("sorting by string fields", () => {
     it("sorts by description descending (case-insensitive)", () => {
       const mixedCase: Transaction[] = [
@@ -108,6 +110,7 @@ describe("sortTransactions", () => {
     });
   });
 
+  // --- EDGE CASES: IMMUTABILITY, EMPTY INPUT, STABLE SORT ---
   describe("edge behavior", () => {
     it("returns a new array (immutability check)", () => {
       const result = sortTransactions(base, "date", "asc");
@@ -125,7 +128,7 @@ describe("sortTransactions", () => {
         { ...base[1], id: "b", date: "2025-01-01" },
       ];
       const result = sortTransactions(sameDates, "date", "asc");
-      expect(ids(result)).toEqual(["a", "b"]); // порядок сохраняется
+      expect(ids(result)).toEqual(["a", "b"]);
     });
   });
 });

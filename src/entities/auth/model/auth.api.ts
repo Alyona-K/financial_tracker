@@ -17,9 +17,7 @@ export const authApi = {
     return data;
   },
 
-  // для демо-пользователя достаточно логина, /me json-server-auth не поддерживает
   async getCurrentUser(): Promise<AuthResponse["user"]> {
-    // Возвращаем user из стора, токен уже в интерцепторе
     const { user } = useUserStore.getState();
     if (!user) throw new Error("User not logged in");
     return user;

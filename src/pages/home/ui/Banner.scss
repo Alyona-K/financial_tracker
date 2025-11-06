@@ -162,17 +162,17 @@
   @keyframes pulse {
     from {
       transform: scale3d(1, 1, 1);
-      color: #fff;
+      color: $color-white;
     }
 
     50% {
       transform: scale3d(1.05, 1.05, 1.05);
-      color: #ffeb38;
+      color: $color-gorse;
     }
 
     to {
       transform: scale3d(1, 1, 1);
-      color: #fff;
+      color: $color-white;
     }
   }
 }

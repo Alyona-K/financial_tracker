@@ -14,6 +14,7 @@ import { Loader } from "@/shared/ui/Loader";
 import AnimatedPage from "../shared/ui/AnimatedPage";
 import "./App.scss";
 
+// --- LAZY PAGES ---
 const LazyHomePage = lazy(() => import("../pages/home"));
 const LazyNotFoundPage = lazy(() => import("../pages/404"));
 const LazyOverviewPage = lazy(() => import("../pages/overview"));
@@ -23,6 +24,7 @@ const LazyLoginPage = lazy(() => import("../pages/login"));
 const LazyRegisterPage = lazy(() => import("../pages/register"));
 const LazyUserProfilePage = lazy(() => import("../pages/profile"));
 
+// --- PROTECTED ROUTE ---
 function ProtectedRoute({ children }: { children: JSX.Element }) {
   const token = useAuthStore((s) => s.token);
   const isLoading = useAuthStore((s) => s.isLoading);
@@ -32,6 +34,7 @@ function ProtectedRoute({ children }: { children: JSX.Element }) {
   return children;
 }
 
+// --- APP ROUTES ---
 function AppRoutes() {
   const location = useLocation();
 
@@ -92,6 +95,7 @@ function AppRoutes() {
 }
 
 function App() {
+  // --- APP STATE ---
   const location = useLocation();
   const authRoutes = [ROUTES.LOGIN, ROUTES.REGISTER];
   const isAuthPage = authRoutes.includes(location.pathname);
@@ -100,28 +104,28 @@ function App() {
   const user = useUserStore((s) => s.user);
   const [ready, setReady] = useState(false);
 
-   const prevUser = useRef<User | null>(null);
+  // --- DEMO USER LOGIC ---
+  const prevUser = useRef<User | null>(null);
 
   const isDemoUser = (u: User | null) => u?.email === "demo@fintrack.com";
 
-  // Очищаем сторы только при смене реального пользователя
   useEffect(() => {
-  if (user?.id !== prevUser.current?.id) {
-    if (prevUser.current && !isDemoUser(prevUser.current)) {
-      clearUserData();
+    if (user?.id !== prevUser.current?.id) {
+      if (prevUser.current && !isDemoUser(prevUser.current)) {
+        clearUserData();
+      }
+
+      prevUser.current = user ?? null;
+
+      if (user) {
+        const { fetchCategories } = useCategoriesStore.getState();
+        const { fetchTransactions } = useTransactionsStore.getState();
+        Promise.all([fetchCategories(), fetchTransactions()]);
+      }
     }
+  }, [user]);
 
-    prevUser.current = user ?? null;
-
-    if (user) {
-      const { fetchCategories } = useCategoriesStore.getState();
-      const { fetchTransactions } = useTransactionsStore.getState();
-      Promise.all([fetchCategories(), fetchTransactions()]);
-    }
-  }
-}, [user]);
-
-
+  // --- INIT APP ---
   useEffect(() => {
     (async () => {
       if (!isAuthPage) {
@@ -136,6 +140,7 @@ function App() {
     })();
   }, [isAuthPage, initDemoUser]);
 
+  // --- MAIN LAYOUT ---
   if (!ready && !isAuthPage) return <div>Loading user...</div>;
 
   return (
@@ -152,20 +157,3 @@ function App() {
 }
 
 export default App;
-
- // const prevUserId = useRef<number | null>(null);
-  // useEffect(() => {
-  //   if (user?.id !== prevUserId.current) {
-  //     if (prevUserId.current !== null && !isDemoUser(user)) {
-  //       clearUserData();
-  //     }
-  //     prevUserId.current = user?.id ?? null;
-
-  //     if (user) {
-  //       // после смены — сразу подгружаем новые данные
-  //       const { fetchCategories } = useCategoriesStore.getState();
-  //       const { fetchTransactions } = useTransactionsStore.getState();
-  //       Promise.all([fetchCategories(), fetchTransactions()]);
-  //     }
-  //   }
-  // }, [user]);

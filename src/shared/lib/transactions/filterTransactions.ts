@@ -12,7 +12,6 @@ export function filterTransactionsByCategory<T extends Transaction>(
   });
 }
 
-// Универсальная фильтрация по типу
 export function filterTransactionsByType<T extends Transaction>(
   transactions: T[],
   type: "Income" | "Expenses"

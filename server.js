@@ -12,19 +12,19 @@ const server = jsonServer.create();
 const router = jsonServer.router("db.normalized.json");
 const middlewares = jsonServer.defaults();
 
-// --- подключаем CORS и стандартные middlewares ---
+// --- ENABLE CORS AND DEFAULT MIDDLEWARES ---
 server.use(
   cors({
     origin: [
-      "http://localhost:5173",            // для разработки
-      "https://financialtracker-ak.vercel.app", // для продакшена
+      "http://localhost:5173",            
+      "https://financialtracker-ak.vercel.app", 
     ],
     credentials: true,
   })
 );
 server.use(middlewares);
 
-// --- кастомный soft DELETE для категорий ---
+// --- CUSTOM SOFT DELETE FOR CATEGORIES ---
 server.delete("/categories/:id", (req, res) => {
   const categoryId = req.params.id;
   const categoriesDb = router.db.get("categories");
@@ -34,7 +34,6 @@ server.delete("/categories/:id", (req, res) => {
     return res.status(404).json({ message: "Category not found" });
   }
 
-  // Делаем soft delete: флаг isDeleted
   categoriesDb
     .find({ id: categoryId })
     .assign({ isDeleted: true })
@@ -45,18 +44,19 @@ server.delete("/categories/:id", (req, res) => {
   res.status(200).json({ message: "Category soft-deleted, transactions preserved" });
 });
 
-// --- кастомный GET категорий с фильтром для фронта (по желанию) ---
+// --- CUSTOM GET CATEGORIES FILTERED (EXCLUDE DELETED) ---
 server.get("/categories", (_req, res) => {
   const categories = router.db.get("categories").value();
-  res.json(categories.filter(c => !c.isDeleted)); // если хочешь, чтобы фронт по умолчанию не видел deleted
+  res.json(categories.filter(c => !c.isDeleted)); 
 });
 
-// --- подключаем json-server-auth ---
+// --- ATTACH JSON-SERVER-AUTH ---
 server.db = router.db;
 server.use(auth.rewriter(rules));
 server.use(auth);
 server.use(router);
 
+// --- START SERVER ---
 server.listen(3001, () => {
   console.log("Auth server running on http://localhost:3001");
 });

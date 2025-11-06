@@ -1,4 +1,4 @@
-// Моки API и конфигов
+// --- MOCK API AND CONFIG ---
 jest.mock("@/shared/lib/api", () => ({
   api: { get: jest.fn(), post: jest.fn(), patch: jest.fn(), delete: jest.fn() },
 }));
@@ -6,7 +6,7 @@ jest.mock("@/shared/config/config", () => ({
   API_URL: "http://localhost:3001",
 }));
 
-// Мокаем стор
+// --- MOCK STORE FOR TESTING ---
 const fetchTransactionsMock = jest.fn();
 
 const transactionsMock = [
@@ -38,8 +38,8 @@ describe("useWidgetsData", () => {
     expect(fetchTransactionsMock).toHaveBeenCalled();
   });
 
+  // --- CALCULATION TEST ---
   it("should calculate widgets correctly when transactions are set", () => {
-    // Импортируем мок заново и меняем его возвращаемое значение
     const {
       useTransactionsStore,
     } = require("@/entities/transaction/model/transaction.store");

@@ -1,4 +1,4 @@
-// Моки API и конфигов
+// --- API & CONFIG MOCKS ---
 jest.mock("@/shared/lib/api", () => ({
   api: { get: jest.fn(), post: jest.fn(), patch: jest.fn(), delete: jest.fn() },
 }));
@@ -6,7 +6,7 @@ jest.mock("@/shared/config/config", () => ({
   API_URL: "http://localhost:3001",
 }));
 
-// Моки картинок
+// --- IMAGE MOCKS ---
 jest.mock("@/assets/images/fintrack-logo.png", () => "logo-mock", {
   virtual: true,
 });
@@ -18,7 +18,7 @@ jest.mock("@/assets/images/home-banner.png", () => "home-banner-mock", {
 });
 jest.mock("@/assets/images/sprite.svg", () => "sprite-mock", { virtual: true });
 
-// --- Auth Store ---
+// --- AUTH STORE MOCK ---
 const authStoreState = {
   token: null,
   isLoading: false,
@@ -38,7 +38,6 @@ jest.mock("@/entities/auth/model/auth.store", () => ({
   useAuthStore: useAuthStoreMock,
 }));
 
-// Тип пользователя
 type User = {
   id: number;
   email: string;
@@ -47,7 +46,7 @@ type User = {
   avatar: string;
 };
 
-// --- User Store с подпиской ---
+// --- USER STORE MOCK ---
 let currentUser: User | null = null;
 const listeners: (() => void)[] = [];
 
@@ -81,7 +80,7 @@ jest.mock("@/entities/user/model/user.store", () => ({
   useUserStore: useUserStoreMock,
 }));
 
-// --- Categories Store ---
+// --- CATEGORIES STORE MOCK ---
 const categoriesStore = {
   categories: [],
   isLoading: false,
@@ -99,7 +98,7 @@ jest.mock("@/entities/category/model/category.store", () => ({
   useCategoriesStore: useCategoriesStoreMock,
 }));
 
-// --- Transactions Store ---
+// --- TRANSACTIONS STORE MOCK ---
 const transactionsStore = {
   transactions: [],
   isLoading: false,
@@ -117,11 +116,12 @@ jest.mock("@/entities/transaction/model/transaction.store", () => ({
   useTransactionsStore: useTransactionsStoreMock,
 }));
 
-// --- clearUserData ---
+// --- CLEAR USER DATA MOCK ---
 jest.mock("@/shared/lib/clearUserData", () => ({
   clearUserData: jest.fn(),
 }));
 
+// --- TEST SETUP ---
 import { render, screen, waitFor, act } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
@@ -131,6 +131,7 @@ import { useAuthStore } from "@/entities/auth/model/auth.store";
 import { useUserStore } from "@/entities/user/model/user.store";
 import { clearUserData } from "@/shared/lib/clearUserData";
 
+// --- APP TESTS ---
 describe("App", () => {
   const user1 = {
     id: 1,
@@ -154,7 +155,6 @@ describe("App", () => {
   });
 
   it("renders loading spinner initially if not ready and not auth page", async () => {
-    // Делаем так, чтобы initDemoUser "завис" и ready не стал true
     const initDemoMock: () => Promise<void> = jest.fn(
       () => new Promise<void>(() => {})
     );
@@ -229,7 +229,6 @@ describe("App", () => {
       avatar: "",
     });
 
-    // Пробрасываем путь, который относится к auth
     window.history.pushState({}, "Login page", "/login");
 
     await act(async () => {
@@ -249,10 +248,8 @@ describe("App", () => {
   });
 
   it("clears user data when switching from one real user to another", async () => {
-    // Устанавливаем первого пользователя
     useUserStore.getState().setUser({ ...user1 });
 
-    // Сначала рендерим App
     const { rerender } = render(
       <BrowserRouter>
         <AppInit>
@@ -261,12 +258,10 @@ describe("App", () => {
       </BrowserRouter>
     );
 
-    // Смена пользователя на второго через мок-стор (новая ссылка)
     act(() => {
       useUserStore.getState().setUser({ ...user2 });
     });
 
-    // Перерендерим App, чтобы хук useUserStore заново получил новое состояние
     rerender(
       <BrowserRouter>
         <AppInit>
@@ -275,7 +270,6 @@ describe("App", () => {
       </BrowserRouter>
     );
 
-    // Ждём, пока useEffect сработает и вызовет clearUserData
     await waitFor(() => {
       expect(clearUserData).toHaveBeenCalled();
     });

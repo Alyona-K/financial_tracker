@@ -4,7 +4,7 @@ import { API_URL } from "@/shared/config/config";
 
 export const api = axios.create({ baseURL: API_URL });
 
-// Добавляем интерцептор для запроса
+// --- REQUEST INTERCEPTOR TO ADD AUTH TOKEN ---
 api.interceptors.request.use((config) => {
   const token = useAuthStore.getState().token;
   if (token) {
@@ -14,7 +14,7 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Интерцептор для ответа: если 401, делаем автологин demo-user и повторяем запрос
+// --- RESPONSE INTERCEPTOR TO HANDLE 401 AND RETRY ---
 api.interceptors.response.use(
   (res) => res,
   async (error) => {
@@ -24,7 +24,7 @@ api.interceptors.response.use(
     if (
       error.response?.status === 401 &&
       !originalRequest._retry &&
-      !authStore.skipAutoLogin // <-- здесь проверяем
+      !authStore.skipAutoLogin 
     ) {
       originalRequest._retry = true;
       await authStore.refreshToken();

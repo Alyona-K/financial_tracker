@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 
-// --- Mock Vite environment variables for Jest ---
+// --- MOCK VITE ENV ---
 (globalThis as any).importMeta = {
   env: {
     VITE_API_URL: "http://localhost:3001",
@@ -9,24 +9,7 @@ import "@testing-library/jest-dom";
   },
 };
 
-// Polyfill TextEncoder/TextDecoder for Node.js
+// --- NODE POLYFILLS ---
 import { TextEncoder, TextDecoder } from "util";
 (globalThis as any).TextEncoder = TextEncoder;
 (globalThis as any).TextDecoder = TextDecoder;
-
-
-
-
-// import "@testing-library/jest-dom";
-
-// // --- Mock Vite environment variables for Jest ---
-// (globalThis as any).import = {
-//   meta: {
-//     env: {
-//       VITE_API_URL: "http://localhost:3001",
-//       VITE_BASENAME: "/",
-//       VITE_APP_NAME: "FinTrack-Test",
-//     },
-//   },
-// };
-

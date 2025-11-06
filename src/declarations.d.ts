@@ -1,3 +1,4 @@
+// --- MODULE DECLARATIONS & ENV TYPES ---
 declare module "*.png" {
   const value: string;
   export default value;
@@ -13,7 +14,6 @@ declare module "*.svg" {
   export default value;
 }
 
-// --- для Vite ---
 interface ImportMetaEnv {
   readonly VITE_BASENAME?: string;
   readonly VITE_API_URL?: string;
@@ -23,7 +23,6 @@ interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
 
-// для Jest
 declare const global: {
   importMeta: ImportMeta;
 };

@@ -1,13 +1,13 @@
 import { create } from "zustand";
 import { WidgetCardData } from "./widget.types";
-import { defaultWidgets } from "@/shared/hooks/useWidgetsData"; // дефолтные виджеты
+import { defaultWidgets } from "@/shared/hooks/useWidgetsData"; 
 
 type WidgetsState = {
-  widgets: WidgetCardData[]; // здесь мы будем хранить только UI-стейт
-  setWidgets: (widgets: WidgetCardData[]) => void; // для ручной подстановки от хука
-  clearWidgets: () => void; // сброс к дефолту
-  openMenuId: string | null; // для управления открытым меню карточки
-  setOpenMenuId: (id: string | null) => void; // управление меню
+  widgets: WidgetCardData[]; 
+  setWidgets: (widgets: WidgetCardData[]) => void; 
+  clearWidgets: () => void; 
+  openMenuId: string | null; 
+  setOpenMenuId: (id: string | null) => void; 
 };
 
 export const useWidgetsStore = create<WidgetsState>((set) => ({

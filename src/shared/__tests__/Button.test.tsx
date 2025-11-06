@@ -2,16 +2,19 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import Button from "@shared/ui/Button";
 
 describe("Button component", () => {
+  // --- BASIC RENDER TEST ---
   test("renders with children", () => {
     render(<Button>Click me</Button>);
     expect(screen.getByText("Click me")).toBeInTheDocument();
   });
 
+  // --- CUSTOM CLASSNAME TEST ---
   test("applies custom className", () => {
     render(<Button className="my-class">Click</Button>);
     expect(screen.getByRole("button")).toHaveClass("btn my-class");
   });
 
+  // --- ONCLICK HANDLER TEST ---
   test("calls onClick handler when clicked", () => {
     const handleClick = jest.fn();
     render(<Button onClick={handleClick}>Click</Button>);
@@ -19,6 +22,7 @@ describe("Button component", () => {
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
 
+  // --- STANDARD BUTTON PROPS TEST ---
   test("accepts standard button props", () => {
     render(
       <Button type="submit" disabled>

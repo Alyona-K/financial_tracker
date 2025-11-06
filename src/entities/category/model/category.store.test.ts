@@ -1,4 +1,4 @@
-// Моки API и конфигов
+// --- MOCKS ---
 jest.mock("@/shared/lib/api", () => ({
   api: { get: jest.fn(), post: jest.fn(), patch: jest.fn(), delete: jest.fn() },
 }));
@@ -6,7 +6,6 @@ jest.mock("@/shared/config/config", () => ({
   API_URL: "http://localhost:3001",
 }));
 
-// --- Моки API и userStore ---
 jest.mock("@/entities/user/model/user.store", () => ({
   useUserStore: {
     getState: () => ({
@@ -24,6 +23,7 @@ jest.mock("@/entities/user/model/user.store", () => ({
 
 jest.mock("./category.api");
 
+// --- IMPORTS ---
 import { act } from "@testing-library/react";
 import { useCategoriesStore } from "./category.store";
 import { Category } from "@/entities/category/model/category.types";
@@ -34,6 +34,7 @@ import {
   deleteCategoryApi,
 } from "./category.api";
 
+// --- TESTS ---
 describe("Categories Store", () => {
   const mockCategories: Category[] = [
     { id: "1", name: "Food", type: "Expenses", userId: 1 },
@@ -46,6 +47,7 @@ describe("Categories Store", () => {
     useCategoriesStore.setState({ categories: [], isLoading: false });
   });
 
+  // --- FETCH ---
   it("should fetch categories for current user", async () => {
     (getCategories as jest.Mock).mockResolvedValue(mockCategories);
 
@@ -61,6 +63,7 @@ describe("Categories Store", () => {
     expect(state.isLoading).toBe(false);
   });
 
+  // --- ADD ---
   it("should add a new category", async () => {
     const newCat: Category = {
       id: "4",
@@ -88,6 +91,7 @@ describe("Categories Store", () => {
     expect(state.isLoading).toBe(false);
   });
 
+  // --- UPDATE ---
   it("should update an existing category", async () => {
     useCategoriesStore.setState({
       categories: [{ id: "1", name: "Food", userId: 1, type: "Expenses" }],
@@ -111,6 +115,7 @@ describe("Categories Store", () => {
     expect(state.isLoading).toBe(false);
   });
 
+  // --- DELETE ---
   it("should delete a category by id", async () => {
     useCategoriesStore.setState({
       categories: [
@@ -132,6 +137,7 @@ describe("Categories Store", () => {
     expect(state.isLoading).toBe(false);
   });
 
+  // --- CLEAR ---
   it("should clear categories", () => {
     useCategoriesStore.setState({
       categories: [

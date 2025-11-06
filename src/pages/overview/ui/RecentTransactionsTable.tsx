@@ -10,7 +10,7 @@ export const RecentTransactionsTable = () => {
       <div className="recent-transactions-table__loading">
         Loading transactions...
       </div>
-    ); 
+    );
   }
 
   if (transactions.length === 0) {

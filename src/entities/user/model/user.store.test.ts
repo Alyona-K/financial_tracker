@@ -1,4 +1,4 @@
-// --- Моки API и конфигов ---
+// --- MOCK API AND CONFIG ---
 jest.mock("@/shared/lib/api", () => ({
   api: { get: jest.fn(), post: jest.fn(), patch: jest.fn(), delete: jest.fn() },
 }));
@@ -6,7 +6,7 @@ jest.mock("@/shared/config/config", () => ({
   API_URL: "http://localhost:3001",
 }));
 
-// --- Мок userApi ---
+// --- MOCK USER API ---
 jest.mock("./user.api");
 
 import { act } from "@testing-library/react";
@@ -29,9 +29,10 @@ describe("User Store", () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    useUserStore.getState().setUser(null); // сбросим состояние между тестами
+    useUserStore.getState().setUser(null);
   });
 
+  // --- SET USER ---
   it("should set user", () => {
     act(() => {
       useUserStore.getState().setUser(mockUser);
@@ -40,6 +41,7 @@ describe("User Store", () => {
     expect(useUserStore.getState().user).toEqual(mockUser);
   });
 
+  // --- FETCH USER BY ID ---
   it("should fetch user by id", async () => {
     (userApi.getById as jest.Mock).mockResolvedValue(mockUser);
 
@@ -51,6 +53,7 @@ describe("User Store", () => {
     expect(useUserStore.getState().user).toEqual(mockUser);
   });
 
+  // --- UPDATE USER ---
   it("should update user when user exists", async () => {
     act(() => {
       useUserStore.getState().setUser(mockUser);
@@ -68,6 +71,7 @@ describe("User Store", () => {
     expect(useUserStore.getState().user).toEqual(updatedUser);
   });
 
+  // --- UPDATE USER FAIL NO USER ---
   it("should not update user if no user exists", async () => {
     (userApi.update as jest.Mock).mockResolvedValue(updatedUser);
 

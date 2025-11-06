@@ -5,7 +5,7 @@ import { useCategoriesStore } from "@/entities/category/model/category.store";
 import "./CategoryRow.scss";
 
 type CategoryRowProps = {
-  categoryId: string; // теперь только id
+  categoryId: string;
   onEdit?: (categoryId: string) => void;
   onDelete?: (categoryId: string) => void;
 };
@@ -17,10 +17,9 @@ const CategoryRow: React.FC<CategoryRowProps> = ({
 }) => {
   const { categories } = useCategoriesStore();
 
-  // ищем объект категории по id
   const category = categories.find((c) => c.id === categoryId);
 
-  if (!category) return null; // если не нашли, ничего не рендерим
+  if (!category) return null;
 
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   return (

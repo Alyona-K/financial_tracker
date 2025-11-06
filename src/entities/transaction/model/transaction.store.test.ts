@@ -1,4 +1,4 @@
-// Моки API и конфигов
+// --- MOCK API AND CONFIG ---
 jest.mock("@/shared/lib/api", () => ({
   api: { get: jest.fn(), post: jest.fn(), patch: jest.fn(), delete: jest.fn() },
 }));
@@ -6,11 +6,17 @@ jest.mock("@/shared/config/config", () => ({
   API_URL: "http://localhost:3001",
 }));
 
-// --- Моки API и userStore ---
+// --- MOCK USER STORE ---
 jest.mock("@/entities/user/model/user.store", () => ({
   useUserStore: {
     getState: () => ({
-      user: { id: 1, email: "user@test.com", firstName: "Test", lastName: "User", avatar: "" },
+      user: {
+        id: 1,
+        email: "user@test.com",
+        firstName: "Test",
+        lastName: "User",
+        avatar: "",
+      },
       setUser: jest.fn(),
     }),
   },
@@ -30,9 +36,33 @@ import {
 
 describe("Transactions Store", () => {
   const mockTransactions: Transaction[] = [
-    { id: "1", amount: 100, categoryId: "a", date: "2025-11-01", type: "Income", description: "Salary", userId: 1 },
-    { id: "2", amount: 50, categoryId: "b", date: "2025-11-02", type: "Expenses", description: "Groceries", userId: 1 },
-    { id: "3", amount: 30, categoryId: "c", date: "2025-11-03", type: "Income", description: "Other", userId: 2 },
+    {
+      id: "1",
+      amount: 100,
+      categoryId: "a",
+      date: "2025-11-01",
+      type: "Income",
+      description: "Salary",
+      userId: 1,
+    },
+    {
+      id: "2",
+      amount: 50,
+      categoryId: "b",
+      date: "2025-11-02",
+      type: "Expenses",
+      description: "Groceries",
+      userId: 1,
+    },
+    {
+      id: "3",
+      amount: 30,
+      categoryId: "c",
+      date: "2025-11-03",
+      type: "Income",
+      description: "Other",
+      userId: 2,
+    },
   ];
 
   beforeEach(() => {
@@ -40,6 +70,7 @@ describe("Transactions Store", () => {
     useTransactionsStore.setState({ transactions: [], isLoading: false });
   });
 
+  // --- FETCH TRANSACTIONS ---
   it("should fetch transactions for current user", async () => {
     (getTransactions as jest.Mock).mockResolvedValue(mockTransactions);
 
@@ -49,12 +80,13 @@ describe("Transactions Store", () => {
 
     const state = useTransactionsStore.getState();
     expect(getTransactions).toHaveBeenCalled();
-    expect(state.transactions).toHaveLength(2); // только userId === 1
+    expect(state.transactions).toHaveLength(2);
     expect(state.transactions[0].id).toBe("1");
     expect(state.transactions[1].id).toBe("2");
     expect(state.isLoading).toBe(false);
   });
 
+  // --- ADD TRANSACTION ---
   it("should add a new transaction", async () => {
     const newTx: Transaction = {
       id: "4",
@@ -93,10 +125,19 @@ describe("Transactions Store", () => {
     expect(created).toEqual(newTx);
   });
 
+  // --- UPDATE TRANSACTION ---
   it("should update an existing transaction", async () => {
     useTransactionsStore.setState({
       transactions: [
-        { id: "1", amount: 100, categoryId: "a", date: "2025-11-01", type: "Income", description: "Salary", userId: 1 },
+        {
+          id: "1",
+          amount: 100,
+          categoryId: "a",
+          date: "2025-11-01",
+          type: "Income",
+          description: "Salary",
+          userId: 1,
+        },
       ],
     });
 
@@ -113,7 +154,9 @@ describe("Transactions Store", () => {
 
     let saved: Transaction | undefined;
     await act(async () => {
-      saved = await useTransactionsStore.getState().updateTransaction(updatedTx);
+      saved = await useTransactionsStore
+        .getState()
+        .updateTransaction(updatedTx);
     });
 
     const state = useTransactionsStore.getState();
@@ -124,11 +167,28 @@ describe("Transactions Store", () => {
     expect(saved).toEqual(updatedTx);
   });
 
+  // --- DELETE TRANSACTION ---
   it("should delete a transaction by id", async () => {
     useTransactionsStore.setState({
       transactions: [
-        { id: "1", amount: 100, categoryId: "a", date: "2025-11-01", type: "Income", description: "Salary", userId: 1 },
-        { id: "2", amount: 50, categoryId: "b", date: "2025-11-02", type: "Expenses", description: "Groceries", userId: 1 },
+        {
+          id: "1",
+          amount: 100,
+          categoryId: "a",
+          date: "2025-11-01",
+          type: "Income",
+          description: "Salary",
+          userId: 1,
+        },
+        {
+          id: "2",
+          amount: 50,
+          categoryId: "b",
+          date: "2025-11-02",
+          type: "Expenses",
+          description: "Groceries",
+          userId: 1,
+        },
       ],
     });
 
@@ -145,11 +205,28 @@ describe("Transactions Store", () => {
     expect(state.isLoading).toBe(false);
   });
 
+  // --- CLEAR TRANSACTIONS ---
   it("should clear transactions", () => {
     useTransactionsStore.setState({
       transactions: [
-        { id: "1", amount: 100, categoryId: "a", date: "2025-11-01", type: "Income", description: "Salary", userId: 1 },
-        { id: "2", amount: 50, categoryId: "b", date: "2025-11-02", type: "Expenses", description: "Groceries", userId: 1 },
+        {
+          id: "1",
+          amount: 100,
+          categoryId: "a",
+          date: "2025-11-01",
+          type: "Income",
+          description: "Salary",
+          userId: 1,
+        },
+        {
+          id: "2",
+          amount: 50,
+          categoryId: "b",
+          date: "2025-11-02",
+          type: "Expenses",
+          description: "Groceries",
+          userId: 1,
+        },
       ],
     });
 

@@ -13,44 +13,45 @@ function CategoriesPage() {
   const { addCategory, updateCategory, deleteCategory } = useCategoriesStore();
   const { setNotificationsCount } = useNotificationsStore();
 
+  // --- STATE SETUP ---
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState<FORM_MODE>(FORM_MODE.ADD);
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(
     null
   );
 
-  // открытие модалки на добавление
+  // --- ADD CATEGORY HANDLER ---
   const handleAddClick = () => {
     setModalMode(FORM_MODE.ADD);
     setSelectedCategory(null);
     setIsModalOpen(true);
   };
 
-  // открытие модалки на редактирование
+  // --- EDIT CATEGORY HANDLER ---
   const handleEdit = (category: Category) => {
     setModalMode(FORM_MODE.EDIT);
     setSelectedCategory(category);
     setIsModalOpen(true);
   };
 
-  // обработка сохранения из модалки
+  // --- MODAL SUBMIT HANDLER ---
   const handleModalSubmit = async (category: Category) => {
     if (modalMode === FORM_MODE.ADD) {
       await addCategory(category);
-      setNotificationsCount((prev: number) => prev + 1); // <-- увеличиваем счетчик
+      setNotificationsCount((prev: number) => prev + 1);
       alert("Category added!");
     } else {
       await updateCategory(category);
-      setNotificationsCount((prev: number) => prev + 1); // можно увеличивать или не трогать, по логике
+      setNotificationsCount((prev: number) => prev + 1);
       alert("Category updated!");
     }
     setIsModalOpen(false);
   };
 
-  // обработка удаления категории
+  // --- DELETE CATEGORY HANDLER ---
   const handleDelete = async (id: string) => {
     await deleteCategory(id);
-    setNotificationsCount((prev: number) => prev + 1); // <-- увеличиваем счетчик
+    setNotificationsCount((prev: number) => prev + 1);
     alert("Category deleted!");
   };
 

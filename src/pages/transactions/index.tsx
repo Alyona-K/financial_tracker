@@ -23,7 +23,6 @@ function TransactionsPage() {
 
   const [searchQuery, setSearchQuery] = useState("");
 
-  // новое состояние для диапазона дат — теперь это Date | null
   const [dateRange, setDateRange] = useState<{
     start: Date | null;
     end: Date | null;
@@ -32,7 +31,6 @@ function TransactionsPage() {
     end: null,
   });
 
-  // Модалка
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState<FORM_MODE>(FORM_MODE.ADD);
   const [selectedTransaction, setSelectedTransaction] =
@@ -40,13 +38,13 @@ function TransactionsPage() {
 
   const user = useUserStore((s) => s.user);
 
+  // --- FETCH TRANSACTIONS ON USER LOAD ---
   useEffect(() => {
     if (user) {
       fetchTransactions();
     }
   }, [user, fetchTransactions]);
 
-  // обработчик, который передаем в Controls
   const handleDateRangeChange = (start: Date | null, end: Date | null) => {
     setDateRange({ start, end });
   };
@@ -85,10 +83,8 @@ function TransactionsPage() {
         });
       }
 
-      // уведомление обновляем **до alert**
       setNotificationsCount((prev) => prev + 1);
 
-      // можно показывать alert после обновления state
       alert(
         modalMode === FORM_MODE.ADD
           ? "Transaction added!"
@@ -136,5 +132,3 @@ function TransactionsPage() {
 }
 
 export default TransactionsPage;
-
-

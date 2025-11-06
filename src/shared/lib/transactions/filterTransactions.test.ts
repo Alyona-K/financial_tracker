@@ -39,6 +39,7 @@ describe("filterTransactions utils", () => {
 
   const ids = (arr: Transaction[]) => arr.map((t) => t.id);
 
+  // --- TESTS FOR FILTERING BY CATEGORY ---
   describe("filterTransactionsByCategory", () => {
     it("returns only transactions that belong to the selected category", () => {
       const result = filterTransactionsByCategory(base, "Food", categories);
@@ -81,6 +82,7 @@ describe("filterTransactions utils", () => {
     });
   });
 
+  // --- TESTS FOR FILTERING BY TYPE ---
   describe("filterTransactionsByType", () => {
     it("returns only transactions of given type", () => {
       const expenses = filterTransactionsByType(base, "Expenses");

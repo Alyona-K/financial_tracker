@@ -117,8 +117,8 @@ const AddEditTransactionModal: React.FC<AddEditTransactionModalProps> = ({
     };
 
     try {
-      if (onSubmit) await onSubmit(transactionToSave); // <--- вызываем пропс
-      onClose(); // закрываем модалку после выполнения onSubmit
+      if (onSubmit) await onSubmit(transactionToSave); 
+      onClose(); 
     } catch (error) {
       console.error(error);
     }

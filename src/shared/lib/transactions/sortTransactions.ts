@@ -1,6 +1,5 @@
 import { Transaction } from "@/entities/transaction/model/transaction.types";
 
-// Универсальная функция сортировки, сохраняющая тип
 export function sortTransactions<T extends Transaction>(
   transactions: T[],
   field: keyof Transaction,

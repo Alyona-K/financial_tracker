@@ -1,3 +1,4 @@
+// --- API MOCKS ---
 jest.mock("@/shared/lib/api", () => ({
   api: {
     get: jest.fn(),
@@ -8,6 +9,7 @@ jest.mock("@/shared/lib/api", () => ({
 }));
 jest.mock("@/entities/user/model/user.store");
 
+// --- IMPORTS ---
 import { authApi } from "./auth.api";
 import { api } from "@/shared/lib/api";
 import { useUserStore } from "@/entities/user/model/user.store";
@@ -18,6 +20,7 @@ import {
 } from "./auth.types";
 import { User } from "@/entities/user/model/user.types";
 
+// --- MOCK SETUP ---
 const mockedApi = api as jest.Mocked<typeof api>;
 const mockedUserStore = useUserStore as jest.Mocked<any>;
 

@@ -1,5 +1,6 @@
 import { loginSchema, registerSchema } from "./validation";
 
+// --- LOGIN SCHEMA TESTS ---
 describe("loginSchema", () => {
   it("passes with valid credentials", () => {
     const result = loginSchema.safeParse({
@@ -32,6 +33,7 @@ describe("loginSchema", () => {
   });
 });
 
+// --- REGISTER SCHEMA TESTS ---
 describe("registerSchema", () => {
   it("passes when all fields valid", () => {
     const result = registerSchema.safeParse({

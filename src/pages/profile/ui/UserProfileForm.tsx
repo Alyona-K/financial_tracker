@@ -13,7 +13,6 @@ const UserProfileForm = () => {
   const handleSave = async (field: keyof User, value: string) => {
     const payload: Partial<UpdateUserPayload> = { [field]: value };
 
-    // если пароль — обрабатываем отдельно (только если непустой)
     if (field === "password" && !value.trim()) return;
 
     const updatedUser = await userApi.update(user.id, payload);

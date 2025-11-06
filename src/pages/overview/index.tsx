@@ -20,20 +20,20 @@ function OverviewPage() {
   const { addTransaction } = useTransactionsStore();
   const { setNotificationsCount } = useNotificationsStore();
 
-  // --- хук расчёта виджетов ---
+  // --- WIDGETS DATA HOOK ---
   const { widgets: calculatedWidgets } = useWidgetsData();
   const { setWidgets } = useWidgetsStore();
 
-  // синхронизируем стор с вычисленными виджетами
+  // --- SYNC WIDGETS STORE ---
   useEffect(() => {
     setWidgets(calculatedWidgets);
   }, [calculatedWidgets, setWidgets]);
 
-  // --- Работа с модалкой ---
+  // --- MODAL HANDLERS ---
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
 
-  // --- Сабмит транзакции ---
+  // --- TRANSACTION SUBMIT HANDLER ---
   const handleSubmit = async (data: TransactionFormData) => {
     try {
       await addTransaction(data);

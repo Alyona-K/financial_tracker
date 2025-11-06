@@ -1,7 +1,7 @@
 export function parseDate(dateString: string): Date | null {
   if (!dateString) return null;
 
-  // строгий формат YYYY-MM-DD
+  // --- STRICT YYYY-MM-DD FORMAT ---
   const match = /^(\d{4})-(\d{1,2})-(\d{1,2})$/.exec(dateString);
   if (!match) return null;
 
@@ -10,13 +10,13 @@ export function parseDate(dateString: string): Date | null {
   const month = Number(monthStr);
   const day = Number(dayStr);
 
-  // валидируем диапазоны месяца и дня
+  // --- VALIDATE MONTH AND DAY RANGES ---
   if (month < 1 || month > 12) return null;
-  if (day < 1 || day > 31) return null; // можно расширить для точного числа дней в месяце
+  if (day < 1 || day > 31) return null;
 
   const date = new Date(year, month - 1, day);
 
-  // проверка: JS может прокрутить даты, например, 2025-02-30 -> Mar 02
+  // --- CHECK FOR JS DATE OVERFLOW ---
   if (
     date.getFullYear() !== year ||
     date.getMonth() + 1 !== month ||

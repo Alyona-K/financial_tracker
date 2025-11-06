@@ -25,8 +25,10 @@ const TransactionsTableHeader: React.FC<TransactionsTableHeaderProps> = ({
     direction: "asc",
   });
 
-  // контролируем, какой дропдаун открыт
-  const [openDropdown, setOpenDropdown] = useState<"category" | "type" | null>(null);
+  // --- SORT STATE ---
+  const [openDropdown, setOpenDropdown] = useState<"category" | "type" | null>(
+    null
+  );
 
   const handleSort = (field: keyof Transaction) => {
     const newDirection =
@@ -90,11 +92,15 @@ const TransactionsTableHeader: React.FC<TransactionsTableHeaderProps> = ({
           options={["Income", "Expenses"]}
           value=""
           onChange={(val) =>
-            onFilterType(val === "All" ? undefined : (val as "Income" | "Expenses"))
+            onFilterType(
+              val === "All" ? undefined : (val as "Income" | "Expenses")
+            )
           }
           showAllOption={true}
           isOpen={openDropdown === "type"}
-          onToggle={() => setOpenDropdown(openDropdown === "type" ? null : "type")}
+          onToggle={() =>
+            setOpenDropdown(openDropdown === "type" ? null : "type")
+          }
           onClose={() => setOpenDropdown(null)}
         />
       </div>
@@ -131,4 +137,3 @@ const TransactionsTableHeader: React.FC<TransactionsTableHeaderProps> = ({
 };
 
 export default TransactionsTableHeader;
-

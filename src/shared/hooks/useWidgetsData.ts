@@ -33,12 +33,12 @@ export const useWidgetsData = () => {
   const { transactions, fetchTransactions } = useTransactionsStore();
   const [widgets, setWidgets] = useState<WidgetCardData[]>(defaultWidgets);
 
-  // --- подгружаем транзакции при монтировании ---
+  // --- LOAD TRANSACTIONS ON MOUNT ---
   useEffect(() => {
     fetchTransactions();
   }, [fetchTransactions]);
 
-  // --- пересчитываем виджеты при изменении транзакций ---
+  // --- RECALCULATE WIDGETS WHEN TRANSACTIONS CHANGE ---
   useEffect(() => {
     if (!transactions || transactions.length === 0) {
       setWidgets(defaultWidgets);

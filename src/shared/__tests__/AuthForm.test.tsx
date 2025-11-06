@@ -1,3 +1,4 @@
+// --- MOCKS ---
 jest.mock("@/assets/images/sprite.svg", () => "test-file-stub");
 jest.mock("./Input.scss", () => ({}));
 jest.mock("./AuthForm.scss", () => ({}));
@@ -18,6 +19,7 @@ const fields = [
 const initialValues: FormValues = { email: "", password: "" };
 
 describe("AuthForm", () => {
+  // --- BASIC RENDER TEST FOR FIELDS AND BUTTON ---
   test("renders fields and button", () => {
     render(
       <AuthForm
@@ -33,6 +35,7 @@ describe("AuthForm", () => {
     expect(screen.getByRole("button", { name: /submit/i })).toBeInTheDocument();
   });
 
+  // --- REQUIRED FIELDS VALIDATION TEST ---
   test("shows error if required field is empty", async () => {
     const onSubmit = jest.fn();
     render(
@@ -51,6 +54,7 @@ describe("AuthForm", () => {
     expect(onSubmit).not.toHaveBeenCalled();
   });
 
+  // --- SUBMIT FORM WITH VALID VALUES TEST ---
   test("calls onSubmit with form values", async () => {
     const onSubmit = jest.fn().mockResolvedValue(undefined);
     render(
@@ -77,6 +81,7 @@ describe("AuthForm", () => {
     });
   });
 
+  // --- CUSTOM VALIDATOR ERROR TEST ---
   test("shows custom validation error", async () => {
     const validatorFields = [
       {
@@ -108,6 +113,7 @@ describe("AuthForm", () => {
     expect(onSubmit).not.toHaveBeenCalled();
   });
 
+  // --- PASSWORD TOGGLE VISIBILITY TEST ---
   test("toggles password visibility", () => {
     render(
       <AuthForm
@@ -119,7 +125,7 @@ describe("AuthForm", () => {
     );
 
     const passwordInput = screen.getByLabelText("Password") as HTMLInputElement;
-    const toggleButton = screen.getByRole("button", { name: "" }); // у кнопки глаза нет текста
+    const toggleButton = screen.getByRole("button", { name: "" });
 
     expect(passwordInput.type).toBe("password");
 
@@ -130,6 +136,7 @@ describe("AuthForm", () => {
     expect(passwordInput.type).toBe("password");
   });
 
+  // --- API ERROR DISPLAY TEST ---
   test("displays API error", () => {
     render(
       <AuthForm

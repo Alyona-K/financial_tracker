@@ -43,7 +43,6 @@ export const TransactionRow: React.FC<TransactionRowProps> = ({
 }) => {
   const { categories } = useCategoriesStore();
 
-  // ищем название категории
   const category = categoryName;
 
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);

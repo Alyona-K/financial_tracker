@@ -42,6 +42,7 @@ const AddEditCategoryModal: React.FC<AddEditCategoryModalProps> = ({
     type: "",
   });
 
+  // --- ERRORS STATE ---
   const [errors, setErrors] = useState<
     Partial<Record<keyof CategoryFormUI, string>>
   >({});
@@ -49,7 +50,7 @@ const AddEditCategoryModal: React.FC<AddEditCategoryModalProps> = ({
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { user } = useUserStore();
 
-  // --- Reset form on open ---
+  // --- RESET FORM ON OPEN ---
   useEffect(() => {
     if (isOpen) {
       const category = categories.find((c) => c.id === initialCategoryId);
@@ -67,6 +68,7 @@ const AddEditCategoryModal: React.FC<AddEditCategoryModalProps> = ({
     setForm((prev) => ({ ...prev, [field]: value }));
   };
 
+  // --- DROPDOWN TOGGLE HANDLERS ---
   const toggleDropdown = () => setIsDropdownOpen((prev) => !prev);
   const closeDropdown = () => setIsDropdownOpen(false);
 
@@ -76,6 +78,7 @@ const AddEditCategoryModal: React.FC<AddEditCategoryModalProps> = ({
     const newErrors: Partial<Record<keyof CategoryFormUI, string>> = {};
     const trimmedName = form.name.trim();
 
+    // --- VALIDATION ---
     if (!trimmedName) newErrors.name = "Name is required";
     if (!form.type) newErrors.type = "Type is required";
 
@@ -88,6 +91,7 @@ const AddEditCategoryModal: React.FC<AddEditCategoryModalProps> = ({
     setErrors(newErrors);
     if (Object.keys(newErrors).length > 0) return;
 
+    // --- PREPARE CATEGORY OBJECT ---
     const categoryToSave: Category = {
       id: form.id || crypto.randomUUID(),
       name: trimmedName,

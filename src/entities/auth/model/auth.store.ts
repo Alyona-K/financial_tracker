@@ -1,3 +1,4 @@
+// --- IMPORTS & TYPES ---
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { authApi } from "./auth.api";
@@ -8,21 +9,22 @@ interface AuthState {
   token: string | null;
   isLoading: boolean;
   error: string | null;
-  skipAutoLogin: boolean; // <--- новый флаг
+  skipAutoLogin: boolean;
 
   login: (credentials: LoginCredentials) => Promise<void>;
   register: (credentials: RegisterCredentials) => Promise<void>;
-  // logout: () => void;
   logout: (fullClear?: boolean) => void;
   initDemoUser: (skipIfAuthPage?: boolean) => Promise<void>;
-  refreshToken: () => Promise<void>; // новый метод для автологина
+  refreshToken: () => Promise<void>;
 }
 
+// --- CONSTANTS ---
 const DEMO_CREDENTIALS: LoginCredentials = {
   email: "demo@fintrack.com",
   password: "demo123",
 };
 
+// --- AUTH STORE ---
 export const useAuthStore = create<AuthState>()(
   persist(
     (set, get) => ({
@@ -36,10 +38,8 @@ export const useAuthStore = create<AuthState>()(
         try {
           const { accessToken, user } = await authApi.login(credentials);
 
-          // Сохраняем токен
           set({ token: accessToken, isLoading: false });
 
-          // Передаём пользователя в userStore напрямую
           useUserStore.getState().setUser(user);
         } catch (err: any) {
           set({
@@ -56,7 +56,6 @@ export const useAuthStore = create<AuthState>()(
           const { accessToken, user } = await authApi.register(credentials);
           set({ token: accessToken, isLoading: false });
 
-          // У регистраций уже есть firstName/lastName из формы
           useUserStore.getState().setUser(user);
         } catch (err: any) {
           set({

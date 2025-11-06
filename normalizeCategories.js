@@ -8,32 +8,33 @@ const __dirname = path.dirname(__filename);
 const dbPath = path.join(__dirname, "db.json");
 const outputPath = path.join(__dirname, "db.normalized.json");
 
-// читаем db.json
+// READ ORIGINAL DB JSON
 const db = JSON.parse(fs.readFileSync(dbPath, "utf-8"));
 
-// строим маппинг: name -> id и добавляем isDeleted: false для всех категорий
-const normalizedCategories = db.categories.map(c => ({
+// ADD isDeleted FLAG TO CATEGORIES
+const normalizedCategories = db.categories.map((c) => ({
   ...c,
-  isDeleted: false
+  isDeleted: false,
 }));
 
+// BUILD MAP FROM CATEGORY NAME TO ID
 const categoryMap = Object.fromEntries(
-  normalizedCategories.map(c => [c.name.toLowerCase(), c.id])
+  normalizedCategories.map((c) => [c.name.toLowerCase(), c.id])
 );
 
-// пробегаем все транзакции и нормализуем categoryId
-const normalizedTransactions = db.transactions.map(tx => ({
+// NORMALIZE TRANSACTIONS WITH CATEGORY MAPPING
+const normalizedTransactions = db.transactions.map((tx) => ({
   ...tx,
-  categoryId: categoryMap[tx.categoryId.toLowerCase()] || tx.categoryId
+  categoryId: categoryMap[tx.categoryId.toLowerCase()] || tx.categoryId,
 }));
 
+// COMBINE NORMALIZED DATA
 const normalizedDb = {
   ...db,
   categories: normalizedCategories,
-  transactions: normalizedTransactions
+  transactions: normalizedTransactions,
 };
 
 fs.writeFileSync(outputPath, JSON.stringify(normalizedDb, null, 2));
 
-console.log(`Готово! Сохранено в ${outputPath}`);
-
+console.log(`Saved normalized DB to ${outputPath}`);

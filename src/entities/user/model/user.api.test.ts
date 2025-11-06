@@ -1,3 +1,4 @@
+// --- MOCK API AND CONFIG ---
 jest.mock("@/shared/lib/api", () => ({
   api: {
     get: jest.fn(),

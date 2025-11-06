@@ -10,7 +10,7 @@ export const AppInit = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const initData = async () => {
       const currentUser = useUserStore.getState().user;
-      if (!currentUser) return; // не логиним демо здесь!
+      if (!currentUser) return; 
 
       await Promise.all([fetchCategories(), fetchTransactions()]);
     };
