@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Modal from "@/shared/ui/Modal";
 import Input from "@/shared/ui/Input";
+import Button from "@/shared/ui/Button";
 import Textarea from "@/shared/ui/Textarea";
 import { useCategoriesStore } from "@/entities/category/model/category.store";
 import ReactDatePicker from "react-datepicker";
@@ -266,9 +267,9 @@ const AddEditTransactionModal: React.FC<AddEditTransactionModalProps> = ({
           )}
         </div>
 
-        <button type="submit" className="btn">
+        <Button type="submit" className="add-edit-transaction-form__btn btn">
           {isEdit ? "Save changes" : "Add transaction"}
-        </button>
+        </Button>
       </form>
     </Modal>
   );

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Modal from "@/shared/ui/Modal";
 import Input from "@/shared/ui/Input";
 import Dropdown from "@/shared/ui/Dropdown";
+import Button from "@/shared/ui/Button";
 import { useCategoriesStore } from "@/entities/category/model/category.store";
 import type { Category } from "@/entities/category/model/category.types";
 import { FORM_MODE } from "@/shared/config/modes";
@@ -148,9 +149,9 @@ const AddEditCategoryModal: React.FC<AddEditCategoryModalProps> = ({
           )}
         </div>
 
-        <button type="submit" className="btn">
+        <Button type="submit" className="add-edit-category-form__btn btn">
           {isEdit ? "Save changes" : "Add category"}
-        </button>
+        </Button>
       </form>
     </Modal>
   );

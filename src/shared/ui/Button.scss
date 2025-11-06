@@ -1,6 +1,7 @@
 @use "@/shared/styles/variables" as *;
 
 .btn {
+  position: relative;
   width: 100%;
   padding: 12px;
   background-color: $color-black-pearl;
@@ -17,10 +18,37 @@
     border $transition-300;
   color: $color-white;
   cursor: pointer;
+  overflow: hidden;
+  z-index: 10;
 
-  &:hover {
+  &:focus-visible {
     background-color: $color-blue-zodiac;
     border: 1px solid $color-blue-zodiac;
+  }
+
+  &::before {
+    content: "";
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    clip-path: polygon(0 0, 0 100%, 0 100%, 0 0);
+    transition:
+      clip-path 0.5s ease-in-out,
+      background-color 0.5s ease-in-out;
+    z-index: 0;
+  }
+
+  &:hover::before {
+    clip-path: polygon(0 0, 0 100%, 100% 100%, 100% 0);
+    background-color: $color-blue-zodiac;
+    border: 1px solid $color-blue-zodiac;
+  }
+
+  &:not(:hover)::before {
+    clip-path: polygon(0 0, 0 100%, 0 100%, 0 0);
+    transition-delay: 0.3s;
   }
 
   &[disabled],
@@ -34,28 +62,61 @@
     padding: 7px 12px;
     font-size: 14px;
     width: 80px;
+
+    &:hover::before {
+      background-color: $color-blue-zodiac;
+      border: 1px solid $color-blue-zodiac;
+    }
+
+    &:not(:hover)::before {
+      transition-delay: 0.3s;
+    }
   }
   &--medium {
     padding: 7px 16px;
     font-size: 14px;
     width: 100px;
+
+    &:hover::before {
+      background-color: $color-blue-zodiac;
+      border: 1px solid $color-blue-zodiac;
+    }
+
+    &:not(:hover)::before {
+      transition-delay: 0.3s;
+    }
   }
   &--large {
     padding: 12px 20px;
     font-size: 16px;
     width: 300px;
+
+    &:hover::before {
+      background-color: $color-blue-zodiac;
+      border: 1px solid $color-blue-zodiac;
+    }
+
+    &:not(:hover)::before {
+      transition-delay: 0.3s;
+    }
   }
 
   /* variants */
   &--delete {
     background-color: $color-pacific-blue;
     border: 1px solid $color-pacific-blue;
-    transition:
-      background-color $transition-300,
-      border $transition-300;
+
+    &:hover::before {
+      background-color: $color-free-speech-red;
+      border: 1px solid $color-free-speech-red;
+    }
+    &:not(:hover)::before {
+      transition-delay: 0.3s;
+    }
   }
-  &--delete:hover {
-    background-color: $color-free-speech-red;
-    border: 1px solid $color-free-speech-red;
+
+  .btn__text,
+  .btn__icon {
+    z-index: 10;
   }
 }
