@@ -21,7 +21,7 @@ interface AuthFormProps<T> {
   submitLabel: string;
   isLoading?: boolean;
   apiError?: string | null;
-  validationSchema?: z.ZodSchema<T>; // Zod schema
+  validationSchema?: z.ZodSchema<T>;
 }
 
 function AuthForm<T extends Record<string, any>>({
@@ -48,8 +48,7 @@ function AuthForm<T extends Record<string, any>>({
       if (!result.success) {
         const newErrors: Partial<Record<keyof T, string>> = {};
         result.error.issues.forEach((issue) => {
-          // issue: ZodIssue
-          const path = issue.path[0]; // первый ключ
+          const path = issue.path[0];
           if (path) {
             newErrors[path as keyof T] = issue.message;
           }
@@ -60,7 +59,6 @@ function AuthForm<T extends Record<string, any>>({
       setErrors({});
       return true;
     } else {
-      // Старая ручная проверка
       const newErrors: Partial<Record<keyof T, string>> = {};
       fields.forEach((f) => {
         const value = form[f.name as keyof T];
@@ -112,7 +110,7 @@ function AuthForm<T extends Record<string, any>>({
                 <button
                   type="button"
                   className="auth-form__toggle"
-                  onMouseDown={(e) => e.preventDefault()} // не теряем фокус
+                  onMouseDown={(e) => e.preventDefault()}
                   onClick={() => toggleShowPassword(f.name)}
                 >
                   <svg

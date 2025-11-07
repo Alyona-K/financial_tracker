@@ -4,6 +4,7 @@ import cors from "cors";
 import fs from "fs";
 import path from "path";
 
+// --- READ ROUTES ---
 const rules = JSON.parse(
   fs.readFileSync(path.resolve('./routes.json'), 'utf-8')
 );
@@ -16,13 +17,40 @@ const middlewares = jsonServer.defaults();
 server.use(
   cors({
     origin: [
-      "http://localhost:5173",            
-      "https://financialtracker-ak.vercel.app", 
+      "http://localhost:5173",
+      "https://financialtracker-ak.vercel.app",
     ],
     credentials: true,
   })
 );
 server.use(middlewares);
+
+// --- SANITIZE INPUT DATA ---
+function sanitizeString(str) {
+  return str.replace(/[<>"'/`;&]/g, "").trim();
+}
+
+function sanitizeObject(obj) {
+  const sanitized = {};
+  Object.keys(obj).forEach((key) => {
+    const value = obj[key];
+    sanitized[key] =
+      typeof value === "string" ? sanitizeString(value) : value;
+  });
+  return sanitized;
+}
+
+// --- SANITIZE INPUT ONLY FOR NON-AUTH RESOURCES ---
+server.use((req, _res, next) => {
+  if (
+    ["POST", "PUT", "PATCH"].includes(req.method) &&
+    !req.path.startsWith("/login") &&
+    !req.path.startsWith("/register")
+  ) {
+    req.body = sanitizeObject(req.body);
+  }
+  next();
+});
 
 // --- CUSTOM SOFT DELETE FOR CATEGORIES ---
 server.delete("/categories/:id", (req, res) => {
@@ -47,7 +75,7 @@ server.delete("/categories/:id", (req, res) => {
 // --- CUSTOM GET CATEGORIES FILTERED (EXCLUDE DELETED) ---
 server.get("/categories", (_req, res) => {
   const categories = router.db.get("categories").value();
-  res.json(categories.filter(c => !c.isDeleted)); 
+  res.json(categories.filter(c => !c.isDeleted));
 });
 
 // --- ATTACH JSON-SERVER-AUTH ---
@@ -60,5 +88,3 @@ server.use(router);
 server.listen(3001, () => {
   console.log("Auth server running on http://localhost:3001");
 });
-
-
