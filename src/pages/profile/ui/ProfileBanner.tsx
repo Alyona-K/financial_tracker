@@ -26,15 +26,12 @@ function ProfileBanner() {
       // --- UPLOAD AVATAR TO CLOUDINARY ---
       const formData = new FormData();
       formData.append("file", file);
-      formData.append("upload_preset", "unsigned_upload"); // твой пресет
+      formData.append("upload_preset", "unsigned_upload");
       formData.append("folder", "fintrack/avatars");
 
       const response = await fetch(
         "https://api.cloudinary.com/v1_1/dlz6x4ygk/image/upload",
-        {
-          method: "POST",
-          body: formData,
-        }
+        { method: "POST", body: formData }
       );
 
       const data = await response.json();
@@ -44,8 +41,11 @@ function ProfileBanner() {
 
       // --- SAVE AVATAR URL TO STORE AND DB ---
       await updateUser({ avatar: avatarUrl });
+
+      // --- RESET FILE INPUT TO ALLOW REUPLOAD ---
+      if (fileInputRef.current) fileInputRef.current.value = "";
     } catch (err) {
-      console.error("Ошибка загрузки аватара:", err);
+      console.error("Avatar upload error:", err);
     } finally {
       setIsUploading(false);
     }

@@ -25,33 +25,6 @@ server.use(
 );
 server.use(middlewares);
 
-// --- SANITIZE INPUT DATA ---
-function sanitizeString(str) {
-  return str.replace(/[<>"'/`;&]/g, "").trim();
-}
-
-function sanitizeObject(obj) {
-  const sanitized = {};
-  Object.keys(obj).forEach((key) => {
-    const value = obj[key];
-    sanitized[key] =
-      typeof value === "string" ? sanitizeString(value) : value;
-  });
-  return sanitized;
-}
-
-// --- SANITIZE INPUT ONLY FOR NON-AUTH RESOURCES ---
-server.use((req, _res, next) => {
-  if (
-    ["POST", "PUT", "PATCH"].includes(req.method) &&
-    !req.path.startsWith("/login") &&
-    !req.path.startsWith("/register")
-  ) {
-    req.body = sanitizeObject(req.body);
-  }
-  next();
-});
-
 // --- CUSTOM SOFT DELETE FOR CATEGORIES ---
 server.delete("/categories/:id", (req, res) => {
   const categoryId = req.params.id;
