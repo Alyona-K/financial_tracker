@@ -133,7 +133,7 @@ function App() {
         const userStore = useUserStore.getState();
 
         if (!authStore.token && !userStore.user) {
-          await initDemoUser(); // логиним демо при старте
+          await initDemoUser(); 
         }
       }
       setReady(true);

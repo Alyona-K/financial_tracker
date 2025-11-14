@@ -19,13 +19,11 @@
     transition: border $transition-300;
   }
 
-  &__field:hover {
-    border: 1px solid $color-black-russian;
-  }
-
-  &__field:focus-visible {
+  &__field:hover,
+  &__field:focus-visible,
+  &__field:focus {
     outline: none;
-    border: 1px solid $color-link-water;
+    border: 1px solid $color-black-russian;
   }
 
   &__field::placeholder {

@@ -8,10 +8,10 @@ type AnimatedPageProps = {
 const AnimatedPage: React.FC<AnimatedPageProps> = ({ children }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}     // старт: прозрачность 0 и смещение вниз
-      animate={{ opacity: 1, y: 0 }}      // вход: появляется и поднимается
-      exit={{ opacity: 0, y: -20 }}       // выход: исчезает и уходит вверх
-      transition={{ duration: 0.3 }}      // длительность анимации
+      initial={{ opacity: 0, y: 20 }}   
+      animate={{ opacity: 1, y: 0 }}      
+      exit={{ opacity: 0, y: -20 }}       
+      transition={{ duration: 0.3 }}      
       style={{ height: "100%" }}
     >
       {children}

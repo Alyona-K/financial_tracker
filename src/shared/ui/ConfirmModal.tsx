@@ -5,15 +5,15 @@ import "./ConfirmModal.scss";
 
 type ConfirmModalProps = {
   isOpen: boolean;
-  title?: string; // заголовок модалки
-  message?: string; // текст в теле
-  confirmText?: string; // текст кнопки подтверждения
-  cancelText?: string; // текст кнопки отмены
+  title?: string; 
+  message?: string; 
+  confirmText?: string; 
+  cancelText?: string; 
   onConfirm: () => void;
   onCancel: () => void;
   confirmClassName?: string;
   cancelClassName?: string;
-  wrapperClassName?: string; // для кастомного стилизованного тела
+  wrapperClassName?: string; 
 };
 
 const ConfirmModal: React.FC<ConfirmModalProps> = ({

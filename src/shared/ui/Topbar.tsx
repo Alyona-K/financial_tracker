@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import TopbarSearch from "./TopbarSearch";
 import sprite from "@/assets/images/sprite.svg";
@@ -16,6 +16,12 @@ function Topbar() {
   const notificationsCount = useNotificationsStore(
     (state) => state.notificationsCount
   );
+  const resetNotifications = useNotificationsStore((s) => s.reset);
+
+    useEffect(() => {
+    resetNotifications();
+  }, [user?.id, resetNotifications]);
+  
   const [isProfileOpen, setProfileOpen] = useState(false);
 
   const DEMO_CREDENTIALS = { email: "demo@fintrack.com", password: "demo123" };

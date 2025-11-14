@@ -13,18 +13,14 @@
   font-weight: 400;
   line-height: 19.6px;
   justify-content: center;
+  flex-shrink: 0;
   transition:
     background-color $transition-300,
-    border $transition-300;
+    border-color $transition-300;
   color: $color-white;
   cursor: pointer;
   overflow: hidden;
   z-index: 10;
-
-  &:focus-visible {
-    background-color: $color-blue-zodiac;
-    border: 1px solid $color-blue-zodiac;
-  }
 
   &::before {
     content: "";
@@ -40,15 +36,24 @@
     z-index: 0;
   }
 
+  &:hover {
+    border-color: $color-blue-zodiac;
+  }
+
   &:hover::before {
     clip-path: polygon(0 0, 0 100%, 100% 100%, 100% 0);
     background-color: $color-blue-zodiac;
-    border: 1px solid $color-blue-zodiac;
   }
 
   &:not(:hover)::before {
     clip-path: polygon(0 0, 0 100%, 0 100%, 0 0);
     transition-delay: 0.3s;
+  }
+
+  &:focus-visible {
+    border-color: $color-blue-zodiac;
+    background-color: $color-blue-zodiac;
+    outline: none;
   }
 
   &[disabled],
@@ -62,43 +67,16 @@
     padding: 7px 12px;
     font-size: 14px;
     width: 80px;
-
-    &:hover::before {
-      background-color: $color-blue-zodiac;
-      border: 1px solid $color-blue-zodiac;
-    }
-
-    &:not(:hover)::before {
-      transition-delay: 0.3s;
-    }
   }
   &--medium {
     padding: 7px 16px;
     font-size: 14px;
     width: 100px;
-
-    &:hover::before {
-      background-color: $color-blue-zodiac;
-      border: 1px solid $color-blue-zodiac;
-    }
-
-    &:not(:hover)::before {
-      transition-delay: 0.3s;
-    }
   }
   &--large {
     padding: 12px 20px;
     font-size: 16px;
     width: 300px;
-
-    &:hover::before {
-      background-color: $color-blue-zodiac;
-      border: 1px solid $color-blue-zodiac;
-    }
-
-    &:not(:hover)::before {
-      transition-delay: 0.3s;
-    }
   }
 
   /* variants */
@@ -106,12 +84,20 @@
     background-color: $color-pacific-blue;
     border: 1px solid $color-pacific-blue;
 
+    &:hover {
+      border-color: $color-free-speech-red;
+    }
+
     &:hover::before {
       background-color: $color-free-speech-red;
-      border: 1px solid $color-free-speech-red;
     }
     &:not(:hover)::before {
       transition-delay: 0.3s;
+    }
+
+    &:focus-visible {
+      border-color: $color-free-speech-red;
+      background-color: $color-free-speech-red;
     }
   }
 

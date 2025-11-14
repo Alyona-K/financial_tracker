@@ -3,13 +3,13 @@ export interface User {
   firstName: string;
   lastName: string;
   email: string;
-  password?: string; // не обязательно хранить, но для формы можно
+  password?: string; 
   avatar: string;
   location?: string;
 }
 
 export type UpdateUserPayload = Partial<
-  Omit<User, "id" | "email"> // email обычно нельзя менять
+  Omit<User, "id" | "email"> 
 >;
 
 

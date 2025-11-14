@@ -7,9 +7,12 @@ import { useCategoriesStore } from "@/entities/category/model/category.store";
 import { useNotificationsStore } from "@/shared/store/useNotificationsStore";
 import type { Category } from "@/entities/category/model/category.types";
 import { FORM_MODE } from "@/shared/config/modes";
+import { useScrollToSection } from "@/shared/lib/useScrollToSection";
 import "./CategoriesPage.scss";
 
 function CategoriesPage() {
+  useScrollToSection();
+
   const { addCategory, updateCategory, deleteCategory } = useCategoriesStore();
   const { setNotificationsCount } = useNotificationsStore();
 
@@ -70,15 +73,17 @@ function CategoriesPage() {
             Add category
           </Button>
         </SectionHeader>
-        <CategoriesTable
-          onEditClick={(categoryId) => {
-            const category = useCategoriesStore
-              .getState()
-              .categories.find((c) => c.id === categoryId);
-            if (category) handleEdit(category);
-          }}
-          onDeleteClick={(categoryId) => handleDelete(categoryId)}
-        />
+        <div id="categories-table" className="scroll-section">
+          <CategoriesTable
+            onEditClick={(categoryId) => {
+              const category = useCategoriesStore
+                .getState()
+                .categories.find((c) => c.id === categoryId);
+              if (category) handleEdit(category);
+            }}
+            onDeleteClick={(categoryId) => handleDelete(categoryId)}
+          />
+        </div>
         <AddEditCategoryModal
           isOpen={isModalOpen}
           mode={modalMode}

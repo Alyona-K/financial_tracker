@@ -8,8 +8,10 @@ import { useTransactionsStore } from "@/entities/transaction/model/transaction.s
 import { useUserStore } from "@/entities/user/model/user.store";
 import { TransactionFormData } from "@/entities/transaction/model/transaction.types";
 import { useNotificationsStore } from "@/shared/store/useNotificationsStore";
+import { useScrollToSection } from "@/shared/lib/useScrollToSection";
 
 function TransactionsPage() {
+  useScrollToSection();
   const {
     fetchTransactions,
     transactions,
@@ -112,12 +114,14 @@ function TransactionsPage() {
         {isLoading ? (
           <div className="transactions__loading">Loading...</div>
         ) : (
-          <TransactionsTable
-            searchQuery={searchQuery}
-            dateRange={dateRange}
-            onEdit={handleEditClick}
-            onDelete={handleDeleteClick}
-          />
+          <div id="transactions-table" className="scroll-section">
+            <TransactionsTable
+              searchQuery={searchQuery}
+              dateRange={dateRange}
+              onEdit={handleEditClick}
+              onDelete={handleDeleteClick}
+            />
+          </div>
         )}
         <AddEditTransactionModal
           isOpen={isModalOpen}

@@ -793,6 +793,15 @@
       "description": "Products",
       "userId": 2,
       "id": "1cydyUj"
+    },
+    {
+      "date": "2025-11-14",
+      "categoryId": "0bc5cb4c-6954-4590-8b75-8c0620239b05",
+      "type": "Expenses",
+      "amount": 15,
+      "description": "Skincare",
+      "userId": 1,
+      "id": "OB4ZcF6"
     }
   ]
 }

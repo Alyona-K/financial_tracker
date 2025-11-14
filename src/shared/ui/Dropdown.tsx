@@ -59,16 +59,13 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   return (
     <div className={`dropdown__wrapper ${wrapperClassName}`}>
-      {/* Внешний label */}
       {label && (
         <span className={`dropdown__label ${labelClassName}`}>{label}</span>
       )}
 
-      {/* Кнопка для открытия списка */}
       <button
         type="button"
         className={`dropdown__btn ${buttonClassName}`}
-        // onClick={toggleDropdown}
         onClick={handleToggle}
       >
         <span className="dropdown__button-text">{value || placeholder}</span>

@@ -39,7 +39,7 @@ describe("Auth Store", () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    useAuthStore.getState().logout(true); // сбросим состояние между тестами
+    useAuthStore.getState().logout(true); 
     (useUserStore.getState().setUser as jest.Mock).mockImplementation(() => {});
   });
 

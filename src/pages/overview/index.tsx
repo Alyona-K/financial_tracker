@@ -11,8 +11,11 @@ import { useNotificationsStore } from "@/shared/store/useNotificationsStore";
 import { useWidgetsStore } from "@/entities/widget/model/widget.store";
 import { useWidgetsData } from "@/shared/hooks/useWidgetsData";
 import { useUserStore } from "@/entities/user/model/user.store";
+import { useScrollToSection } from "@/shared/lib/useScrollToSection";
 
 function OverviewPage() {
+  useScrollToSection();
+
   const user = useUserStore((s) => s.user);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -52,9 +55,17 @@ function OverviewPage() {
           title={`Welcome, ${user?.firstName ?? "Guest"}!`}
           text="This dashboard provides a personalized overview of your financial well-being and allows you to easily access key features of FinTrack."
         />
-        <WidgetsSection />
-        <AnalyticsSection />
-        <RecentTransactions onAddClick={handleOpenModal} />
+        <div id="widgets" className="scroll-section">
+          <WidgetsSection />
+        </div>
+
+        <div id="analytics" className="scroll-section">
+          <AnalyticsSection />
+        </div>
+
+        <div id="recent-transactions" className="scroll-section">
+          <RecentTransactions onAddClick={handleOpenModal} />
+        </div>
       </div>
 
       <AddEditTransactionModal

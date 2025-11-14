@@ -1,7 +1,7 @@
 import type { User } from "@/entities/user/model/user.types";
 
 export interface AuthResponse {
-  accessToken: string; // <-- важно: json-server-auth возвращает accessToken
+  accessToken: string; 
   user: User;
 }
 

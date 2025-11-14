@@ -41,7 +41,6 @@ export const WidgetCard: React.FC<WidgetCardProps> = ({
   const [animateOpen, setAnimateOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
 
-  // Управляем маунтом и анимацией
   useEffect(() => {
     if (isMenuOpen) {
       setMounted(true);
@@ -53,7 +52,6 @@ export const WidgetCard: React.FC<WidgetCardProps> = ({
     }
   }, [isMenuOpen]);
 
-  // Клик вне меню и закрытие по Esc
   useEffect(() => {
     if (!isMenuOpen) return;
 

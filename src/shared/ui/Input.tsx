@@ -5,7 +5,6 @@ import "./Input.scss";
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   icon?: string;
   label?: string;
-  /** Классы для кастомизации */
   wrapperClassName?: string;
   fieldClassName?: string;
   labelClassName?: string;
