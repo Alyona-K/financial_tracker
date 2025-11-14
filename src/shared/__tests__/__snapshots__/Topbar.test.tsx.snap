@@ -47,6 +47,11 @@ exports[`Topbar matches snapshot when user is logged in 1`] = `
                 xlink:href="sprite-mock#notifications-icon"
               />
             </svg>
+            <span
+              class="topbar__count"
+            >
+              5
+            </span>
           </a>
         </div>
         <div

@@ -13,10 +13,14 @@ jest.mock("@/shared/config/config", () => ({
 jest.mock("@/entities/transaction/model/transaction.store");
 jest.mock("@/entities/user/model/user.store");
 jest.mock("@/shared/store/useNotificationsStore");
+jest.mock("@/shared/lib/useScrollToSection", () => ({
+  useScrollToSection: jest.fn(),
+}));
 jest.mock("@/assets/images/sprite.svg", () => "mocked-sprite");
 jest.mock("@/shared/ui/DatePickerGlobal.css", () => ({}));
 
 import { render, screen, fireEvent } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import TransactionsPage from "./index";
 import { useTransactionsStore } from "@/entities/transaction/model/transaction.store";
 import { useUserStore } from "@/entities/user/model/user.store";
@@ -43,13 +47,16 @@ describe("TransactionsPage", () => {
     });
   });
 
+  const renderWithRouter = (ui: React.ReactElement) =>
+    render(<MemoryRouter>{ui}</MemoryRouter>);
+
   test("fetches transactions on mount", () => {
-    render(<TransactionsPage />);
+    renderWithRouter(<TransactionsPage />);
     expect(fetchTransactions).toHaveBeenCalledTimes(1);
   });
 
   test("opens ADD modal", () => {
-    render(<TransactionsPage />);
+    renderWithRouter(<TransactionsPage />);
     fireEvent.click(screen.getByRole("button", { name: /Add transaction/i }));
     expect(screen.getByText("Transactions")).toBeInTheDocument();
   });
@@ -63,7 +70,7 @@ describe("TransactionsPage", () => {
       updateTransaction: jest.fn(),
       deleteTransaction: jest.fn(),
     });
-    render(<TransactionsPage />);
+    renderWithRouter(<TransactionsPage />);
     expect(screen.getByText("Loading...")).toBeInTheDocument();
   });
 });
