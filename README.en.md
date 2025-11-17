@@ -59,12 +59,13 @@ Available in: [Español](README.es.md)
 
 ### 5. Architectural Highlights
 
-- `Zustand` stores per entity
-- Persistent authentication
+- `Zustand` stores per entity, synced with backend
+- Persistent authentication with JWT
 - Unified forms and modals
-- Automatic UI sync
+- Automatic UI sync with server data
 - Error handling in stores
-- Demo mode without backend
+- Soft-delete and filtering logic handled server-side
+- CRUD operations via REST API (json-server + json-server-auth)
 
 ---
 
@@ -117,9 +118,9 @@ Available in: [Español](README.es.md)
 
 **Data structure:**
 
-- Users: `id, email, password, name`
-- Categories: `id, name, type, isDeleted`
-- Transactions: `id, amount, categoryId, date, description`
+- Users: `id, email, password, firstName, lastName, avatar, location`
+- Categories: `id, name, type: Income|Expenses, userId, isDeleted`
+- Transactions: `id, userId, categoryId, amount, type, date, description`
 
 **Custom server logic (`server.js`):**
 
@@ -201,8 +202,10 @@ server: {
 
 ### 3. Build / Production
 
+```bash
 npm run build
 npm run preview
+```
 
 - TS compiles, bundles in /dist
 
@@ -210,7 +213,9 @@ npm run preview
 
 ### 4. Vercel Rewrite
 
+```json
 { "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }] }
+```
 
 ---
 
@@ -245,7 +250,7 @@ npm run preview
 ## IX. Aliases
 
 | Alias     | Path          | Example                                                                                                        |
-|-----------|---------------|--------------------------------------------------------------------------------------------------------------- |
+| --------- | ------------- | -------------------------------------------------------------------------------------------------------------- |
 | @         | src/          | import { formatDate } from "@/shared/lib/formatDate"                                                           |
 | @app      | src/app/      | import { useAuthStore } from "@app/model/auth.store"                                                           |
 | @pages    | src/pages/    | import TransactionsPage from "@pages/transactions"                                                             |
@@ -273,6 +278,7 @@ npm run preview
 
 ### 1. User
 
+```ts
 type User = {
 id: number
 email: string
@@ -282,9 +288,11 @@ lastName: string
 avatar?: string
 location?: string
 }
+```
 
 ### 2. Category
 
+```ts
 type Category = {
 id: string
 name: string
@@ -292,18 +300,21 @@ type: "Income" | "Expenses"
 userId: number
 isDeleted?: boolean
 }
+```
 
 ### 3. Transaction
 
+```ts
 type Transaction = {
 id: string
-date: string // YYYY-MM-DD
+date: string 
 description?: string
 categoryId: string
 type: "Income" | "Expenses"
 amount: number
 userId: number
 }
+```
 
 ---
 

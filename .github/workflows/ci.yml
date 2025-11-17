@@ -1,0 +1,59 @@
+name: FinTrack CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-test-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout repo
+      - uses: actions/checkout@v3
+
+      # 2. Setup Node.js
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      # 3. Cache dependencies
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      # 4. Install dependencies
+      - run: npm ci
+
+      # 5. Run linter
+      - run: npm run lint
+
+      # 6. TypeScript check
+      - run: npx tsc --noEmit
+
+      # 7. Run tests
+      - run: npm test
+
+      # 8. Build project
+      - run: npm run build
+
+  deploy:
+    needs: build-test-lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v19.0.1
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: "--prod"

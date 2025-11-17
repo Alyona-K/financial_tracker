@@ -59,12 +59,13 @@ Disponible en: [English](README.en.md)
 
 ### 5. Destacados de Arquitectura
 
-- Stores de `Zustand` por entidad
-- Autenticación persistente
+- Almacenamiento Zustand por entidad, sincronizado con el backend
+- Autenticación persistente con JWT
 - Formularios y modales unificados
-- Sincronización automática de UI
+- Sincronización automática de la UI con los datos del servidor
 - Manejo de errores en stores
-- Modo demo sin backend
+- Lógica de eliminación suave (soft-delete) y filtrado manejada del lado del servidor
+- Operaciones CRUD a través de la API REST (json-server + json-server-auth)
 
 ---
 
@@ -117,9 +118,9 @@ Disponible en: [English](README.en.md)
 
 **Estructura de datos:**
 
-- Users: `id, email, password, name`
-- Categories: `id, name, type, isDeleted`
-- Transactions: `id, amount, categoryId, date, description`
+- Users: `id, email, password, firstName, lastName, avatar, location`
+- Categories: `id, name, type: Income|Expenses, userId, isDeleted`
+- Transactions: `id, userId, categoryId, amount, type, date, description`
 
 **Lógica personalizada del servidor (`server.js`):**
 
@@ -201,8 +202,10 @@ server: {
 
 ### 3. Build / Producción
 
+```bash
 npm run build
 npm run preview
+```
 
 - TypeScript compila, se generan bundles en /dist
 
@@ -210,7 +213,9 @@ npm run preview
 
 ### 4. Vercel Rewrite
 
+```json
 { "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }] }
+```
 
 ---
 
@@ -273,6 +278,7 @@ npm run preview
 
 ### 1. User
 
+```ts
 type User = {
 id: number
 email: string
@@ -282,9 +288,11 @@ lastName: string
 avatar?: string
 location?: string
 }
+```
 
 ### 2. Category
 
+```ts
 type Category = {
 id: string
 name: string
@@ -292,18 +300,21 @@ type: "Income" | "Expenses"
 userId: number
 isDeleted?: boolean
 }
+```
 
 ### 3. Transaction
 
+```ts
 type Transaction = {
 id: string
-date: string // YYYY-MM-DD
+date: string 
 description?: string
 categoryId: string
 type: "Income" | "Expenses"
 amount: number
 userId: number
 }
+```
 
 ---
 
