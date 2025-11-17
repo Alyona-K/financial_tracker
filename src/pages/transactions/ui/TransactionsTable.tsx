@@ -110,6 +110,7 @@ const TransactionsTable: React.FC<TransactionsTableProps> = ({
     selectedType,
     searchQuery,
     dateRange,
+    categories,
   ]);
 
   const handleSort = (field: keyof Transaction, direction: "asc" | "desc") => {

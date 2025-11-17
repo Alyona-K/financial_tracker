@@ -72,32 +72,55 @@ function TransactionsPage() {
   };
 
   const handleModalSubmit = async (data: TransactionFormData) => {
-    try {
-      let result;
-      if (modalMode === FORM_MODE.ADD) {
-        const { id, ...rest } = data;
-        result = await addTransaction({ ...rest, categoryId: data.categoryId });
-      } else if (modalMode === FORM_MODE.EDIT) {
-        if (!data.id) return;
-        result = await updateTransaction({
-          ...data,
-          categoryId: data.categoryId,
-        });
-      }
-
-      setNotificationsCount((prev) => prev + 1);
-
-      alert(
-        modalMode === FORM_MODE.ADD
-          ? "Transaction added!"
-          : "Transaction updated!"
-      );
-
-      setIsModalOpen(false);
-    } catch (e) {
-      console.error(e);
+  try {
+    if (modalMode === FORM_MODE.ADD) {
+      const { id: _id, ...rest } = data;
+      await addTransaction({ ...rest, categoryId: data.categoryId });
+    } else if (modalMode === FORM_MODE.EDIT) {
+      if (!data.id) return;
+      await updateTransaction({ ...data, categoryId: data.categoryId });
     }
-  };
+
+    setNotificationsCount((prev) => prev + 1);
+
+    alert(
+      modalMode === FORM_MODE.ADD
+        ? "Transaction added!"
+        : "Transaction updated!"
+    );
+
+    setIsModalOpen(false);
+  } catch (e) {
+    console.error(e);
+  }
+};
+  // const handleModalSubmit = async (data: TransactionFormData) => {
+  //   try {
+  //     let result;
+  //     if (modalMode === FORM_MODE.ADD) {
+  //       const { id, ...rest } = data;
+  //       result = await addTransaction({ ...rest, categoryId: data.categoryId });
+  //     } else if (modalMode === FORM_MODE.EDIT) {
+  //       if (!data.id) return;
+  //       result = await updateTransaction({
+  //         ...data,
+  //         categoryId: data.categoryId,
+  //       });
+  //     }
+
+  //     setNotificationsCount((prev) => prev + 1);
+
+  //     alert(
+  //       modalMode === FORM_MODE.ADD
+  //         ? "Transaction added!"
+  //         : "Transaction updated!"
+  //     );
+
+  //     setIsModalOpen(false);
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // };
 
   return (
     <section className="transactions">
