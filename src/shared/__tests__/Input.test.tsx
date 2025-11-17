@@ -1,5 +1,6 @@
 // --- MOCK STATIC ASSETS ---
-jest.mock("@/assets/images/sprite.svg", () => "sprite-mock", { virtual: true });
+jest.mock("@/assets/images/sprite.svg", () => "test-file-stub");
+// jest.mock("@/assets/images/sprite.svg", () => "sprite-mock", { virtual: true });
 // jest.mock("@/assets/images/sprite.svg", () => ({
 //   __esModule: true,
 //   default: "sprite-mock",

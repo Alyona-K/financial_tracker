@@ -16,7 +16,7 @@ jest.mock("@/shared/store/useNotificationsStore");
 jest.mock("@/shared/lib/useScrollToSection", () => ({
   useScrollToSection: jest.fn(),
 }));
-jest.mock("@/assets/images/sprite.svg", () => "sprite-mock", { virtual: true });
+jest.mock("@/assets/images/sprite.svg", () => "test-file-stub");
 jest.mock("@/shared/ui/DatePickerGlobal.css", () => ({}));
 
 import { render, screen, fireEvent } from "@testing-library/react";
