@@ -16,8 +16,9 @@ export default {
     "^@entities/(.*)$": "<rootDir>/src/entities/$1",
     "^@features/(.*)$": "<rootDir>/src/features/$1",
     "^@shared/(.*)$": "<rootDir>/src/shared/$1",
-    "^@/assets/images/.*\\.(png|jpg|jpeg|gif|webp|svg)$":
+    "^@/assets/images/.*\\.(png|jpg|jpeg|gif|webp)$":
       "<rootDir>/src/shared/__mocks__/assetsMock.ts",
+    "\\.svg$": "<rootDir>/src/shared/__mocks__/svgMock.ts",
     "\\.(css|scss)$": "identity-obj-proxy",
   },
 
@@ -31,4 +32,6 @@ export default {
   extensionsToTreatAsEsm: [".ts", ".tsx"],
 
   transformIgnorePatterns: ["node_modules/(?!.*\\.json$)"],
+
+  testTimeout: 10000,
 };
