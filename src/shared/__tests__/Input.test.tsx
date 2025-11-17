@@ -1,8 +1,9 @@
 // --- MOCK STATIC ASSETS ---
-jest.mock("@/assets/images/sprite.svg", () => ({
-  __esModule: true,
-  default: "SvgMock",
-}));
+// jest.mock("@/assets/images/sprite.svg", () => ({
+//   __esModule: true,
+//   default: "SvgMock",
+// }));
+jest.mock("@/assets/images/sprite.svg", () => "sprite-mock", { virtual: true });
 
 import { render, screen, fireEvent } from "@testing-library/react";
 import Input from "@shared/ui/Input";
