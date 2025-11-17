@@ -16,7 +16,11 @@ jest.mock("@/shared/store/useNotificationsStore");
 jest.mock("@/shared/lib/useScrollToSection", () => ({
   useScrollToSection: jest.fn(),
 }));
-jest.mock("@/assets/images/sprite.svg", () => "mocked-sprite");
+// jest.mock("@/assets/images/sprite.svg", () => "mocked-sprite");
+jest.mock("@/assets/images/sprite.svg", () => ({
+  __esModule: true,
+  default: "sprite-mock",
+}));
 jest.mock("@/shared/ui/DatePickerGlobal.css", () => ({}));
 
 import { render, screen, fireEvent } from "@testing-library/react";
