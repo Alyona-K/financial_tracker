@@ -16,7 +16,6 @@ jest.mock("@/shared/store/useNotificationsStore");
 jest.mock("@/shared/lib/useScrollToSection", () => ({
   useScrollToSection: jest.fn(),
 }));
-// jest.mock("@/assets/images/sprite.svg", () => "mocked-sprite");
 jest.mock("@/assets/images/sprite.svg", () => "sprite-mock", { virtual: true });
 jest.mock("@/shared/ui/DatePickerGlobal.css", () => ({}));
 
