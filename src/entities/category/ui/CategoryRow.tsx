@@ -16,12 +16,12 @@ const CategoryRow: React.FC<CategoryRowProps> = ({
   onDelete,
 }) => {
   const { categories } = useCategoriesStore();
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
   const category = categories.find((c) => c.id === categoryId);
 
   if (!category) return null;
 
-  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   return (
     <div className="category-row">
       <div className="category-row__cell">{category.name}</div>

@@ -3,7 +3,6 @@ import Button from "@/shared/ui/Button";
 import { formatCurrency } from "@/shared/lib/formatCurrency";
 import { formatDate } from "@/shared/lib/formatDate";
 import { TYPE_COLORS } from "@/shared/config/colors";
-import { useCategoriesStore } from "@/entities/category/model/category.store";
 import ConfirmModal from "@/shared/ui/ConfirmModal";
 import "./TransactionRow.scss";
 
@@ -41,8 +40,6 @@ export const TransactionRow: React.FC<TransactionRowProps> = ({
   onEdit,
   onDelete,
 }) => {
-  const { categories } = useCategoriesStore();
-
   const category = categoryName;
 
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
