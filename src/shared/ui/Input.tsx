@@ -32,7 +32,10 @@ const Input: React.FC<InputProps> = ({
         {...props}
       />
       {label && (
-        <label className={`custom-input__label ${labelClassName}`} htmlFor={inputId}>
+        <label
+          className={`custom-input__label ${labelClassName}`}
+          htmlFor={inputId}
+        >
           <span className="custom-input__label-text">{label}</span>
         </label>
       )}
@@ -51,7 +54,3 @@ const Input: React.FC<InputProps> = ({
 };
 
 export default Input;
-
-
-
-

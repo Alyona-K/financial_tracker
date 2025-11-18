@@ -1,5 +1,5 @@
 export default {
-    process() {
-        return 'export default "SvgMock";';
+    process(_src, _filename, _config, _options) {
+        return { code: 'export default "SvgMock";' };
     },
 };
