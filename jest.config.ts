@@ -31,7 +31,7 @@ export default {
 
   extensionsToTreatAsEsm: [".ts", ".tsx"],
 
-  transformIgnorePatterns: [],
+  transformIgnorePatterns: ["/node_modules/"],
 
   testTimeout: 10000,
 };
