@@ -21,21 +21,38 @@
   }
 
   &__user {
+    position: absolute;
     display: flex;
     flex-direction: column;
     gap: 5px;
     align-items: center;
-    position: absolute;
     transform: translate3d(-50%, 50%, 0);
     top: 50%;
     left: 50%;
   }
 
-  &__avatar {
+  &__avatar-wrap {
     width: 180px;
     height: 180px;
     border: 10px solid $color-white;
     border-radius: 50%;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+
+  &__user:hover .profile__avatar-img {
+    transform: scale(1.08);
+  }
+
+  &__user:hover .profile__remove-btn {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  &__avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
   }
 
   &__edit-btn {
@@ -52,17 +69,51 @@
     box-shadow: 2px 2px 3px $color-link-water;
     bottom: 40px;
     right: 20px;
-  }
 
-  &__edit-btn:hover,
-  &__edit-btn:focus-visible {
-    color: $color-paua;
-    outline: none;
+    &:hover,
+    &:focus-visible {
+      color: $color-paua;
+      outline: none;
+    }
   }
 
   &__edit-icon {
     width: 20px;
     height: 19px;
+  }
+
+  &__remove-btn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    width: 30px;
+    height: 30px;
+    padding: 4px;
+    border: none;
+    border-radius: 50%;
+    background: $color-white;
+    color: $color-raven;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      opacity $transition-300,
+      color $transition-300;
+    cursor: pointer;
+
+    &:hover,
+    &:focus-visible {
+      color: $color-paua;
+      outline: none;
+    }
+  }
+
+  &__remove-icon {
+    width: 20px;
+    height: 20px;
   }
 
   &__user-name {

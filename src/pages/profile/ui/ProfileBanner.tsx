@@ -51,6 +51,20 @@ function ProfileBanner() {
     }
   };
 
+  const handleRemoveAvatar = async () => {
+    if (!user) return;
+
+    try {
+      setIsUploading(true);
+
+      await updateUser({ avatar: "" }); // или null — зависит от твоей модели
+    } catch (err) {
+      console.error("Remove avatar error:", err);
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
   return (
     <section className="profile__banner">
       <div className="profile__banner-wrap">
@@ -62,13 +76,27 @@ function ProfileBanner() {
           height={396}
         />
         <div className="profile__user">
-          <img
-            className="profile__avatar"
-            src={user?.avatar || defaultAvatar}
-            alt="Profile avatar"
-            width={200}
-            height={200}
-          />
+          <div className="profile__avatar-wrap">
+            <img
+              className="profile__avatar-img"
+              src={user?.avatar || defaultAvatar}
+              alt="Profile avatar"
+              width={200}
+              height={200}
+            />
+          </div>
+          {user?.avatar && (
+            <button
+              className="profile__remove-btn"
+              type="button"
+              onClick={handleRemoveAvatar}
+              disabled={isUploading}
+            >
+              <svg className="profile__remove-icon" width={16} height={16}>
+                <use xlinkHref={`${sprite}#close-icon`} />
+              </svg>
+            </button>
+          )}
           <button
             className="profile__edit-btn"
             type="button"
