@@ -27,11 +27,12 @@ export default {
       "ts-jest",
       { useESM: true, tsconfig: "<rootDir>/tsconfig.app.json" },
     ],
+    "\\.svg$": "<rootDir>/src/shared/__mocks__/svgTransform.js",
   },
 
   extensionsToTreatAsEsm: [".ts", ".tsx"],
 
-  transformIgnorePatterns: ["node_modules/(?!.*\\.json$)"],
+  transformIgnorePatterns: [],
 
   testTimeout: 10000,
 };
