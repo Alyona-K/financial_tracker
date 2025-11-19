@@ -45,7 +45,7 @@ exports[`Sidebar snapshot renders correctly 1`] = `
                 width="20"
               >
                 <use
-                  xlink:href="sprite-mock#home-icon"
+                  xlink:href="SvgMock#home-icon"
                 />
               </svg>
               <span
@@ -60,7 +60,7 @@ exports[`Sidebar snapshot renders correctly 1`] = `
               width="24"
             >
               <use
-                xlink:href="sprite-mock#arrow-down-icon"
+                xlink:href="SvgMock#arrow-down-icon"
               />
             </svg>
           </div>
@@ -82,7 +82,7 @@ exports[`Sidebar snapshot renders correctly 1`] = `
                 width="20"
               >
                 <use
-                  xlink:href="sprite-mock#dashboard-icon"
+                  xlink:href="SvgMock#dashboard-icon"
                 />
               </svg>
               <span
@@ -97,7 +97,7 @@ exports[`Sidebar snapshot renders correctly 1`] = `
               width="24"
             >
               <use
-                xlink:href="sprite-mock#arrow-down-icon"
+                xlink:href="SvgMock#arrow-down-icon"
               />
             </svg>
           </div>
@@ -119,7 +119,7 @@ exports[`Sidebar snapshot renders correctly 1`] = `
                 width="20"
               >
                 <use
-                  xlink:href="sprite-mock#notifications-icon"
+                  xlink:href="SvgMock#notifications-icon"
                 />
               </svg>
               <span
@@ -147,7 +147,7 @@ exports[`Sidebar snapshot renders correctly 1`] = `
                 width="20"
               >
                 <use
-                  xlink:href="sprite-mock#consultation-icon"
+                  xlink:href="SvgMock#consultation-icon"
                 />
               </svg>
               <span
@@ -175,7 +175,7 @@ exports[`Sidebar snapshot renders correctly 1`] = `
                 width="20"
               >
                 <use
-                  xlink:href="sprite-mock#reporting-icon"
+                  xlink:href="SvgMock#reporting-icon"
                 />
               </svg>
               <span
@@ -203,7 +203,7 @@ exports[`Sidebar snapshot renders correctly 1`] = `
                 width="20"
               >
                 <use
-                  xlink:href="sprite-mock#support-icon"
+                  xlink:href="SvgMock#support-icon"
                 />
               </svg>
               <span

@@ -29,7 +29,7 @@ exports[`Topbar matches snapshot when user is logged in 1`] = `
               width="22"
             >
               <use
-                xlink:href="sprite-mock#settings-icon"
+                xlink:href="SvgMock#settings-icon"
               />
             </svg>
           </a>
@@ -44,7 +44,7 @@ exports[`Topbar matches snapshot when user is logged in 1`] = `
               width="22"
             >
               <use
-                xlink:href="sprite-mock#notifications-icon"
+                xlink:href="SvgMock#notifications-icon"
               />
             </svg>
             <span

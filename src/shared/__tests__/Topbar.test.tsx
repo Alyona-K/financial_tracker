@@ -28,7 +28,7 @@ jest.mock("@/entities/user/model/user.store", () => ({
   })),
 }));
 
-jest.mock("@/assets/images/sprite.svg", () => "sprite-mock", { virtual: true });
+jest.mock("@/assets/images/sprite.svg", () => "SvgMock", { virtual: true });
 jest.mock("@/assets/images/default_avatar.png", () => "avatar-mock", {
   virtual: true,
 });

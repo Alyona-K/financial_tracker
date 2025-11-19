@@ -7,7 +7,7 @@ jest.mock("@/shared/store/useNotificationsStore", () => ({
 jest.mock("@/assets/images/fintrack-logo.png", () => "logo-mock", {
   virtual: true,
 });
-jest.mock("@/assets/images/sprite.svg", () => "sprite-mock", { virtual: true });
+jest.mock("@/assets/images/sprite.svg", () => "SvgMock", { virtual: true });
 
 import { render } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";

@@ -14,8 +14,9 @@ import { TextEncoder, TextDecoder } from "util";
 (globalThis as any).TextEncoder = TextEncoder;
 (globalThis as any).TextDecoder = TextDecoder;
 
+// --- SVG MOCK ---
 jest.mock("@/assets/images/sprite.svg", () => ({
   __esModule: true,
   default: "SvgMock",
   ReactComponent: () => null,
-}));
+}), { virtual: true });
