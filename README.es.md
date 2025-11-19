@@ -80,7 +80,7 @@ Disponible en: [English](README.en.md)
 ### 2. Capas Principales
 
 | Capa             | Propósito                                                                                               |
-|------------------|---------------------------------------------------------------------------------------------------------|
+| ---------------- | ------------------------------------------------------------------------------------------------------- |
 | `app/`           | Punto de entrada, providers, router, `AppInit`                                                          |
 | `entities/`      | Entidades principales: `User`, `Transaction`, `Category`, `Widgets` (store, API, tipos)                 |
 | `features/`      | Bloques funcionales: filtros, widgets, modales                                                          |
@@ -280,40 +280,40 @@ npm run preview
 
 ```ts
 type User = {
-id: number
-email: string
-password: string
-firstName: string
-lastName: string
-avatar?: string
-location?: string
-}
+  id: number;
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  avatar?: string;
+  location?: string;
+};
 ```
 
 ### 2. Category
 
 ```ts
 type Category = {
-id: string
-name: string
-type: "Income" | "Expenses"
-userId: number
-isDeleted?: boolean
-}
+  id: string;
+  name: string;
+  type: "Income" | "Expenses";
+  userId: number;
+  isDeleted?: boolean;
+};
 ```
 
 ### 3. Transaction
 
 ```ts
 type Transaction = {
-id: string
-date: string 
-description?: string
-categoryId: string
-type: "Income" | "Expenses"
-amount: number
-userId: number
-}
+  id: string;
+  date: string;
+  description?: string;
+  categoryId: string;
+  type: "Income" | "Expenses";
+  amount: number;
+  userId: number;
+};
 ```
 
 ---
@@ -350,7 +350,20 @@ UI ↔ Zustand Store ↔ API ↔ Axios ↔ JSON-server (+auth) ↔ db.normalized
 
 ---
 
-## XIII. Guía de Cuentas Demo
+## XIII. CI/CD
+
+- Integración Continua mediante GitHub Actions
+  - Se ejecuta en push a `main` o pull request
+  - Instala dependencias, ejecuta lint, tests y build del frontend
+  - Cachea `node_modules` para builds más rápidos
+- Despliegue Continuo en Vercel
+  - Despliegue automático tras CI exitoso
+  - Variables de entorno inyectadas de forma segura mediante GitHub Secrets
+  - Reescritura SPA para un routing correcto
+
+---
+
+## XIV. Guía de Cuentas Demo
 
 - Auto-login: demo@fintrack.com con datos precargados
 - Forzar carga: Home → dropdown de perfil (Topbar) → Log out → Log in as Demo

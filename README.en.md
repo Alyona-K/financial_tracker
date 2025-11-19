@@ -280,40 +280,40 @@ npm run preview
 
 ```ts
 type User = {
-id: number
-email: string
-password: string
-firstName: string
-lastName: string
-avatar?: string
-location?: string
-}
+  id: number;
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  avatar?: string;
+  location?: string;
+};
 ```
 
 ### 2. Category
 
 ```ts
 type Category = {
-id: string
-name: string
-type: "Income" | "Expenses"
-userId: number
-isDeleted?: boolean
-}
+  id: string;
+  name: string;
+  type: "Income" | "Expenses";
+  userId: number;
+  isDeleted?: boolean;
+};
 ```
 
 ### 3. Transaction
 
 ```ts
 type Transaction = {
-id: string
-date: string 
-description?: string
-categoryId: string
-type: "Income" | "Expenses"
-amount: number
-userId: number
-}
+  id: string;
+  date: string;
+  description?: string;
+  categoryId: string;
+  type: "Income" | "Expenses";
+  amount: number;
+  userId: number;
+};
 ```
 
 ---
@@ -350,7 +350,20 @@ UI ↔ Zustand Store ↔ API ↔ Axios ↔ JSON-server (+auth) ↔ db.normalized
 
 ---
 
-## XIII. Demo Accounts Guide
+## XIII. CI/CD
+
+- Continuous Integration via GitHub Actions
+  - Runs on push to `main` / pull request
+  - Installs dependencies, runs lint, tests, builds frontend
+  - Caches `node_modules` for faster builds
+- Continuous Deployment to Vercel
+  - Automatic deployment on successful CI
+  - Env vars injected securely via GitHub Secrets
+  - SPA rewrite for proper routing
+
+---
+
+## XIV. Demo Accounts Guide
 
 - Auto-login: demo@fintrack.com with preloaded data
 - Force load: Home → profile dropdown (Topbar) → Log out → Log in as Demo
