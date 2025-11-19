@@ -1,2 +1,2 @@
 export const ReactComponent = () => null;
-export default "SvgMock";
+export default "sprite-mock";

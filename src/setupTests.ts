@@ -13,3 +13,9 @@ import "@testing-library/jest-dom";
 import { TextEncoder, TextDecoder } from "util";
 (globalThis as any).TextEncoder = TextEncoder;
 (globalThis as any).TextDecoder = TextDecoder;
+
+jest.mock("@/assets/images/sprite.svg", () => ({
+  __esModule: true,
+  default: "SvgMock",
+  ReactComponent: () => null,
+}));
