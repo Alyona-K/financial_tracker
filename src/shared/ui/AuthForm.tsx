@@ -85,7 +85,7 @@ function AuthForm<T extends Record<string, any>>({
   };
 
   return (
-    <form className="auth-form" onSubmit={handleSubmit}>
+    <form className="auth-form" onSubmit={handleSubmit} noValidate>
       {fields.map((f) => {
         const isPassword = f.type === "password";
         const inputType =

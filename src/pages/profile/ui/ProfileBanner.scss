@@ -126,4 +126,9 @@
     font-weight: 700;
     pointer-events: none;
   }
+
+  &__uploading {
+    position: absolute;
+    top: 50%;
+  }
 }

@@ -4,15 +4,34 @@ import { z } from "zod";
 const emailSchema = z
   .string()
   .min(1, "Email is required")
-  .refine((val) => /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/.test(val), {
-    message: "Invalid email, must contain only Latin characters",
+  .superRefine((val, ctx) => {
+    if (val && !/^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/.test(val)) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Invalid email",
+      });
+    }
   });
 
 const passwordSchema = z
   .string()
-  .min(6, "Password must be at least 6 characters")
-  .refine((val) => /^[a-zA-Z\d!@#$%^&*()_+=-]+$/.test(val), {
-    message: "Password must contain only Latin characters",
+  .superRefine((val, ctx) => {
+    if (!val || val.trim() === "") {
+      ctx.addIssue({
+        code: "custom",
+        message: "Password is required",
+      });
+    } else if (val.length < 6) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Password must be at least 6 characters",
+      });
+    } else if (!/^[a-zA-Z\d!@#$%^&*()_+=-]+$/.test(val)) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Invalid password",
+      });
+    }
   });
 
 // --- LOGIN SCHEMA ---

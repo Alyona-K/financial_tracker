@@ -51,13 +51,14 @@ function ProfileBanner() {
     }
   };
 
+  // --- REMOVE AVATAR ---
   const handleRemoveAvatar = async () => {
     if (!user) return;
 
     try {
       setIsUploading(true);
 
-      await updateUser({ avatar: "" }); // или null — зависит от твоей модели
+      await updateUser({ avatar: "" });
     } catch (err) {
       console.error("Remove avatar error:", err);
     } finally {
