@@ -23,8 +23,7 @@
 
   &__field:focus {
     outline: none;
-    border: 1px solid $color-raven;
-    border-radius: 4px;
+    border-bottom: 1px solid $color-raven;
   }
 
   &__label {

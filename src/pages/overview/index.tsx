@@ -49,7 +49,7 @@ function OverviewPage() {
   };
 
   return (
-    <section className="overview">
+    <section className="overview" data-testid="overview-page">
       <div className="container">
         <SectionHeader
           title={`Welcome, ${user?.firstName ?? "Guest"}!`}

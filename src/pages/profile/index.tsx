@@ -4,7 +4,7 @@ import "./UserProfilePage.scss";
 
 function UserProfilePage() {
   return (
-    <div className="profile">
+    <div className="profile" data-testid="profile-page">
       <ProfileBanner />
       <UserProfileForm />
     </div>

@@ -7,7 +7,8 @@
       "firstName": "Julia",
       "lastName": "Bennett",
       "avatar": "/images/avatar.png",
-      "location": "Canada"
+      "location": "Canada",
+      "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzY0MTg0MjA2LCJleHAiOjE3NjQ3ODkwMDZ9.yu3k8vKLbUKF-_T0fskUySrQq2NODCNTNzzQrM1P9Xk"
     },
     {
       "email": "demo2@email.com",
@@ -16,14 +17,16 @@
       "lastName": "Robertson",
       "id": 2,
       "location": "USA",
-      "avatar": "https://res.cloudinary.com/dlz6x4ygk/image/upload/v1762525450/fintrack/avatars/male-avatar_dgsop6.png"
+      "avatar": "https://res.cloudinary.com/dlz6x4ygk/image/upload/v1762525450/fintrack/avatars/male-avatar_dgsop6.png",
+      "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzY0MTg0MDIyLCJleHAiOjE3NjQ3ODg4MjJ9.o36lrauPltIIbzQrFrJeluwfjjr1jGUqKeuRPANZcko"
     },
     {
       "email": "demo3@email.com",
       "password": "$2a$10$PLN/vYp98ZgCKLB1DKK6Vuvn4RB16WMkCWWkeM9Mv1REShEtZ5z2m",
       "firstName": "Ben",
       "lastName": "Anderson",
-      "id": 3
+      "id": 3,
+      "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzY0MTA1NDc1LCJleHAiOjE3NjQ3MTAyNzV9.jWPgkVHGUsFv4vFo8fwqauNtOoh-i3wgYQhdXDVvjxo"
     }
   ],
   "categories": [

@@ -22,4 +22,14 @@ export const authApi = {
     if (!user) throw new Error("User not logged in");
     return user;
   },
+
+  async refresh(body: {
+    refreshToken: string;
+  }): Promise<{ accessToken: string; refreshToken: string }> {
+    const { data } = await api.post<{
+      accessToken: string;
+      refreshToken: string;
+    }>("/refresh", body);
+    return data;
+  },
 };

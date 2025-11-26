@@ -106,30 +106,50 @@ Available in: [Español](README.es.md)
 
 ---
 
-## IV. Backend (json-server + json-server-auth)
+## IV. Backend (Custom JSON Server with JWT)
 
-**Endpoints:**
+**Server:** `server.js` — Node.js + json-server  
+**Database:** `db.normalized.json`
 
-- `/users*` — access only to own data
-- `/categories*` — owner CRUD, soft-delete
-- `/transactions*` — access only to own transactions
+**Endpoints & Auth:**
 
-**Auth:** JWT via interceptor; 401 → `refreshToken`
+- `POST /register` — register a new user
+  - Required fields: `email, password, firstName, lastName`
+  - Returns: `user`, `accessToken` (15 min), `refreshToken` (7 days)
+  - Password is hashed with bcrypt
 
-**Data structure:**
+- `POST /login` — user login
+  - Required fields: `email, password`
+  - Returns: `user`, `accessToken`, `refreshToken`
 
-- Users: `id, email, password, firstName, lastName, avatar, location`
+- `POST /refresh` — refresh tokens
+  - Required field: `refreshToken`
+  - Returns new `accessToken` (15 min) and `refreshToken` (7 days)
+
+- `GET /categories` — get categories
+  - Excludes categories with `isDeleted = true`
+
+- `DELETE /categories/:id` — soft-delete category
+  - Sets `isDeleted: true`, transactions remain
+
+- All other endpoints (`/transactions`, `/users`) require a valid JWT in the `Authorization` header (`Bearer <token>`)
+
+**Auth & Middleware:**
+
+- JWT authorization through `authGuard` middleware
+- Access tokens expire in 15 minutes, refresh tokens in 7 days
+- Demo user (`demo@fintrack.com`) is automatically created if missing
+
+**Data Structure (overview):**
+
+- Users: `id, email, password, firstName, lastName, avatar, location, refreshToken`
 - Categories: `id, name, type: Income|Expenses, userId, isDeleted`
-- Transactions: `id, userId, categoryId, amount, type, date, description`
+- Transactions: `id, date, description, categoryId, type: Income|Expenses, amount, userId`
 
-**Custom server logic (`server.js`):**
+**Files:**
 
-- CORS
-- Soft-delete categories
-- Filtering deleted categories
-- Middleware integration
-
-**Files:** `server.js`, `routes.json`, `db.normalized.json`
+- `server.js` — custom logic, auth, soft-delete, refresh
+- `db.normalized.json` — persistent storage of users, categories, transactions
 
 ---
 
@@ -208,7 +228,6 @@ npm run preview
 ```
 
 - TS compiles, bundles in /dist
-
 - Proxy disabled, env vars injected during build
 
 ### 4. Vercel Rewrite
@@ -221,29 +240,32 @@ npm run preview
 
 ## VII. Testing
 
-- Jest + RTL + ts-jest
-
-- Mocks: API, store, images
-
-- Verify CRUD, init, refreshToken, error handling
-
-- Unit/snapshot: Button, Input, Sidebar, Topbar
-
-- Hooks/utilities: useWidgetsData, formatCurrency, formatDate, parseDate
-
-- Tests fully isolated from real API
+- **Frameworks**: Jest + React Testing Library + ts-jest
+- **Mocks**: API, store, images
+- **Test coverage**:
+  - Unit / snapshot tests: Button, Input, Sidebar, Topbar
+  - Hook/utilities tests: useWidgetsData, formatCurrency, formatDate, parseDate
+  - Integration tests: App, AppRoutes, AppInit, ProtectedRoute, lazy pages, routing, store interactions
+- **Features verified**: CRUD operations, init, refreshToken, error handling
+- Tests are fully isolated from real API
 
 ---
 
 ## VIII. Linting & Code Style
 
-- ESLint: errors, hooks, TS patterns
-
-- Prettier: formatting
-
-- TypeScript: strict, aliases, noEmit
-
-- Vite: aliases match TS, type-safe imports
+- **ESLint**:
+  - Error checking, React Hooks rules, TypeScript patterns
+  - Component rules for TSX files (`react-hooks/rules-of-hooks`, `exhaustive-deps`)
+  - Ignoring unused variables with `_` in tests and setup files
+  - Plugins: `@typescript-eslint`, `react-refresh`
+- **Prettier**: installed and used for code formatting
+- **TypeScript**:
+  - Strict typing (`strict: true`), aliases for convenient imports (`@`, `@app`, `@pages`, etc.)
+  - Type checking in IDE and build without emitting JS (`noEmit: true`)
+  - Separate TSConfigs for application (`tsconfig.app.json`) and Vite (`tsconfig.node.json`)
+- **Vite**:
+  - Aliases match TypeScript for type-safe imports
+  - Dev server configuration with API proxy
 
 ---
 
@@ -263,13 +285,9 @@ npm run preview
 ## X. Deployment / Hosting
 
 - vercel.json: fallback for SPA routes
-
 - SPA routing: rewrite /index.html for proper frontend routing
-
 - Vite: aliases, local /api proxy to bypass CORS
-
 - Env vars: VITE_API_URL, VITE_BASENAME, VITE_APP_NAME
-
 - Deploy: connect repo → build → CDN → rewrite + env injection
 
 ---
@@ -320,33 +338,54 @@ type Transaction = {
 
 ## XII. Data Flow & Auth
 
-UI ↔ Zustand Store ↔ API ↔ Axios ↔ JSON-server (+auth) ↔ db.normalized.json
+UI ↔ Zustand Store ↔ API ↔ Axios ↔ JSON-server (+ JWT auth & refresh) ↔ db.normalized.json
 
 **Layers:**
-
-- Types (TS) — data contracts
-
-- API — Axios + token + 401 handling
-
-- auth.store — token, login, register, logout, initDemoUser, refreshToken
-
-- user.store — user state
-
-- category/transaction.store — local state
-
-- Hooks — aggregation, categoryName, isDeletedCategory
-
-- server.js — CRUD, soft delete, filtering
-
-- db.normalized.json — persistent storage
+- **Types (TS)** — data contracts
+- **API** — Axios + token + 401 handling + refresh token logic
+- **auth.store** — token, login, register, logout, initDemoUser, refreshToken
+- **user.store** — user state
+- **category/transaction.store** — local state
+- **Hooks** — aggregation, categoryName, isDeletedCategory
+- **ProtectedRoute** — guards routes based on auth token
+- **AppRoutes** — Suspense fallback → lazy pages (Home, Overview, Transactions, Categories, Profile, etc.)
+- **server.js** — CRUD, soft delete, filtering, JWT handling
+- **db.normalized.json** — persistent storage
 
 **Example flows:**
+- **Create category**: UI → store → API → server → store → UI
+- **Soft delete category**: UI → store → DELETE → `isDeleted: true` → store → UI → GET `/categories` excludes deleted → categoryName="Deleted"
+- **Auth / Demo user**: open app → token? → initDemoUser → headers → 401 → refreshToken → update store → UI
+- **Protected page access**: navigate to route → ProtectedRoute checks token → redirects to login if invalid
+- **Lazy pages**: page component loaded via React.lazy → Suspense shows fallback (`Loader`) until ready
 
-- Create category: UI → store → API → server → store → UI
+flowchart LR
+  subgraph Frontend
+    UI[UI (React SPA)]
+    Store[Zustand Stores]
+    Hooks[Custom Hooks & Utils]
+  end
 
-- Soft delete: UI → store → DELETE → isDeleted: true → store → UI → categoryName="Deleted"
+  subgraph Networking
+    Axios[Axios Client<br/>+ interceptors]
+  end
 
-- Auth: open app → token? → initDemoUser → headers → 401 → refreshToken
+  subgraph Backend
+    Server[Custom JSON-Server<br/>+ JWT Auth]
+    Auth[Auth Layer<br/>login/register/refresh]
+  end
+
+  subgraph Database
+    DB[(db.normalized.json)]
+  end
+
+  UI --> Store
+  Store --> Hooks
+  Store --> Axios
+  Axios --> Server
+  Server --> Auth
+  Auth --> DB
+  Server --> DB
 
 ---
 
@@ -356,6 +395,7 @@ UI ↔ Zustand Store ↔ API ↔ Axios ↔ JSON-server (+auth) ↔ db.normalized
   - Runs on push to `main` / pull request
   - Installs dependencies, runs lint, tests, builds frontend
   - Caches `node_modules` for faster builds
+
 - Continuous Deployment to Vercel
   - Automatic deployment on successful CI
   - Env vars injected securely via GitHub Secrets
@@ -369,3 +409,13 @@ UI ↔ Zustand Store ↔ API ↔ Axios ↔ JSON-server (+auth) ↔ db.normalized
 - Force load: Home → profile dropdown (Topbar) → Log out → Log in as Demo
 - Switch account: profile dropdown (Topbar) → Change account → demo2@email.com / demo123456
 - Register new user: profile dropdown (Topbar) → Create new account → new personal data
+
+---
+
+## XV. Demo Video
+
+- Google Drive link with a full walkthrough of the application
+- Shows authentication flow, charts, tables, filters, CRUD operations, demo mode
+
+- https://drive.google.com/drive/folders/1_jMBqULeBlkON4jJ3fiYP8wT0_fMkQsb?usp=sharing
+

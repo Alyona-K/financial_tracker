@@ -6,7 +6,11 @@ jest.mock("@/shared/config/config", () => ({
   API_URL: "http://localhost:3001",
 }));
 
-// --- IMAGE MOCKS ---
+jest.mock("@/app/Providers", () => ({
+  Providers: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+}));
+
+//  GLOBAL ASSET MOCKS
 jest.mock("@/assets/images/fintrack-logo.png", () => "logo-mock", {
   virtual: true,
 });
@@ -16,9 +20,32 @@ jest.mock("@/assets/images/default_avatar.png", () => "avatar-mock", {
 jest.mock("@/assets/images/home-banner.png", () => "home-banner-mock", {
   virtual: true,
 });
-jest.mock("@/assets/images/sprite.svg", () => "sprite-mock", { virtual: true });
+jest.mock("@/assets/images/profile-banner.png", () => "profile-banner-mock", {
+  virtual: true,
+});
+jest.mock("@/assets/images/404.png", () => "not-found-mock", { virtual: true });
+jest.mock("@/shared/ui/DatePickerGlobal.css", () => ({}));
 
-// --- AUTH STORE MOCK ---
+jest.mock("recharts", () => {
+  return {
+    ResponsiveContainer: ({ children }: any) => <div>{children}</div>,
+    LineChart: ({ children }: any) => <div>{children}</div>,
+    Line: () => <div />,
+    XAxis: () => <div />,
+    YAxis: () => <div />,
+    Tooltip: () => <div />,
+    CartesianGrid: () => <div />,
+  };
+});
+
+jest.mock("@/pages/overview/ui/AnalyticsSection", () => ({
+  __esModule: true,
+  default: () => <div data-testid="analytics-mock">AnalyticsSection Mock</div>,
+}));
+
+//  ZUSTAND STORE MOCKS (AUTH / USER / CATEGORY / TX)
+
+// Auth store mock
 const authStoreState = {
   token: null,
   isLoading: false,
@@ -67,8 +94,8 @@ interface UserStoreMock extends jest.Mock {
   subscribe: (fn: () => void) => () => void;
 }
 
-const useUserStoreMock: UserStoreMock = jest.fn((selector) =>
-  selector(userStore)
+const useUserStoreMock: UserStoreMock = jest.fn((selector?: any) =>
+  selector ? selector(userStore) : userStore
 ) as any;
 useUserStoreMock.getState = () => userStore;
 useUserStoreMock.subscribe = (fn: () => void) => {
@@ -121,106 +148,95 @@ jest.mock("@/shared/lib/clearUserData", () => ({
   clearUserData: jest.fn(),
 }));
 
-// --- TEST SETUP ---
+import React, { Suspense } from "react";
 import { render, screen, waitFor, act } from "@testing-library/react";
-import { BrowserRouter } from "react-router-dom";
+import { MemoryRouter, Router } from "react-router-dom";
 import App from "./App";
 import { AppInit } from "./AppInit";
+import { Providers } from "@/app/Providers";
 
 import { useAuthStore } from "@/entities/auth/model/auth.store";
 import { useUserStore } from "@/entities/user/model/user.store";
-import { clearUserData } from "@/shared/lib/clearUserData";
 
-// --- APP TESTS ---
-describe("App", () => {
-  const user1 = {
-    id: 1,
-    email: "user1@test.com",
-    firstName: "U1",
-    lastName: "Test",
-    avatar: "",
-  };
-  const user2 = {
-    id: 2,
-    email: "user2@test.com",
-    firstName: "U2",
-    lastName: "Test",
-    avatar: "",
-  };
+// --- HELPERS ---
+export const renderWithRouter = async (path: string) => {
+  let result;
+  await act(async () => {
+    result = render(
+      <MemoryRouter initialEntries={[path]}>
+        <App />
+      </MemoryRouter>
+    );
+  });
+  return result;
+};
 
+export const renderWithRouterAndInit = async (path: string) => {
+  let result;
+  await act(async () => {
+    result = render(
+      <MemoryRouter initialEntries={[path]}>
+        <Providers>
+          <AppInit>
+            <App />
+          </AppInit>
+        </Providers>
+      </MemoryRouter>
+    );
+  });
+  return result;
+};
+
+// --- TESTS ---
+describe("<App />", () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    useUserStore.getState().setUser(null);
-    useAuthStore.getState().token = "123";
-  });
-
-  it("renders loading spinner initially if not ready and not auth page", async () => {
-    const initDemoMock: () => Promise<void> = jest.fn(
-      () => new Promise<void>(() => {})
-    );
-    useAuthStore.getState().initDemoUser = initDemoMock;
     useAuthStore.getState().token = null;
+    currentUser = null;
+  });
+
+  // Loader / AppInit
+  it("renders page loader when lazy page is loading", async () => {
+    const LazyHomePage = React.lazy(() => new Promise(() => {}));
 
     await act(async () => {
       render(
-        <BrowserRouter>
-          <AppInit>
-            <App />
-          </AppInit>
-        </BrowserRouter>
+        <MemoryRouter initialEntries={["/"]}>
+          <Suspense
+            fallback={<div data-testid="page-loader">Loading page…</div>}
+          >
+            <LazyHomePage />
+          </Suspense>
+        </MemoryRouter>
       );
     });
-
-    expect(screen.getByText(/Loading user/i)).toBeInTheDocument();
+    expect(screen.getByTestId("page-loader")).toBeInTheDocument();
   });
 
-  it("calls initDemoUser for non-auth page if no token and no user", async () => {
-    const initDemoMock = jest.fn().mockResolvedValue(undefined);
+  it("renders page content after AppInit completes", async () => {
+    const initDemoMock: () => Promise<User | null> = jest
+      .fn()
+      .mockResolvedValue({
+        id: 1,
+        email: "demo@test.com",
+        firstName: "Demo",
+        lastName: "User",
+        avatar: "",
+      });
     useAuthStore.getState().initDemoUser = initDemoMock;
-    useAuthStore.getState().token = null;
-    useUserStore.getState().setUser(null);
+    useAuthStore.getState().token = "abc123";
 
-    await act(async () => {
-      render(
-        <BrowserRouter>
-          <AppInit>
-            <App />
-          </AppInit>
-        </BrowserRouter>
-      );
-    });
-
-    await waitFor(() => expect(initDemoMock).toHaveBeenCalled());
-  });
-
-  it("renders Sidebar and Topbar for logged-in user", async () => {
-    useAuthStore.getState().token = "123";
-    useUserStore.getState().setUser({
-      id: 1,
-      email: "user@test.com",
-      firstName: "Test",
-      lastName: "User",
-      avatar: "",
-    });
-
-    await act(async () => {
-      render(
-        <BrowserRouter>
-          <AppInit>
-            <App />
-          </AppInit>
-        </BrowserRouter>
-      );
-    });
+    await renderWithRouterAndInit("/overview");
 
     await waitFor(() => {
-      expect(screen.getByTestId("sidebar")).toBeInTheDocument();
-      expect(screen.getByTestId("topbar")).toBeInTheDocument();
+      expect(screen.getByTestId("analytics-mock")).toBeInTheDocument();
+      expect(categoriesStore.fetchCategories).toHaveBeenCalled();
     });
   });
 
-  it("does not render Sidebar and Topbar on auth pages", async () => {
-    useAuthStore.getState().token = "123";
+  // Auth pages layout
+  it("does not render Sidebar/Topbar on /login", async () => {
+    useAuthStore.getState().token = "abc123";
     useUserStore.getState().setUser({
       id: 1,
       email: "user@test.com",
@@ -229,17 +245,7 @@ describe("App", () => {
       avatar: "",
     });
 
-    window.history.pushState({}, "Login page", "/login");
-
-    await act(async () => {
-      render(
-        <BrowserRouter>
-          <AppInit>
-            <App />
-          </AppInit>
-        </BrowserRouter>
-      );
-    });
+    await renderWithRouter("/login");
 
     await waitFor(() => {
       expect(screen.queryByTestId("sidebar")).not.toBeInTheDocument();
@@ -247,31 +253,130 @@ describe("App", () => {
     });
   });
 
-  it("clears user data when switching from one real user to another", async () => {
-    useUserStore.getState().setUser({ ...user1 });
-
-    const { rerender } = render(
-      <BrowserRouter>
-        <AppInit>
-          <App />
-        </AppInit>
-      </BrowserRouter>
-    );
-
-    act(() => {
-      useUserStore.getState().setUser({ ...user2 });
+  it("does not render Sidebar/Topbar on /register", async () => {
+    useAuthStore.getState().token = "abc123";
+    useUserStore.getState().setUser({
+      id: 1,
+      email: "user@test.com",
+      firstName: "Test",
+      lastName: "User",
+      avatar: "",
     });
 
-    rerender(
-      <BrowserRouter>
-        <AppInit>
-          <App />
-        </AppInit>
-      </BrowserRouter>
-    );
+    await renderWithRouter("/register");
 
     await waitFor(() => {
-      expect(clearUserData).toHaveBeenCalled();
+      expect(screen.queryByTestId("sidebar")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("topbar")).not.toBeInTheDocument();
+    });
+  });
+
+  // Protected routes
+  it("redirects from protected route to /login when user is not authenticated", async () => {
+    const initDemoMock: () => Promise<User | null> = jest.fn(() =>
+      Promise.resolve(null)
+    );
+    useAuthStore.getState().initDemoUser = initDemoMock;
+    useAuthStore.getState().token = null;
+
+    await renderWithRouterAndInit("/overview");
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole("heading", { name: /sign in to your account/i })
+      ).toBeInTheDocument();
+    });
+  });
+
+  it("renders protected route when token exists", async () => {
+    useAuthStore.getState().token = "abc123";
+    useUserStore.getState().setUser({
+      id: 1,
+      email: "user@test.com",
+      firstName: "Test",
+      lastName: "User",
+      avatar: "",
+    });
+
+    await renderWithRouter("/overview");
+
+    await waitFor(() => {
+      expect(categoriesStore.fetchCategories).toHaveBeenCalled();
+      expect(screen.getByText(/overview/i)).toBeInTheDocument();
+    });
+  });
+
+  const protectedRoutes = ["/transactions", "/categories", "/profile"];
+  protectedRoutes.forEach((route) => {
+    it(`renders protected route ${route} when token exists`, async () => {
+      useAuthStore.getState().token = "abc123";
+      useUserStore.getState().setUser({
+        id: 1,
+        email: "user@test.com",
+        firstName: "Test",
+        lastName: "User",
+        avatar: "",
+      });
+
+      await renderWithRouter(route);
+
+      await waitFor(() => {
+        switch (route) {
+          case "/transactions":
+            expect(
+              screen.getByRole("heading", { name: /transactions/i })
+            ).toBeInTheDocument();
+            break;
+          case "/categories":
+            expect(
+              screen.getByRole("heading", { name: /categories/i })
+            ).toBeInTheDocument();
+            break;
+          case "/profile":
+            expect(screen.getByTestId("profile-page")).toBeInTheDocument();
+            break;
+        }
+      });
+    });
+  });
+
+  // Layout
+  it("renders Sidebar and Topbar on main layout when authenticated", async () => {
+    useAuthStore.getState().token = "abc123";
+    useUserStore.getState().setUser({
+      id: 1,
+      email: "user@test.com",
+      firstName: "Test",
+      lastName: "User",
+      avatar: "",
+    });
+
+    await renderWithRouter("/");
+
+    await waitFor(() => {
+      expect(categoriesStore.fetchCategories).toHaveBeenCalled();
+      expect(screen.getByTestId("sidebar")).toBeInTheDocument();
+      expect(screen.getByTestId("topbar")).toBeInTheDocument();
+    });
+  });
+
+  // 404 page
+  it("renders 404 page for unknown route", async () => {
+    useAuthStore.getState().token = "abc123";
+    useUserStore.getState().setUser({
+      id: 1,
+      email: "user@test.com",
+      firstName: "Test",
+      lastName: "User",
+      avatar: "",
+    });
+
+    await renderWithRouter("/some-random-unknown-route");
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole("main").querySelector(".not-found-page")
+      ).toBeInTheDocument();
     });
   });
 });

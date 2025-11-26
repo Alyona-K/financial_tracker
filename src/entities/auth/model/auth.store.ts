@@ -4,6 +4,7 @@ import { persist } from "zustand/middleware";
 import { authApi } from "./auth.api";
 import type { LoginCredentials, RegisterCredentials } from "./auth.types";
 import { useUserStore } from "@/entities/user/model/user.store";
+import { User } from "@/entities/user/model/user.types";
 
 interface AuthState {
   token: string | null;
@@ -14,7 +15,7 @@ interface AuthState {
   login: (credentials: LoginCredentials) => Promise<void>;
   register: (credentials: RegisterCredentials) => Promise<void>;
   logout: (fullClear?: boolean) => void;
-  initDemoUser: (skipIfAuthPage?: boolean) => Promise<void>;
+  initDemoUser: (skipIfAuthPage?: boolean) => Promise<User | null>;
   refreshToken: () => Promise<void>;
 }
 
@@ -37,16 +38,24 @@ export const useAuthStore = create<AuthState>()(
         set({ isLoading: true, error: null });
         try {
           const { accessToken, user } = await authApi.login(credentials);
-
           set({ token: accessToken, isLoading: false });
 
           useUserStore.getState().setUser(user);
         } catch (err: any) {
-          set({
-            error: err.response?.data?.message || "Failed to log in",
-            isLoading: false,
-          });
+          let errorMessage = "Failed to log in";
+
+          if (err.response?.status === 404) {
+            errorMessage = "Cannot find user";
+          } else if (err.response?.status === 401) {
+            errorMessage = "Invalid password";
+          } else if (err.response?.data?.message) {
+            errorMessage = err.response.data.message;
+          }
+
+          set({ error: errorMessage });
           throw err;
+        } finally {
+          set({ isLoading: false }); 
         }
       },
 
@@ -55,13 +64,17 @@ export const useAuthStore = create<AuthState>()(
         try {
           const { accessToken, user } = await authApi.register(credentials);
           set({ token: accessToken, isLoading: false });
-
           useUserStore.getState().setUser(user);
         } catch (err: any) {
-          set({
-            error: err.response?.data?.message || "Failed to register",
-            isLoading: false,
-          });
+          let errorMessage = "Failed to register";
+
+          if (err.response?.status === 409) {
+            errorMessage = "User with this email already exists";
+          } else if (err.response?.data?.message) {
+            errorMessage = err.response.data.message;
+          }
+
+          set({ error: errorMessage, isLoading: false });
           throw err;
         }
       },
@@ -74,23 +87,58 @@ export const useAuthStore = create<AuthState>()(
         }
       },
 
-      initDemoUser: async (skipIfAuthPage = false) => {
+      initDemoUser: async (skipIfAuthPage = false): Promise<User | null> => {
         const currentUser = useUserStore.getState().user;
-        if (skipIfAuthPage || currentUser) return;
+        if (skipIfAuthPage || currentUser) return currentUser || null;
 
         try {
           const { accessToken, user } = await authApi.login(DEMO_CREDENTIALS);
           set({ token: accessToken });
           useUserStore.getState().setUser(user);
+          return user;
         } catch (err) {
           console.warn("[Auth] Failed to auto-login demo user", err);
+          return null;
         }
       },
 
       refreshToken: async () => {
-        await get().login(DEMO_CREDENTIALS);
+        const currentRefreshToken = localStorage.getItem("refresh-token");
+        if (!currentRefreshToken) throw new Error("No refresh token available");
+
+        try {
+          const { accessToken, refreshToken } = await authApi.refresh({
+            refreshToken: currentRefreshToken,
+          });
+
+          set({ token: accessToken });
+          localStorage.setItem("refresh-token", refreshToken);
+        } catch (err: any) {
+          console.error("Failed to refresh token:", err);
+          get().logout();
+          throw err;
+        }
       },
     }),
     { name: "auth-storage" }
   )
 );
+
+// initDemoUser: async (skipIfAuthPage = false) => {
+//   const currentUser = useUserStore.getState().user;
+//   if (skipIfAuthPage || currentUser) return;
+
+//   try {
+//     const { accessToken, user } = await authApi.login(DEMO_CREDENTIALS);
+//     set({ token: accessToken });
+//     useUserStore.getState().setUser(user);
+//   } catch (err) {
+//     console.warn("[Auth] Failed to auto-login demo user", err);
+//   }
+// },
+
+//--------
+
+// refreshToken: async () => {
+//   await get().login(DEMO_CREDENTIALS);
+// },

@@ -24,7 +24,7 @@ api.interceptors.response.use(
     if (
       error.response?.status === 401 &&
       !originalRequest._retry &&
-      !authStore.skipAutoLogin 
+      !authStore.skipAutoLogin
     ) {
       originalRequest._retry = true;
       await authStore.refreshToken();

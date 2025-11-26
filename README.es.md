@@ -106,30 +106,50 @@ Disponible en: [English](README.en.md)
 
 ---
 
-## IV. Backend (json-server + json-server-auth)
+## IV. Backend (Servidor JSON personalizado con JWT)
 
-**Endpoints:**
+**Servidor:** `server.js` — Node.js + json-server  
+**Base de datos:** `db.normalized.json`
 
-- `/users*` — acceso solo a datos propios
-- `/categories*` — CRUD del propietario, soft-delete
-- `/transactions*` — acceso solo a transacciones propias
+**Endpoints y Autenticación:**
 
-**Autenticación:** JWT via interceptor; 401 → `refreshToken`
+- `POST /register` — registrar un nuevo usuario
+  - Campos requeridos: `email, password, firstName, lastName`
+  - Retorna: `user`, `accessToken` (15 min), `refreshToken` (7 días)
+  - La contraseña se almacena en hash con bcrypt
 
-**Estructura de datos:**
+- `POST /login` — inicio de sesión del usuario
+  - Campos requeridos: `email, password`
+  - Retorna: `user`, `accessToken`, `refreshToken`
 
-- Users: `id, email, password, firstName, lastName, avatar, location`
+- `POST /refresh` — refrescar tokens
+  - Campo requerido: `refreshToken`
+  - Retorna un nuevo `accessToken` (15 min) y `refreshToken` (7 días)
+
+- `GET /categories` — obtener categorías
+  - Excluye categorías con `isDeleted = true`
+
+- `DELETE /categories/:id` — eliminar categoría de forma suave (soft-delete)
+  - Establece `isDeleted: true`, las transacciones permanecen
+
+- Todos los demás endpoints (`/transactions`, `/users`) requieren un JWT válido en el encabezado `Authorization` (`Bearer <token>`)
+
+**Autenticación y Middleware:**
+
+- Autorización JWT a través del middleware `authGuard`
+- Los tokens de acceso expiran en 15 minutos, los refresh tokens en 7 días
+- El usuario demo (`demo@fintrack.com`) se crea automáticamente si no existe
+
+**Estructura de datos (resumen):**
+
+- Users: `id, email, password, firstName, lastName, avatar, location, refreshToken`
 - Categories: `id, name, type: Income|Expenses, userId, isDeleted`
-- Transactions: `id, userId, categoryId, amount, type, date, description`
+- Transactions: `id, date, description, categoryId, type: Income|Expenses, amount, userId`
 
-**Lógica personalizada del servidor (`server.js`):**
+**Archivos:**
 
-- CORS
-- Eliminación suave de categorías (soft-delete)
-- Filtrado de categorías eliminadas
-- Integración de middleware
-
-**Archivos:** `server.js`, `routes.json`, `db.normalized.json`
+- `server.js` — lógica personalizada, autenticación, soft-delete, refresh
+- `db.normalized.json` — almacenamiento persistente de usuarios, categorías y transacciones
 
 ---
 
@@ -208,7 +228,6 @@ npm run preview
 ```
 
 - TypeScript compila, se generan bundles en /dist
-
 - Proxy deshabilitado, variables de entorno inyectadas durante el build
 
 ### 4. Vercel Rewrite
@@ -219,31 +238,34 @@ npm run preview
 
 ---
 
-## VII. Testing
+## VII. Pruebas (Testing)
 
-- Jest + RTL + ts-jest
-
-- Mocks: API, store, imágenes
-
-- Verificación CRUD, inicialización, refreshToken, manejo de errores
-
-- Unit/snapshot: Button, Input, Sidebar, Topbar
-
-- Hooks/utilidades: useWidgetsData, formatCurrency, formatDate, parseDate
-
-- Tests totalmente aislados del API real
+- **Frameworks**: Jest + React Testing Library + ts-jest
+- **Mocks**: API, store, imágenes
+- **Cobertura de pruebas**:
+  - Pruebas unitarias / snapshot: Button, Input, Sidebar, Topbar
+  - Pruebas de hooks/utilidades: useWidgetsData, formatCurrency, formatDate, parseDate
+  - Pruebas de integración: App, AppRoutes, AppInit, ProtectedRoute, páginas lazy, routing, interacciones con store
+- **Funcionalidades verificadas**: operaciones CRUD, init, refreshToken, manejo de errores
+- Las pruebas están completamente aisladas de la API real
 
 ---
 
 ## VIII. Linting y Estilo de Código
 
-- ESLint: errores, hooks, patrones TS
-
-- Prettier: formato
-
-- TypeScript: strict, aliases, noEmit
-
-- Vite: aliases coinciden con TS, imports type-safe
+- **ESLint**:  
+  - Verificación de errores, reglas de React Hooks, patrones de TypeScript  
+  - Reglas para componentes TSX (`react-hooks/rules-of-hooks`, `exhaustive-deps`)  
+  - Ignorar variables no usadas con `_` en tests y archivos de setup  
+  - Plugins: `@typescript-eslint`, `react-refresh`  
+- **Prettier**: instalado y usado para formateo de código  
+- **TypeScript**:  
+  - Tipado estricto (`strict: true`), alias para importaciones convenientes (`@`, `@app`, `@pages`, etc.)  
+  - Verificación de tipos en IDE y build sin emitir JS (`noEmit: true`)  
+  - Configuraciones TS separadas para la aplicación (`tsconfig.app.json`) y Vite (`tsconfig.node.json`)  
+- **Vite**:  
+  - Los alias coinciden con TypeScript para importaciones con tipos seguros  
+  - Configuración del servidor de desarrollo con proxy para la API
 
 ---
 
@@ -263,13 +285,9 @@ npm run preview
 ## X. Deployment / Hosting
 
 - vercel.json: fallback para rutas SPA
-
 - SPA routing: reescribir /index.html para que React Router funcione
-
 - Vite: aliases, proxy local /api para evitar CORS
-
 - Variables de entorno: VITE_API_URL, VITE_BASENAME, VITE_APP_NAME
-
 - Deploy: conectar repositorio → build → CDN → reescritura + inyección de env
 
 ---
@@ -320,33 +338,54 @@ type Transaction = {
 
 ## XII. Flujo de Datos y Autenticación
 
-UI ↔ Zustand Store ↔ API ↔ Axios ↔ JSON-server (+auth) ↔ db.normalized.json
+UI ↔ Zustand Store ↔ API ↔ Axios ↔ JSON-server (+ JWT auth & refresh) ↔ db.normalized.json
 
 **Capas:**
+- **Types (TS)** — contratos de datos
+- **API** — Axios + token + manejo de 401 + lógica de refresh token
+- **auth.store** — token, login, register, logout, initDemoUser, refreshToken
+- **user.store** — estado del usuario
+- **category/transaction.store** — estado local
+- **Hooks** — agregación, categoryName, isDeletedCategory
+- **ProtectedRoute** — protege rutas basándose en el token
+- **AppRoutes** — Suspense fallback → páginas lazy (Home, Overview, Transactions, Categories, Profile, etc.)
+- **server.js** — CRUD, soft delete, filtrado y manejo de JWT
+- **db.normalized.json** — almacenamiento persistente
 
-- Types (TS) — contratos de datos
+**Ejemplos de flujos:**
+- **Crear categoría**: UI → store → API → server → store → UI
+- **Soft delete de una categoría**: UI → store → DELETE → `isDeleted: true` → store → UI → GET `/categories` excluye eliminadas → categoryName="Deleted"
+- **Autenticación / Usuario demo**: abrir app → ¿token? → initDemoUser → headers → 401 → refreshToken → actualizar store → UI
+- **Acceso a rutas protegidas**: navegar → ProtectedRoute valida token → redirige a login si no es válido
+- **Páginas lazy**: el componente se carga con React.lazy → Suspense muestra el loader hasta que esté listo
 
-- API — Axios + token + manejo de 401
+flowchart LR
+  subgraph Frontend
+    UI[UI (React SPA)]
+    Store[Zustand Stores]
+    Hooks[Custom Hooks & Utils]
+  end
 
-- auth.store — token, login, register, logout, initDemoUser, refreshToken
+  subgraph Networking
+    Axios[Axios Client<br/>+ interceptors]
+  end
 
-- user.store — estado de usuario
+  subgraph Backend
+    Server[Custom JSON-Server<br/>+ JWT Auth]
+    Auth[Auth Layer<br/>login/register/refresh]
+  end
 
-- category/transaction.store — estado local
+  subgraph Database
+    DB[(db.normalized.json)]
+  end
 
-- Hooks — agregación, categoryName, isDeletedCategory
-
-- server.js — CRUD, soft delete, filtrado
-
-- db.normalized.json — almacenamiento persistente
-
-**Ejemplos de flujo:**
-
-- Crear categoría: UI → store → API → servidor → store → UI
-
-- Soft delete: UI → store → DELETE → isDeleted: true → store → UI → categoryName="Deleted"
-
-- Autenticación: abrir app → token? → initDemoUser → headers → 401 → refreshToken
+  UI --> Store
+  Store --> Hooks
+  Store --> Axios
+  Axios --> Server
+  Server --> Auth
+  Auth --> DB
+  Server --> DB
 
 ---
 
@@ -369,3 +408,12 @@ UI ↔ Zustand Store ↔ API ↔ Axios ↔ JSON-server (+auth) ↔ db.normalized
 - Forzar carga: Home → dropdown de perfil (Topbar) → Log out → Log in as Demo
 - Cambiar cuenta: dropdown de perfil (Topbar) → Change account → demo2@email.com / demo123456
 - Registrar nuevo usuario: dropdown de perfil (Topbar) → Create new account → nuevos datos personales
+
+---
+
+## XV. Video de Demostración
+
+- Enlace de Google Drive con el recorrido completo de la aplicación
+- Incluye el flujo de autenticación, gráficos, tablas, filtros, operaciones CRUD y el modo demo
+
+- https://drive.google.com/drive/folders/1_jMBqULeBlkON4jJ3fiYP8wT0_fMkQsb?usp=sharing

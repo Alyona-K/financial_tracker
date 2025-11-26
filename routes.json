@@ -1,5 +1,3 @@
 {
-  "/users*": "/600/users$1",
-  "/categories*": "/660/categories$1",
-  "/transactions*": "/660/transactions$1"
+
 }

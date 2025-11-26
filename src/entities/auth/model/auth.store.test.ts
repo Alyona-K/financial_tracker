@@ -39,8 +39,9 @@ describe("Auth Store", () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    useAuthStore.getState().logout(true); 
+    useAuthStore.getState().logout(true);
     (useUserStore.getState().setUser as jest.Mock).mockImplementation(() => {});
+    localStorage.setItem("refresh-token", "mock-refresh-token");
   });
 
   // --- LOGIN ---
@@ -95,6 +96,28 @@ describe("Auth Store", () => {
     expect(useUserStore.getState().setUser).toHaveBeenCalledWith(mockUser);
   });
 
+  it("should set error when trying to register with duplicate email", async () => {
+    const duplicateError = {
+      response: { status: 409, data: { message: "Email already exists" } },
+    };
+    (authApi.register as jest.Mock).mockRejectedValue(duplicateError);
+
+    await expect(
+      act(async () => {
+        await useAuthStore.getState().register({
+          email: "test@test.com",
+          password: "123",
+          firstName: "T",
+          lastName: "U",
+        });
+      })
+    ).rejects.toEqual(duplicateError);
+
+    expect(useAuthStore.getState().error).toBe(
+      "User with this email already exists"
+    );
+  });
+
   // --- LOGOUT ---
   it("should logout and clear token and user", () => {
     useAuthStore.getState().logout();
@@ -126,14 +149,14 @@ describe("Auth Store", () => {
 
   // --- REFRESH TOKEN ---
   it("should refresh token using demo credentials", async () => {
-    (useAuthStore.getState().login as jest.Mock) = jest
-      .fn()
-      .mockResolvedValue(undefined);
-
-    await useAuthStore.getState().refreshToken();
-    expect(useAuthStore.getState().login).toHaveBeenCalledWith({
-      email: "demo@fintrack.com",
-      password: "demo123",
+    localStorage.setItem("refresh-token", "test-refresh-token");
+    (authApi.refresh as jest.Mock) = jest.fn().mockResolvedValue({
+      accessToken: "new-access-token",
+      refreshToken: "new-refresh-token",
     });
+    await useAuthStore.getState().refreshToken();
+
+    expect(useAuthStore.getState().token).toBe("new-access-token");
+    expect(localStorage.getItem("refresh-token")).toBe("new-refresh-token");
   });
 });

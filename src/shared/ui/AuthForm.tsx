@@ -77,7 +77,11 @@ function AuthForm<T extends Record<string, any>>({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
-    await onSubmit(form);
+    try {
+      await onSubmit(form);
+    } catch (err) {
+      console.warn("Login/register failed:", err);
+    }
   };
 
   const toggleShowPassword = (fieldName: string) => {
@@ -135,7 +139,7 @@ function AuthForm<T extends Record<string, any>>({
         );
       })}
 
-      {apiError && (
+      {apiError && Object.keys(errors).length === 0 && (
         <div className="auth-form__error auth-form__error--api">{apiError}</div>
       )}
 
