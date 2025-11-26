@@ -359,33 +359,7 @@ UI ↔ Zustand Store ↔ API ↔ Axios ↔ JSON-server (+ JWT auth & refresh) �
 - **Acceso a rutas protegidas**: navegar → ProtectedRoute valida token → redirige a login si no es válido
 - **Páginas lazy**: el componente se carga con React.lazy → Suspense muestra el loader hasta que esté listo
 
-flowchart LR
-  subgraph Frontend
-    UI[UI (React SPA)]
-    Store[Zustand Stores]
-    Hooks[Custom Hooks & Utils]
-  end
-
-  subgraph Networking
-    Axios[Axios Client<br/>+ interceptors]
-  end
-
-  subgraph Backend
-    Server[Custom JSON-Server<br/>+ JWT Auth]
-    Auth[Auth Layer<br/>login/register/refresh]
-  end
-
-  subgraph Database
-    DB[(db.normalized.json)]
-  end
-
-  UI --> Store
-  Store --> Hooks
-  Store --> Axios
-  Axios --> Server
-  Server --> Auth
-  Auth --> DB
-  Server --> DB
+![Diagrama de Arquitectura](public/images/data_flow_diagram.png)
 
 ---
 
